@@ -237,22 +237,42 @@ export function FormatoImprimible() {
                             }}
                         >
                             {/* Header (repite por hoja) */}
-                            <div className="px-6 py-3 border-b-2 border-[#1E3A6E]">
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <p className="text-[11px] font-bold text-[#1E3A6E]">Formato Pedido Sucursal</p>
-                                        <p className="text-[10px] text-gray-500">{pedido?.sucursal?.nombre}</p>
-                                        <p className="text-[9px] text-[#2B5EA7] mt-0.5">
-                                            Fecha de entrega:{' '}
+                            <div className="px-6 py-4 border-b-[3px] border-[#1E3A6E] flex items-center justify-between bg-white">
+                                {/* Left: Logo */}
+                                <div className="w-1/3">
+                                    <img src="/LogoCH.png" alt="Logo CH" className="h-[45px] object-contain" />
+                                </div>
+
+                                {/* Center: Titles */}
+                                <div className="w-1/3 text-center">
+                                    <p className="text-[14px] font-black text-[#1E3A6E] uppercase tracking-wide">
+                                        Formato de Surtido
+                                    </p>
+                                    <p className="text-[12px] font-semibold text-gray-600 mt-1">
+                                        Sucursal: <span className="text-[#D4A01E]">{pedido?.sucursal?.nombre}</span>
+                                    </p>
+                                    <p className="text-[11px] text-[#2B5EA7] font-medium mt-0.5">
+                                        Entrega:{' '}
+                                        <span className="font-bold">
                                             {pedido?.fecha_entrega
                                                 ? format(parseISO(pedido.fecha_entrega), "d 'de' MMMM 'de' yyyy", { locale: es })
                                                 : '—'}
-                                        </p>
+                                        </span>
+                                    </p>
+                                </div>
+
+                                {/* Right: Toneladas & Folio */}
+                                <div className="w-1/3 text-right">
+                                    <div className="inline-block bg-[#1E3A6E] text-white px-3 py-1 rounded-md mb-1 border border-[#1E3A6E] shadow-sm">
+                                        <span className="text-[10px] font-medium opacity-80 mr-1">TONELADAS</span>
+                                        <span className="text-[14px] font-black">{toneladas}</span>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-[11px] font-bold text-[#1E3A6E]">TONELADAS {toneladas}</p>
-                                        <p className="text-[9px] text-gray-500">FOLIO: {pedido?.codigo_pedido}</p>
-                                    </div>
+                                    <p className="text-[12px] text-gray-500 font-bold mt-1">
+                                        FOLIO:{' '}
+                                        <span className="text-[14px] text-[#D4A01E] font-black tracking-wider border-b border-[#D4A01E]">
+                                            {pedido?.codigo_pedido}
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
 
