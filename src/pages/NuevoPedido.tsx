@@ -37,6 +37,7 @@ export function NuevoPedido() {
 
     const isAdmin = user?.rol === 'admin'
     const isReadonly = !isAdmin && pedido != null && pedido.estado !== 'borrador'
+    const overLimit = totalKilos >= 11_500
 
     const codigoPedidoStr = pedido?.codigo_pedido || (fechaEntrega && user?.sucursal
         ? `${user.sucursal.abreviacion}-${format(new Date(fechaEntrega + 'T12:00:00'), 'yyyyMMdd')}`
@@ -105,8 +106,8 @@ export function NuevoPedido() {
                         {!isAdmin && (
                             <button
                                 onClick={() => setShowConfirm(true)}
-                                disabled={!fechaEntrega || isReadonly}
-                                className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-[#1E3A6E] text-white rounded-lg hover:bg-[#2B5EA7] disabled:opacity-50 transition-colors"
+                                disabled={!fechaEntrega || isReadonly || overLimit}
+                                className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-[#1E3A6E] text-white rounded-lg hover:bg-[#2B5EA7] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                                 <Send size={13} />
                                 Enviar pedido
@@ -131,9 +132,17 @@ export function NuevoPedido() {
 
                 {/* Warning overlay for submitted orders */}
                 {isReadonly && (
-                    <div className="mb-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2">
-                        <AlertTriangle size={16} />
+                    <div className="mb-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm">
+                        <AlertTriangle size={16} className="shrink-0" />
                         Este pedido ya fue enviado. No puedes modificarlo.
+                    </div>
+                )}
+
+                {/* Overlimit Warning */}
+                {overLimit && !isReadonly && (
+                    <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm">
+                        <AlertTriangle size={16} className="shrink-0" />
+                        <strong>Capacidad excedida:</strong> El pedido iguala o supera el límite de 11,500 kg. Reduce las cantidades para poder enviarlo.
                     </div>
                 )}
 
