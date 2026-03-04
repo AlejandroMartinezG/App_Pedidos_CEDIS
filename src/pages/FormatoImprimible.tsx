@@ -70,6 +70,135 @@ export function FormatoImprimible() {
         { key: 'envases', title: 'Envases Vacíos', rows: envases, type: 'envase' as const }
     ]
 
+    const renderAdditionalTable = (categoryKey: string) => {
+        if (categoryKey === 'materiasPrimas') {
+            return (
+                <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
+                    <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
+                        MATERIA
+                    </div>
+                    <table className="text-center text-[10px] border-collapse bg-white">
+                        <tbody>
+                            <tr className="bg-[#D4A01E] text-[#1E3A6E] font-bold">
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">CERRADOS</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">ABIERTOS</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">METÁLICOS</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">OLLA 140</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">CUÑETES</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-16">P60</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P50</td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P30</td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P20 TRANS</td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P10</td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P5</td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P4</td>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+
+        if (categoryKey === 'esencias' || categoryKey === 'colores') {
+            return (
+                <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
+                    <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
+                        ESENCIAS Y COLORES
+                    </div>
+                    <table className="text-center text-[10px] border-collapse bg-white">
+                        <tbody>
+                            <tr className="bg-[#D4A01E] text-[#1E3A6E] font-bold">
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">P60</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">P50</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">P20 TRANS</td>
+                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">P20 AZUL</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P10</td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P5</td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P4</td>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+
+        if (categoryKey === 'varios' || categoryKey === 'envases') {
+            return (
+                <div className="mt-10 flex justify-center">
+                    <div className="border-2 border-[#1E3A6E] w-48 text-center flex flex-col bg-white">
+                        <div className="bg-[#D4A01E] text-[#1E3A6E] font-bold text-[10px] py-1.5 border-b-2 border-[#1E3A6E] uppercase">
+                            CUÑETES
+                        </div>
+                        <div className="h-10"></div>
+                    </div>
+                </div>
+            )
+        }
+
+        return null
+    }
+
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Toolbar (hidden on print) */}
@@ -136,6 +265,9 @@ export function FormatoImprimible() {
                                     ) : (
                                         <PrintTable rows={cat.rows} type={cat.type} />
                                     )}
+
+                                    {/* Additional tracking tables at the bottom of the category */}
+                                    {renderAdditionalTable(cat.key)}
                                 </div>
                             </div>
                         </div>
