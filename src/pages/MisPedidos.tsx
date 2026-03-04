@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Eye, Trash2 } from 'lucide-react'
+import { FileText, Eye, Trash2, Printer } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
@@ -108,6 +108,16 @@ export function MisPedidos() {
                                                     <Eye size={12} />
                                                     {p.estado === 'borrador' ? 'Editar' : 'Ver'}
                                                 </Link>
+
+                                                <Link
+                                                    to={`/imprimir/${p.id}`}
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                                    title="Ver / Imprimir Formato de Surtido"
+                                                >
+                                                    <Printer size={12} />
+                                                    Resumen
+                                                </Link>
+
 
                                                 {/* Eliminar solo borradores */}
                                                 {p.estado === 'borrador' && (
