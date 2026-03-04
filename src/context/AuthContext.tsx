@@ -41,7 +41,7 @@ const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 // ── Fetch profile using native fetch (bypasses supabase-js client queue) ──
 async function fetchProfileRaw(userId: string, accessToken: string): Promise<UserProfile | null> {
     try {
-        const url = `${SUPABASE_URL}/rest/v1/users?id=eq.${userId}&select=id,email,nombre,rol,estado_cuenta,es_superadmin,sucursal_id&limit=1`
+        const url = `${SUPABASE_URL}/rest/v1/users?id=eq.${userId}&select=id,email,nombre,rol,estado_cuenta,es_superadmin,sucursal_id,sucursal:sucursales(id,nombre,abreviacion,ciudad)&limit=1`
         const res = await fetch(url, {
             headers: {
                 'apikey': SUPABASE_ANON,
