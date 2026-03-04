@@ -39,7 +39,7 @@ export function Dashboard() {
     // Sync URL param changes (e.g. when sidebar button is clicked while on dashboard)
     useEffect(() => {
         if (searchParams.get('tab') === 'solicitudes') setActiveView('solicitudes')
-        else if (searchParams.get('tab') === 'pedidos') setActiveView('pedidos')
+        else setActiveView('pedidos')
     }, [searchParams])
 
     const fetchPedidos = async () => {
