@@ -136,9 +136,7 @@ export function Login() {
 
                 {/* Logo */}
                 <div className="flex flex-col items-center mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-[#D4A01E] flex items-center justify-center text-white font-bold text-xl mb-3 shadow-md">G</div>
-                    <h1 className="text-2xl font-extrabold text-[#1E3A6E]">GINEZ</h1>
-                    <p className="text-[#D4A01E] text-xs font-semibold">Haciendo química contigo</p>
+                    <img src="/LogoCH.png" alt="Cloro de Hidalgo" className="h-[55px] object-contain mb-3 drop-shadow-sm" />
                     <p className="text-gray-500 text-xs mt-2 text-center leading-tight">Sistema de Gestión de Pedidos CEDIS</p>
                 </div>
 
@@ -174,7 +172,7 @@ export function Login() {
                                 <div>
                                     <label className="text-xs font-semibold text-gray-600 mb-1 block">Correo electrónico</label>
                                     <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                                        placeholder="usuario@ginez.com"
+                                        placeholder="usuario@clorodehidalgo.com"
                                         className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
                                 </div>
                                 <div>
@@ -280,7 +278,7 @@ export function Login() {
                 )}
 
                 <p className="text-center text-[10px] text-gray-400 mt-5">Acceso restringido · Solo personal autorizado</p>
-                <p className="text-center text-[10px] text-gray-300 mt-1">© 2026. Ginez S.A. de C.V. Sistema de Pedidos CEDIS.</p>
+                <p className="text-center text-[10px] text-gray-300 mt-1">© 2026. Cloro de Hidalgo S.A. de C.V. Sistema de Pedidos CEDIS.</p>
             </div>
         </div>
     )
