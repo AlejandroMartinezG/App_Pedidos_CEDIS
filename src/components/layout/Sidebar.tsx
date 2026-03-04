@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
-    PlusCircle, ListOrdered, Clock, LayoutDashboard,
+    PlusCircle, ListOrdered, LayoutDashboard,
     Settings, LogOut, ChevronRight
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
@@ -90,10 +90,6 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         <NavLink to="/mis-pedidos" className={linkClass} title={isCollapsed ? "Mis Pedidos" : undefined}>
                             <ListOrdered size={16} className="shrink-0" />
                             {!isCollapsed && <span>Mis Pedidos</span>}
-                        </NavLink>
-                        <NavLink to="/historial" className={linkClass} title={isCollapsed ? "Historial" : undefined}>
-                            <Clock size={16} className="shrink-0" />
-                            {!isCollapsed && <span>Historial</span>}
                         </NavLink>
                     </>
                 )}
