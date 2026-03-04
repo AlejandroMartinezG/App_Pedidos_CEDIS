@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   Google Fonts already loaded via index.html
+   ───────────────────────────────────────────── */
+
+:root {
+  --color-primary-dark: #1E3A6E;
+  --color-primary-mid:  #2B5EA7;
+  --color-accent:       #D4A01E;
+  --color-bg:           #F4F6FA;
+  --color-border:       #E2E5EB;
+  --color-danger:       #DC2626;
+  --color-success:      #1B8553;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: #1a1a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numeric / monospaced values */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+
+/* Number input: hide arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.25s ease-out both; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 0.8s linear infinite; }
+
+/* Print overrides */
+@media print {
+  @page { size: A4 landscape; margin: 8mm; }
+  body  { background: white !important; }
+  .print\:hidden { display: none !important; }
+}
