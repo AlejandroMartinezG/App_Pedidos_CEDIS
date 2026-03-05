@@ -62,16 +62,30 @@ export function FormatoImprimible() {
 
     const toneladas = ((pedido?.total_kilos ?? 0) / 1000).toFixed(3)
 
-    const categoriasParaImprimir = [
-        { key: 'materiasPrimas', title: 'Materias Primas', rows: materiasPrimas, type: 'standard' as const },
-        { key: 'varios', title: 'Varios', rows: varios, type: 'standard' as const },
-        { key: 'esencias', title: 'Esencias', rows: esencias, type: 'standard' as const },
-        ...(colores.length > 0 ? [{ key: 'colores', title: 'Colores', rows: colores, type: 'standard' as const }] : []),
-        { key: 'envases', title: 'Envases Vacíos', rows: envases, type: 'envase' as const }
+    const bloquesParaImprimir = [
+        {
+            blockKey: 'materiasPrimas',
+            sections: [{ key: 'materiasPrimas', title: 'Materias Primas', rows: materiasPrimas, type: 'standard' as const }]
+        },
+        {
+            blockKey: 'varios',
+            sections: [{ key: 'varios', title: 'Varios', rows: varios, type: 'standard' as const }]
+        },
+        {
+            blockKey: 'esencias_colores',
+            sections: [
+                { key: 'esencias', title: 'Esencias', rows: esencias, type: 'standard' as const },
+                ...(colores.length > 0 ? [{ key: 'colores', title: 'Colores', rows: colores, type: 'standard' as const }] : [])
+            ]
+        },
+        {
+            blockKey: 'envases',
+            sections: [{ key: 'envases', title: 'Envases Vacíos', rows: envases, type: 'envase' as const }]
+        }
     ]
 
-    const renderAdditionalTable = (categoryKey: string) => {
-        if (categoryKey === 'materiasPrimas') {
+    const renderAdditionalTable = (blockKey: string) => {
+        if (blockKey === 'materiasPrimas') {
             return (
                 <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
                     <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
@@ -133,7 +147,7 @@ export function FormatoImprimible() {
             )
         }
 
-        if (categoryKey === 'esencias' || categoryKey === 'colores') {
+        if (blockKey === 'esencias_colores') {
             return (
                 <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
                     <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
@@ -183,7 +197,7 @@ export function FormatoImprimible() {
             )
         }
 
-        if (categoryKey === 'varios' || categoryKey === 'envases') {
+        if (blockKey === 'varios') {
             return (
                 <div className="mt-10 flex justify-center">
                     <div className="border-2 border-[#1E3A6E] w-48 text-center flex flex-col bg-white">
@@ -223,17 +237,17 @@ export function FormatoImprimible() {
             {/* Printable document */}
             <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 dark:bg-slate-950 print:bg-white transition-colors">
                 <div ref={printRef} className="print:w-full flex flex-col">
-                    {categoriasParaImprimir.map((cat, index) => (
+                    {bloquesParaImprimir.map((bloque, index) => (
                         <div
-                            key={cat.key}
+                            key={bloque.blockKey}
                             className="bg-white print:w-full print:shadow-none shadow-sm mb-4 print:mb-0"
                             style={{
                                 width: '210mm',
                                 minHeight: '297mm',
                                 fontFamily: 'Inter, sans-serif',
                                 fontSize: '11px',
-                                pageBreakAfter: index === categoriasParaImprimir.length - 1 ? 'auto' : 'always',
-                                breakAfter: index === categoriasParaImprimir.length - 1 ? 'auto' : 'page',
+                                pageBreakAfter: index === bloquesParaImprimir.length - 1 ? 'auto' : 'always',
+                                breakAfter: index === bloquesParaImprimir.length - 1 ? 'auto' : 'page',
                             }}
                         >
                             {/* Header (repite por hoja) */}
@@ -284,17 +298,19 @@ export function FormatoImprimible() {
 
                             {/* Body para la categoría */}
                             <div className="flex flex-col gap-6 pt-4 px-6 border-t border-[#E2E5EB]" style={{ minHeight: '250mm' }}>
-                                <div className="mb-2">
-                                    <p className="text-[12px] font-bold text-[#1E3A6E] uppercase tracking-wider mb-2">{cat.title}</p>
-                                    {cat.rows.length === 0 ? (
-                                        <p className="text-[11px] text-gray-400 italic">Sin {cat.key === 'envases' ? 'envases solicitados' : 'materiales en esta categoría'}</p>
-                                    ) : (
-                                        <PrintTable rows={cat.rows} type={cat.type} />
-                                    )}
+                                {bloque.sections.map(sec => (
+                                    <div key={sec.key} className="mb-2">
+                                        <p className="text-[12px] font-bold text-[#1E3A6E] uppercase tracking-wider mb-2">{sec.title}</p>
+                                        {sec.rows.length === 0 ? (
+                                            <p className="text-[11px] text-gray-400 italic">Sin {sec.key === 'envases' ? 'envases solicitados' : 'materiales en esta categoría'}</p>
+                                        ) : (
+                                            <PrintTable rows={sec.rows} type={sec.type} />
+                                        )}
+                                    </div>
+                                ))}
 
-                                    {/* Additional tracking tables at the bottom of the category */}
-                                    {renderAdditionalTable(cat.key)}
-                                </div>
+                                {/* Additional tracking tables at the bottom of the category */}
+                                {renderAdditionalTable(bloque.blockKey)}
                             </div>
                         </div>
                     ))}
