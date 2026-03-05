@@ -68,8 +68,11 @@ export function FormatoImprimible() {
             sections: [{ key: 'materiasPrimas', title: 'Materias Primas', rows: materiasPrimas, type: 'standard' as const }]
         },
         {
-            blockKey: 'varios',
-            sections: [{ key: 'varios', title: 'Varios', rows: varios, type: 'standard' as const }]
+            blockKey: 'varios_envases',
+            sections: [
+                { key: 'varios', title: 'Varios', rows: varios, type: 'standard' as const },
+                { key: 'envases', title: 'Envases Vacíos', rows: envases, type: 'envase' as const }
+            ]
         },
         {
             blockKey: 'esencias_colores',
@@ -77,10 +80,6 @@ export function FormatoImprimible() {
                 { key: 'esencias', title: 'Esencias', rows: esencias, type: 'standard' as const },
                 ...(colores.length > 0 ? [{ key: 'colores', title: 'Colores', rows: colores, type: 'standard' as const }] : [])
             ]
-        },
-        {
-            blockKey: 'envases',
-            sections: [{ key: 'envases', title: 'Envases Vacíos', rows: envases, type: 'envase' as const }]
         }
     ]
 
@@ -197,7 +196,7 @@ export function FormatoImprimible() {
             )
         }
 
-        if (blockKey === 'varios') {
+        if (blockKey === 'varios_envases') {
             return (
                 <div className="mt-10 flex justify-center">
                     <div className="border-2 border-[#1E3A6E] w-48 text-center flex flex-col bg-white">
