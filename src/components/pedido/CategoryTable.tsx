@@ -23,32 +23,34 @@ export function CategoryTable({ title, count, detalles, subtotal, color, onUpdat
     return (
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#E2E5EB] dark:border-slate-800 overflow-hidden mb-4 transition-colors">
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-3 border-b border-[#E2E5EB] dark:border-slate-800 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 border-b border-[#E2E5EB] dark:border-slate-800 gap-3 transition-colors">
                 <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: color }} />
                     <h3 className="font-semibold text-[#1E3A6E] dark:text-blue-400 text-sm">{title}</h3>
-                    <span className="text-xs text-gray-400 dark:text-slate-500">{count} materiales</span>
+                    <span className="text-xs text-gray-400 dark:text-slate-500 whitespace-nowrap">{count} mat.</span>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="relative">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                    <div className="relative w-full sm:w-auto">
                         <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500" />
                         <input
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            placeholder={`Buscar material...`}
-                            className="pl-8 pr-3 py-1.5 text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 w-44 bg-[#F4F6FA] dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 transition-colors"
+                            placeholder={`Buscar...`}
+                            className="pl-8 pr-3 py-1.5 text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 w-full sm:w-44 bg-[#F4F6FA] dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 transition-colors"
                         />
                     </div>
-                    <span className="text-xs font-semibold text-[#1E3A6E] dark:text-slate-300 font-mono whitespace-nowrap">
-                        Subtotal{' '}
-                        <span className="text-sm dark:text-slate-100">{subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg</span>
-                    </span>
+                    <div className="flex justify-between items-center sm:block">
+                        <span className="text-xs font-semibold text-[#1E3A6E] dark:text-slate-300 font-mono whitespace-nowrap">
+                            Subtotal{' '}
+                            <span className="text-sm dark:text-slate-100">{subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg</span>
+                        </span>
+                    </div>
                 </div>
             </div>
 
             {/* Table */}
             <div className="overflow-x-auto">
-                <table className="w-full text-xs">
+                <table className="w-full text-xs min-w-[700px]">
                     <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide text-[10px]">
                         <tr>
                             <th className="px-4 py-2.5 text-left font-semibold w-[35%]">Material</th>

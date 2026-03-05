@@ -28,19 +28,20 @@ export function FloatingTotal({ totalKilos, subtotales }: Props) {
         <div className="sticky top-0 z-30 bg-white dark:bg-slate-900 border-b border-[#E2E5EB] dark:border-slate-800 shadow-sm transition-colors">
             <div className="px-6 py-3">
                 {/* Row 1: label + total + sobrecarga badge + category dots */}
-                <div className="flex items-center justify-between mb-1.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-2">
                     <div className="flex items-center gap-3">
                         <div>
-                            <p className="text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-widest leading-none">Total General</p>
+                            <p className="text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-widest leading-none mb-0.5">Total General</p>
                             <div className="flex items-center gap-2">
-                                <p className={`text-2xl font-bold font-mono leading-tight ${textColor}`}>
+                                <p className={`text-xl sm:text-2xl font-bold font-mono leading-tight ${textColor}`}>
                                     {totalKilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
-                                    <span className="text-base font-semibold ml-1 text-gray-500 dark:text-slate-400">kg</span>
+                                    <span className="text-sm sm:text-base font-semibold ml-1 text-gray-500 dark:text-slate-400">kg</span>
                                 </p>
                                 {overLimit && (
-                                    <span className="flex items-center gap-1 px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-300 dark:border-red-900/50 rounded-full text-[10px] font-bold uppercase tracking-wide animate-pulse">
+                                    <span className="flex items-center gap-1 px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-300 dark:border-red-900/50 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wide animate-pulse">
                                         <AlertTriangle size={11} />
-                                        Sobrecarga
+                                        <span className="hidden sm:inline">Sobrecarga</span>
+                                        <span className="sm:hidden">Exc.</span>
                                     </span>
                                 )}
                             </div>
@@ -48,13 +49,13 @@ export function FloatingTotal({ totalKilos, subtotales }: Props) {
                     </div>
 
                     {/* Category dots */}
-                    <div className="flex items-center gap-3 flex-wrap justify-end">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-start sm:justify-end shrink-0">
                         {CATEGORIAS.map(cat => {
                             const v = subtotales[cat.key] ?? 0
                             return (
-                                <div key={cat.key} className="flex items-center gap-1">
-                                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cat.color }} />
-                                    <span className="text-[10px] text-gray-500 dark:text-slate-400 font-mono whitespace-nowrap">
+                                <div key={cat.key} className="flex items-center gap-1 bg-gray-50 dark:bg-slate-800/50 px-1.5 py-0.5 rounded-md sm:bg-transparent sm:p-0">
+                                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full flex-shrink-0" style={{ background: cat.color }} />
+                                    <span className="text-[9px] sm:text-[10px] text-gray-500 dark:text-slate-400 font-mono whitespace-nowrap">
                                         {cat.shortLabel} {v.toLocaleString('es-MX', { maximumFractionDigits: 0 })}
                                     </span>
                                 </div>

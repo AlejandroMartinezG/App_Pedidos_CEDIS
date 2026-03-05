@@ -69,8 +69,8 @@ export function MisPedidos() {
                         </Link>
                     </div>
                 ) : (
-                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#E2E5EB] dark:border-slate-800 overflow-hidden transition-colors">
-                        <table className="w-full text-sm">
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#E2E5EB] dark:border-slate-800 overflow-x-auto transition-colors">
+                        <table className="w-full text-sm min-w-[700px]">
                             <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 text-xs uppercase tracking-wide">
                                 <tr>
                                     <th className="px-4 py-3 text-left">Código</th>

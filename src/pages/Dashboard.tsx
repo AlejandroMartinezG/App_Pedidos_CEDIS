@@ -187,13 +187,13 @@ export function Dashboard() {
                     </div>
 
                     {/* Orders Table */}
-                    <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-hidden transition-colors">
+                    <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-x-auto transition-colors">
                         {loading ? (
                             <div className="flex justify-center py-16">
                                 <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
                             </div>
                         ) : (
-                            <table className="w-full text-xs">
+                            <table className="w-full text-xs min-w-[800px]">
                                 <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide">
                                     <tr>
                                         <th className="px-4 py-3 text-left"># Pedido</th>

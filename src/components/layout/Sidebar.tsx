@@ -11,7 +11,6 @@ interface Props {
     isCollapsed?: boolean
     onToggle?: () => void
 }
-
 export function Sidebar({ isCollapsed = false, onToggle }: Props) {
     const { user, signOut } = useAuth()
     const { theme, toggleTheme } = useTheme()
@@ -34,11 +33,11 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
 
     return (
         <aside className={clsx(
-            "fixed inset-y-0 left-0 z-40 bg-white dark:bg-slate-900 border-r border-[#E2E5EB] dark:border-slate-800 transition-all duration-300 flex flex-col print:hidden shadow-sm",
+            "fixed inset-y-0 left-0 bg-white dark:bg-slate-900 border-r border-[#E2E5EB] dark:border-slate-800 transition-all duration-300 print:hidden hidden md:flex flex-col shadow-sm z-40",
             isCollapsed ? "w-20" : "w-64"
         )}>
             {/* Header / Logo */}
-            <div className={`relative flex items-center justify-center px-4 py-2 border-b border-[#E2E5EB] h-[72px] shrink-0`}>
+            <div className={`relative flex items-center justify-center px-4 py-2 border-b border-[#E2E5EB] dark:border-slate-800 h-[72px] shrink-0 transition-colors`}>
                 {isCollapsed ? (
                     <img src="/logoCloroH_small.png" alt="Logo CH" className="w-[36px] h-[36px] object-contain" />
                 ) : (
@@ -49,7 +48,7 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                 {onToggle && (
                     <button
                         onClick={onToggle}
-                        className="absolute -right-3.5 top-5 bg-white border border-[#E2E5EB] text-gray-400 hover:text-[#1E3A6E] rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 hover:scale-110 transition-all z-50 md:opacity-100"
+                        className="absolute -right-3.5 top-5 bg-white dark:bg-slate-800 border border-[#E2E5EB] dark:border-slate-700 text-gray-400 hover:text-[#1E3A6E] dark:hover:text-blue-400 rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 hover:scale-110 transition-all z-50 md:opacity-100 hidden md:block"
                         title={isCollapsed ? "Expandir" : "Contraer"}
                     >
                         {isCollapsed ? <ChevronRight size={14} /> : <span className="block rotate-180"><ChevronRight size={14} /></span>}

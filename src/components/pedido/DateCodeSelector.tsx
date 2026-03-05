@@ -26,9 +26,9 @@ export function DateCodeSelector({ fechaEntrega, onFechaChange, tipoEntrega, onT
     const minDate = format(addDays(new Date(), 1), 'yyyy-MM-dd')
 
     return (
-        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-5 py-4 mb-4 flex flex-wrap items-center justify-between gap-4 transition-colors">
-            <div className="flex flex-wrap items-center gap-6">
-                <div className="flex items-center gap-3">
+        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-4 sm:px-5 py-4 mb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 sm:gap-6 w-full lg:w-auto">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 w-full sm:w-auto">
                     <label className="text-xs font-semibold text-gray-500 dark:text-slate-400">Fecha de entrega:</label>
                     <input
                         type="date"
@@ -36,16 +36,16 @@ export function DateCodeSelector({ fechaEntrega, onFechaChange, tipoEntrega, onT
                         value={fechaEntrega}
                         disabled={readonly}
                         onChange={e => onFechaChange(e.target.value)}
-                        className={inputClass(readonly)}
+                        className={`${inputClass(readonly)} w-full sm:w-auto`}
                     />
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 w-full sm:w-auto">
                     <label className="text-xs font-semibold text-gray-500 dark:text-slate-400">Tipo de entrega:</label>
                     <select
                         value={tipoEntrega ?? ''}
                         disabled={readonly}
                         onChange={e => onTipoEntregaChange(e.target.value as TipoEntrega)}
-                        className={inputClass(readonly)}
+                        className={`${inputClass(readonly)} w-full sm:w-auto`}
                     >
                         <option value="" disabled>Seleccionar…</option>
                         {TIPOS_ENTREGA.map(t => (
@@ -54,9 +54,9 @@ export function DateCodeSelector({ fechaEntrega, onFechaChange, tipoEntrega, onT
                     </select>
                 </div>
                 {codigoPedido && (
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 w-full sm:w-auto">
                         <label className="text-xs font-semibold text-gray-500 dark:text-slate-400">Código:</label>
-                        <span className="font-mono font-bold text-[#2B5EA7] dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 px-3 py-1 rounded-lg text-sm transition-colors">
+                        <span className="font-mono font-bold text-[#2B5EA7] dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 px-3 py-1.5 sm:py-1 rounded-lg text-sm transition-colors w-full sm:w-auto">
                             {codigoPedido}
                         </span>
                     </div>

@@ -90,9 +90,9 @@ export function NuevoPedido() {
                 title="Nuevo Pedido"
                 subtitle="Captura los materiales requeridos para tu sucursal"
                 actions={
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center flex-wrap justify-end sm:justify-start gap-2">
                         {pedido?.estado === 'borrador' && (
-                            <span className="px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 rounded-full">
+                            <span className="px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 rounded-full w-full sm:w-auto text-center sm:text-left">
                                 ● Borrador
                             </span>
                         )}
