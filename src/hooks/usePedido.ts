@@ -112,10 +112,13 @@ export function usePedido() {
                     .single()
                 abreviacion = suc?.abreviacion ?? 'SUC'
             }
-            const codigoPedido = pedido?.codigo_pedido || `${abreviacion}-${format(new Date(fechaEntrega + 'T12:00:00'), 'yyyyMMdd')}`
+            // Si no hay pedido previo, generamos un código base y le agregamos un sufijo aleatorio de 3 dígitos
+            // para evitar colisiones si hacen dos pedidos para la misma fecha
+            const randomSuffix = Math.floor(Math.random() * 900 + 100).toString()
+            const codigoPedido = pedido?.codigo_pedido || `${abreviacion}-${format(new Date(fechaEntrega + 'T12:00:00'), 'yyyyMMdd')}-${randomSuffix}`
 
             if (!pedidoId) {
-                const { data } = await supabase
+                const { data, error } = await supabase
                     .from('pedidos')
                     .insert({
                         codigo_pedido: codigoPedido,
@@ -128,15 +131,23 @@ export function usePedido() {
                     })
                     .select()
                     .single()
+                if (error) {
+                    console.error('Insert error:', error)
+                    throw new Error(error.message)
+                }
                 if (data) {
                     setPedido(data as Pedido)
                     pedidoId = (data as Pedido).id
                 }
             } else {
-                await supabase
+                const { error } = await supabase
                     .from('pedidos')
                     .update({ total_kilos: totalKilos, fecha_entrega: fechaEntrega })
                     .eq('id', pedidoId)
+                if (error) {
+                    console.error('Update error:', error)
+                    throw new Error(error.message)
+                }
             }
 
             // Upsert and Delete detalles
