@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
-import type { Pedido, PedidoDetalle, DetalleLinea, Material } from '@/lib/types'
+import type { Pedido, PedidoDetalle, DetalleLinea, Material, TipoEntrega } from '@/lib/types'
 import { LIMITE_KG, AUTOSAVE_INTERVAL } from '@/lib/constants'
 import { format } from 'date-fns'
 
@@ -11,6 +11,7 @@ export function usePedido() {
     const [detalles, setDetalles] = useState<DetalleLinea[]>([])
     const [saving, setSaving] = useState(false)
     const [fechaEntrega, setFechaEntrega] = useState<string>('')
+    const [tipoEntrega, setTipoEntrega] = useState<TipoEntrega | null>(null)
     const autoSaveRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
     // ── Computed values ──────────────────────────────────────────────────
@@ -49,6 +50,7 @@ export function usePedido() {
             const pedidoData = ped as Pedido
             setPedido(pedidoData)
             setFechaEntrega(pedidoData.fecha_entrega)
+            if (pedidoData.tipo_entrega) setTipoEntrega(pedidoData.tipo_entrega)
         }
 
         const { data: dets } = await supabase
@@ -124,6 +126,7 @@ export function usePedido() {
                         codigo_pedido: codigoPedido,
                         sucursal_id: currentSucursalId,
                         fecha_entrega: fechaEntrega,
+                        tipo_entrega: tipoEntrega,
                         total_kilos: totalKilos,
                         estado: 'borrador',
                         enviado_at: null,
@@ -142,7 +145,7 @@ export function usePedido() {
             } else {
                 const { error } = await supabase
                     .from('pedidos')
-                    .update({ total_kilos: totalKilos, fecha_entrega: fechaEntrega })
+                    .update({ total_kilos: totalKilos, fecha_entrega: fechaEntrega, tipo_entrega: tipoEntrega })
                     .eq('id', pedidoId)
                 if (error) {
                     console.error('Update error:', error)
@@ -219,6 +222,8 @@ export function usePedido() {
         saving,
         fechaEntrega,
         setFechaEntrega,
+        tipoEntrega,
+        setTipoEntrega,
         initDetalles,
         loadExistingPedido,
         updateDetalle,

@@ -12,6 +12,7 @@ export type Categoria =
 export type Rol = 'admin' | 'sucursal'
 export type EstadoCuenta = 'pendiente' | 'activo' | 'inactivo'
 export type EstadoPedido = 'borrador' | 'enviado' | 'aprobado' | 'impreso'
+export type TipoEntrega = 'HINO' | 'Recolección en CEDIS'
 export type EstadoSolicitud = 'pendiente' | 'aprobado' | 'rechazado'
 
 // ─────────────────────────────────────────────
@@ -67,6 +68,7 @@ export interface Pedido {
     codigo_pedido: string
     sucursal_id: string
     fecha_entrega: string
+    tipo_entrega: TipoEntrega | null
     total_kilos: number
     estado: EstadoPedido
     created_at: string

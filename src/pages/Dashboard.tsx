@@ -199,6 +199,7 @@ export function Dashboard() {
                                         <th className="px-4 py-3 text-left"># Pedido</th>
                                         <th className="px-4 py-3 text-left">Sucursal</th>
                                         <th className="px-4 py-3 text-left">F. Entrega</th>
+                                        <th className="px-4 py-3 text-left">Tipo Entrega</th>
                                         <th className="px-4 py-3 text-right">Total kg</th>
                                         <th className="px-4 py-3 text-center">Estatus</th>
                                         <th className="px-4 py-3 text-left">Enviado</th>
@@ -212,6 +213,9 @@ export function Dashboard() {
                                             <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
                                             <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
                                                 {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
+                                            </td>
+                                            <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
+                                                {p.tipo_entrega ?? '—'}
                                             </td>
                                             <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
                                                 {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
@@ -262,7 +266,7 @@ export function Dashboard() {
                                     ))}
                                     {filtered.length === 0 && (
                                         <tr>
-                                            <td colSpan={7} className="py-12 text-center text-gray-400 text-sm">
+                                            <td colSpan={8} className="py-12 text-center text-gray-400 text-sm">
                                                 No hay pedidos con los filtros seleccionados
                                             </td>
                                         </tr>

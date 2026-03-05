@@ -259,6 +259,12 @@ export function FormatoImprimible() {
                                                 : '—'}
                                         </span>
                                     </p>
+                                    {pedido?.tipo_entrega && (
+                                        <p className="text-[11px] text-gray-600 font-medium mt-0.5">
+                                            Tipo:{' '}
+                                            <span className="font-bold text-[#1E3A6E]">{pedido.tipo_entrega}</span>
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Right: Toneladas & Folio */}

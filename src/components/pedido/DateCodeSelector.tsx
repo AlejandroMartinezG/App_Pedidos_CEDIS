@@ -1,15 +1,26 @@
 import { useAuth } from '@/context/AuthContext'
 import { format, addDays } from 'date-fns'
+import type { TipoEntrega } from '@/lib/types'
+
+const TIPOS_ENTREGA: TipoEntrega[] = ['HINO', 'Recolección en CEDIS']
+
+const inputClass = (readonly: boolean) =>
+    `border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm text-[#1E3A6E] dark:text-blue-400 font-medium focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors ${readonly
+        ? 'bg-gray-100 dark:bg-slate-800 cursor-not-allowed opacity-70'
+        : 'bg-white dark:bg-slate-950'
+    }`
 
 interface Props {
     fechaEntrega: string
     onFechaChange: (fecha: string) => void
+    tipoEntrega: TipoEntrega | null
+    onTipoEntregaChange: (tipo: TipoEntrega) => void
     codigoPedido: string
     readonly?: boolean
     sucursalNombre?: string
 }
 
-export function DateCodeSelector({ fechaEntrega, onFechaChange, codigoPedido, readonly = false, sucursalNombre }: Props) {
+export function DateCodeSelector({ fechaEntrega, onFechaChange, tipoEntrega, onTipoEntregaChange, codigoPedido, readonly = false, sucursalNombre }: Props) {
     const { user } = useAuth()
     const isAdmin = user?.rol === 'admin'
     const minDate = format(addDays(new Date(), 1), 'yyyy-MM-dd')
@@ -25,11 +36,22 @@ export function DateCodeSelector({ fechaEntrega, onFechaChange, codigoPedido, re
                         value={fechaEntrega}
                         disabled={readonly}
                         onChange={e => onFechaChange(e.target.value)}
-                        className={`border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm text-[#1E3A6E] dark:text-blue-400 font-medium focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors ${readonly
-                            ? 'bg-gray-100 dark:bg-slate-800 cursor-not-allowed opacity-70'
-                            : 'bg-white dark:bg-slate-950'
-                            }`}
+                        className={inputClass(readonly)}
                     />
+                </div>
+                <div className="flex items-center gap-3">
+                    <label className="text-xs font-semibold text-gray-500 dark:text-slate-400">Tipo de entrega:</label>
+                    <select
+                        value={tipoEntrega ?? ''}
+                        disabled={readonly}
+                        onChange={e => onTipoEntregaChange(e.target.value as TipoEntrega)}
+                        className={inputClass(readonly)}
+                    >
+                        <option value="" disabled>Seleccionar…</option>
+                        {TIPOS_ENTREGA.map(t => (
+                            <option key={t} value={t}>{t}</option>
+                        ))}
+                    </select>
                 </div>
                 {codigoPedido && (
                     <div className="flex items-center gap-3">

@@ -18,7 +18,8 @@ export function NuevoPedido() {
     const { materiales, loading: matLoading } = useMateriales()
     const {
         pedido, detalles, totalKilos, subtotalesPorCategoria,
-        saving, fechaEntrega, setFechaEntrega, initDetalles, loadExistingPedido, updateDetalle,
+        saving, fechaEntrega, setFechaEntrega, tipoEntrega, setTipoEntrega,
+        initDetalles, loadExistingPedido, updateDetalle,
         saveDraft, submitPedido,
     } = usePedido()
 
@@ -106,7 +107,7 @@ export function NuevoPedido() {
                         {!isAdmin && (
                             <button
                                 onClick={() => setShowConfirm(true)}
-                                disabled={!fechaEntrega || isReadonly || overLimit}
+                                disabled={!fechaEntrega || !tipoEntrega || isReadonly || overLimit}
                                 className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-[#1E3A6E] text-white rounded-lg hover:bg-[#2B5EA7] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                                 <Send size={13} />
@@ -125,6 +126,8 @@ export function NuevoPedido() {
                 <DateCodeSelector
                     fechaEntrega={fechaEntrega}
                     onFechaChange={setFechaEntrega}
+                    tipoEntrega={tipoEntrega}
+                    onTipoEntregaChange={setTipoEntrega}
                     codigoPedido={codigoPedidoStr}
                     readonly={isReadonly}
                     sucursalNombre={pedido?.sucursal?.nombre}
@@ -188,6 +191,10 @@ export function NuevoPedido() {
                             <div className="flex justify-between text-sm mb-1">
                                 <span className="text-gray-500 dark:text-slate-400">Fecha entrega:</span>
                                 <span className="font-medium dark:text-slate-300">{fechaEntrega}</span>
+                            </div>
+                            <div className="flex justify-between text-sm mb-1">
+                                <span className="text-gray-500 dark:text-slate-400">Tipo de entrega:</span>
+                                <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{tipoEntrega}</span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-500 dark:text-slate-400">Total:</span>
