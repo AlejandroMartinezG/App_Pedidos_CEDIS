@@ -61,6 +61,7 @@ export interface Material {
     peso_aproximado: number | null
     envase: string | null
     orden: number
+    activo: boolean
 }
 
 export interface Pedido {

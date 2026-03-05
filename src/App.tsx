@@ -8,6 +8,7 @@ import { Dashboard } from '@/pages/Dashboard'
 import { NuevoPedido } from '@/pages/NuevoPedido'
 import { MisPedidos } from '@/pages/MisPedidos'
 import { FormatoImprimible } from '@/pages/FormatoImprimible'
+import { CatalogoMateriales } from '@/pages/CatalogoMateriales'
 import { useAuth } from '@/context/AuthContext'
 
 function RootRedirect() {
@@ -41,6 +42,7 @@ export function App() {
                                 {/* Admin routes */}
                                 <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
                                     <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/catalogo" element={<CatalogoMateriales />} />
                                 </Route>
 
                                 {/* Sucursal routes */}

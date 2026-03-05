@@ -78,6 +78,10 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                             <Settings size={16} className="shrink-0" />
                             {!isCollapsed && <span>Solicitudes & Usuarios</span>}
                         </button>
+                        <NavLink to="/catalogo" className={linkClass} title={isCollapsed ? "Catálogo" : undefined}>
+                            <ListOrdered size={16} className="shrink-0" />
+                            {!isCollapsed && <span>Catálogo</span>}
+                        </NavLink>
                     </>
                 ) : (
                     <>

@@ -11,6 +11,7 @@ export function useMateriales(categoria?: Categoria) {
         let query = supabase
             .from('materiales')
             .select('*')
+            .eq('activo', true)
             .order('orden', { ascending: true })
 
         if (categoria) query = query.eq('categoria', categoria)
