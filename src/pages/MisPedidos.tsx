@@ -69,9 +69,9 @@ export function MisPedidos() {
                         </Link>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-xl border border-[#E2E5EB] overflow-hidden">
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#E2E5EB] dark:border-slate-800 overflow-hidden transition-colors">
                         <table className="w-full text-sm">
-                            <thead className="bg-[#F4F6FA] text-gray-500 text-xs uppercase tracking-wide">
+                            <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 text-xs uppercase tracking-wide">
                                 <tr>
                                     <th className="px-4 py-3 text-left">Código</th>
                                     <th className="px-4 py-3 text-left">Fecha Entrega</th>
@@ -81,14 +81,14 @@ export function MisPedidos() {
                                     <th className="px-4 py-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-[#F4F6FA]">
+                            <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
                                 {pedidos.map(p => (
-                                    <tr key={p.id} className="hover:bg-[#F4F6FA]/50">
-                                        <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] text-xs">{p.codigo_pedido}</td>
-                                        <td className="px-4 py-3 text-gray-600">
+                                    <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
+                                        <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400 text-xs">{p.codigo_pedido}</td>
+                                        <td className="px-4 py-3 text-gray-600 dark:text-slate-300">
                                             {format(parseISO(p.fecha_entrega), "d 'de' MMMM yyyy", { locale: es })}
                                         </td>
-                                        <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E]">
+                                        <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
                                             {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg
                                         </td>
                                         <td className="px-4 py-3 text-center">
@@ -96,14 +96,14 @@ export function MisPedidos() {
                                                 {ESTADO_LABELS[p.estado]}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3 text-xs text-gray-400">
+                                        <td className="px-4 py-3 text-xs text-gray-400 dark:text-slate-500">
                                             {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy HH:mm', { locale: es }) : '—'}
                                         </td>
                                         <td className="px-4 py-3 text-center">
                                             <div className="flex items-center justify-center gap-2">
                                                 <Link
                                                     to={`/nuevo-pedido/${p.id}`}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-[#2B5EA7] border border-[#2B5EA7]/30 rounded-lg hover:bg-blue-50 transition-colors"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-[#2B5EA7] dark:text-blue-400 border border-[#2B5EA7]/30 dark:border-blue-400/30 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                                                 >
                                                     <Eye size={12} />
                                                     {p.estado === 'borrador' ? 'Editar' : 'Ver'}
@@ -111,7 +111,7 @@ export function MisPedidos() {
 
                                                 <Link
                                                     to={`/imprimir/${p.id}`}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 dark:text-slate-300 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                                                     title="Ver / Imprimir Formato de Surtido"
                                                 >
                                                     <Printer size={12} />
@@ -132,7 +132,7 @@ export function MisPedidos() {
                                                             </button>
                                                             <button
                                                                 onClick={() => setConfirmDelete(null)}
-                                                                className="px-2 py-1 text-xs border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                                                className="px-2 py-1 text-xs border border-gray-300 dark:border-slate-600 text-black dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                                                             >
                                                                 No
                                                             </button>
@@ -140,7 +140,7 @@ export function MisPedidos() {
                                                     ) : (
                                                         <button
                                                             onClick={() => setConfirmDelete(p.id)}
-                                                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-red-500 dark:text-red-400 border border-red-200 dark:border-red-500/30 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                                         >
                                                             <Trash2 size={12} />
                                                             Borrar

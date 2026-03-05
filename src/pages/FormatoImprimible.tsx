@@ -200,14 +200,14 @@ export function FormatoImprimible() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 dark:bg-slate-950 transition-colors">
             {/* Toolbar (hidden on print) */}
-            <div className="print:hidden flex items-center justify-between px-6 py-3 bg-white border-b border-[#E2E5EB] sticky top-0 z-10">
-                <h1 className="text-sm font-bold text-[#1E3A6E]">Formato Imprimible — {pedido?.codigo_pedido}</h1>
+            <div className="print:hidden flex items-center justify-between px-6 py-3 bg-white dark:bg-slate-900 border-b border-[#E2E5EB] dark:border-slate-800 sticky top-0 z-10 transition-colors">
+                <h1 className="text-sm font-bold text-[#1E3A6E] dark:text-blue-400">Formato Imprimible — {pedido?.codigo_pedido}</h1>
                 <div className="flex gap-2">
                     <button
                         onClick={handlePrint}
-                        className="flex items-center gap-1.5 px-4 py-1.5 border border-[#E2E5EB] rounded-lg text-xs font-medium hover:bg-[#F4F6FA] transition-colors"
+                        className="flex items-center gap-1.5 px-4 py-1.5 border border-[#E2E5EB] dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-[#F4F6FA] dark:hover:bg-slate-800 dark:text-slate-200 transition-colors"
                     >
                         <Printer size={13} /> Imprimir
                     </button>
@@ -221,7 +221,7 @@ export function FormatoImprimible() {
             </div>
 
             {/* Printable document */}
-            <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 print:bg-white">
+            <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 dark:bg-slate-950 print:bg-white transition-colors">
                 <div ref={printRef} className="print:w-full flex flex-col">
                     {categoriasParaImprimir.map((cat, index) => (
                         <div

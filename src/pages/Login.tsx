@@ -132,7 +132,7 @@ export function Login() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#1E3A6E] via-[#2B5EA7] to-[#1E3A6E] flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-sm p-8 transition-colors duration-300">
 
                 {/* Logo */}
                 <div className="flex flex-col items-center mb-6">
@@ -141,13 +141,13 @@ export function Login() {
                 </div>
 
                 {/* Tabs */}
-                <div className="flex border-b border-[#E2E5EB] mb-6">
+                <div className="flex border-b border-[#E2E5EB] dark:border-slate-800 mb-6 transition-colors">
                     <button onClick={() => handleTabChange('login')}
-                        className={`flex-1 pb-2.5 text-sm font-semibold transition-colors ${tab === 'login' ? 'text-[#1E3A6E] border-b-2 border-[#1E3A6E]' : 'text-gray-400 hover:text-gray-600'}`}>
+                        className={`flex-1 pb-2.5 text-sm font-semibold transition-colors ${tab === 'login' ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400' : 'text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300'}`}>
                         Iniciar Sesión
                     </button>
                     <button onClick={() => handleTabChange('register')}
-                        className={`flex-1 pb-2.5 text-sm font-semibold transition-colors ${tab === 'register' ? 'text-[#1E3A6E] border-b-2 border-[#1E3A6E]' : 'text-gray-400 hover:text-gray-600'}`}>
+                        className={`flex-1 pb-2.5 text-sm font-semibold transition-colors ${tab === 'register' ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400' : 'text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300'}`}>
                         Solicitar Acceso
                     </button>
                 </div>
@@ -170,18 +170,18 @@ export function Login() {
                         ) : (
                             <form onSubmit={handleLogin} className="space-y-4">
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Correo electrónico</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Correo electrónico</label>
                                     <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                                         placeholder="usuario@clorodehidalgo.com"
-                                        className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                        className="w-full px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 focus:border-[#2B5EA7] dark:focus:border-blue-500 transition-colors" />
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Contraseña</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Contraseña</label>
                                     <div className="relative">
                                         <input type={showPwd ? 'text' : 'password'} required value={password} onChange={e => setPassword(e.target.value)}
-                                            className="w-full pr-10 px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                            className="w-full pr-10 px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 focus:border-[#2B5EA7] dark:focus:border-blue-500 transition-colors" />
                                         <button type="button" onClick={() => setShowPwd(!showPwd)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300">
                                             {showPwd ? <EyeOff size={15} /> : <Eye size={15} />}
                                         </button>
                                     </div>
@@ -219,51 +219,51 @@ export function Login() {
                         ) : (
                             <form onSubmit={handleRegister} className="space-y-3">
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Nombre completo</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Nombre completo</label>
                                     <input type="text" required value={rNombre} onChange={e => setRNombre(e.target.value)}
                                         placeholder="Ej. Juan García"
-                                        className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                        className="w-full px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors" />
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Correo electrónico</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Correo electrónico</label>
                                     <input type="email" required value={rEmail} onChange={e => setREmail(e.target.value)}
                                         placeholder="tu@email.com"
-                                        className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                        className="w-full px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors" />
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Sucursal</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Sucursal</label>
                                     <select value={rSucursal} onChange={e => setRSucursal(e.target.value)}
-                                        className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7] bg-white">
+                                        className="w-full px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors">
                                         <option value="">— Sin sucursal asignada —</option>
                                         {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Contraseña</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Contraseña</label>
                                     <div className="relative">
                                         <input type={rShowPwd ? 'text' : 'password'} required value={rPwd} onChange={e => setRPwd(e.target.value)}
                                             minLength={6} placeholder="Mínimo 6 caracteres"
-                                            className="w-full pr-10 px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                            className="w-full pr-10 px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors" />
                                         <button type="button" onClick={() => setRShowPwd(!rShowPwd)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500">
                                             {rShowPwd ? <EyeOff size={14} /> : <Eye size={14} />}
                                         </button>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Confirmar contraseña</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Confirmar contraseña</label>
                                     <input type="password" required value={rPwd2} onChange={e => setRPwd2(e.target.value)}
                                         placeholder="Repite la contraseña"
-                                        className="w-full px-3 py-2.5 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7]" />
+                                        className="w-full px-3 py-2.5 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 transition-colors" />
                                 </div>
                                 <div>
-                                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Mensaje (opcional)</label>
+                                    <label className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-1 block">Mensaje (opcional)</label>
                                     <textarea value={rMensaje} onChange={e => setRMensaje(e.target.value)} rows={2}
                                         placeholder="Nota para el administrador..."
-                                        className="w-full px-3 py-2 border border-[#E2E5EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 focus:border-[#2B5EA7] resize-none" />
+                                        className="w-full px-3 py-2 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-[#E2E5EB] dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 resize-none transition-colors" />
                                 </div>
                                 {rError && (
-                                    <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{rError}</p>
+                                    <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2">{rError}</p>
                                 )}
                                 <button type="submit" disabled={rLoading}
                                     className="w-full bg-[#D4A01E] hover:bg-[#B8891A] text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm transition-colors disabled:opacity-60">

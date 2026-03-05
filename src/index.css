@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 /* ─────────────────────────────────────────────
    Google Fonts already loaded via index.html

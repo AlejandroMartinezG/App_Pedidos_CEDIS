@@ -96,12 +96,12 @@ export function Dashboard() {
             />
             {/* View Tabs */}
             <div className="px-6 pt-4 pb-0">
-                <div className="flex gap-1 border-b border-gray-200 mb-6">
+                <div className="flex gap-1 border-b border-gray-200 dark:border-slate-800 mb-6 transition-colors">
                     <button
                         onClick={() => setActiveView('pedidos')}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'pedidos'
-                            ? 'text-[#1E3A6E] border-b-2 border-[#1E3A6E]'
-                            : 'text-gray-500 hover:text-gray-700'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                            : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                             }`}
                     >
                         <Package size={15} />
@@ -110,8 +110,8 @@ export function Dashboard() {
                     <button
                         onClick={() => setActiveView('solicitudes')}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'solicitudes'
-                            ? 'text-[#1E3A6E] border-b-2 border-[#1E3A6E]'
-                            : 'text-gray-500 hover:text-gray-700'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                            : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                             }`}
                     >
                         <Users2 size={15} />
@@ -165,14 +165,14 @@ export function Dashboard() {
                     </div>
 
                     {/* Filters */}
-                    <div className="flex items-center gap-3 bg-white border border-[#E2E5EB] rounded-xl px-4 py-3">
-                        <span className="text-xs text-gray-400 font-medium flex items-center gap-1">
+                    <div className="flex items-center gap-3 bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-4 py-3 transition-colors">
+                        <span className="text-xs text-gray-400 dark:text-slate-500 font-medium flex items-center gap-1">
                             <ChevronDown size={13} /> Filtros:
                         </span>
                         <select
                             value={filterSucursal}
                             onChange={e => setFilterSucursal(e.target.value)}
-                            className="text-xs border border-[#E2E5EB] rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 bg-white text-[#1E3A6E] font-medium"
+                            className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
                         >
                             <option value="all">Todas las sucursales</option>
                             {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
@@ -180,21 +180,21 @@ export function Dashboard() {
                         <select
                             value={filterEstado}
                             onChange={e => setFilterEstado(e.target.value)}
-                            className="text-xs border border-[#E2E5EB] rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 bg-white text-[#1E3A6E] font-medium"
+                            className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
                         >
                             {ESTADOS.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
                         </select>
                     </div>
 
                     {/* Orders Table */}
-                    <div className="bg-white border border-[#E2E5EB] rounded-xl overflow-hidden">
+                    <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-hidden transition-colors">
                         {loading ? (
                             <div className="flex justify-center py-16">
                                 <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
                             </div>
                         ) : (
                             <table className="w-full text-xs">
-                                <thead className="bg-[#F4F6FA] text-gray-500 uppercase tracking-wide">
+                                <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide">
                                     <tr>
                                         <th className="px-4 py-3 text-left"># Pedido</th>
                                         <th className="px-4 py-3 text-left">Sucursal</th>
@@ -205,15 +205,15 @@ export function Dashboard() {
                                         <th className="px-4 py-3 text-center">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[#F4F6FA]">
+                                <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
                                     {filtered.map(p => (
-                                        <tr key={p.id} className="hover:bg-[#F4F6FA]/50">
-                                            <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7]">{p.codigo_pedido}</td>
-                                            <td className="px-4 py-3 text-gray-700 font-medium">{p.sucursal?.nombre ?? '—'}</td>
-                                            <td className="px-4 py-3 text-gray-600">
+                                        <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
+                                            <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
+                                            <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
+                                            <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
                                                 {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
                                             </td>
-                                            <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E]">
+                                            <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
                                                 {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
                                             </td>
                                             <td className="px-4 py-3 text-center">
@@ -317,15 +317,15 @@ function StatCard({ icon, label, value, sub, dark = false }: {
     dark?: boolean
 }) {
     return (
-        <div className={`rounded-xl p-5 border ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E]' : 'bg-white border-[#E2E5EB]'}`}>
-            <div className={`flex items-center gap-2 mb-2 ${dark ? 'text-blue-200' : 'text-gray-400'}`}>
+        <div className={`rounded-xl p-5 border transition-colors ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E]' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
+            <div className={`flex items-center gap-2 mb-2 ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-500'}`}>
                 {icon}
                 <span className="text-xs font-medium uppercase tracking-wide">{label}</span>
             </div>
-            <p className={`text-3xl font-extrabold font-mono leading-none mb-1 ${dark ? 'text-white' : 'text-[#1E3A6E]'}`}>
+            <p className={`text-3xl font-extrabold font-mono leading-none mb-1 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
                 {value}
             </p>
-            <p className={`text-xs ${dark ? 'text-blue-200' : 'text-gray-400'}`}>{sub}</p>
+            <p className={`text-xs ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-400'}`}>{sub}</p>
         </div>
     )
 }

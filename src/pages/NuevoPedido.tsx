@@ -98,7 +98,7 @@ export function NuevoPedido() {
                         <button
                             onClick={handleSave}
                             disabled={saving || isReadonly}
-                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border border-[#E2E5EB] rounded-lg hover:bg-[#F4F6FA] disabled:opacity-50 transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border border-[#E2E5EB] dark:border-slate-700 rounded-lg hover:bg-[#F4F6FA] dark:hover:bg-slate-800 disabled:opacity-50 transition-colors text-slate-700 dark:text-slate-300"
                         >
                             <Save size={13} />
                             {saving ? 'Guardando…' : isAdmin ? 'Guardar cambios' : 'Guardar borrador'}
@@ -132,7 +132,7 @@ export function NuevoPedido() {
 
                 {/* Warning overlay for submitted orders */}
                 {isReadonly && (
-                    <div className="mb-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm">
+                    <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 text-blue-700 dark:text-blue-300 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm transition-colors">
                         <AlertTriangle size={16} className="shrink-0" />
                         Este pedido ya fue enviado. No puedes modificarlo.
                     </div>
@@ -140,7 +140,7 @@ export function NuevoPedido() {
 
                 {/* Overlimit Warning */}
                 {overLimit && !isReadonly && (
-                    <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm">
+                    <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm transition-colors">
                         <AlertTriangle size={16} className="shrink-0" />
                         <strong>Capacidad excedida:</strong> El pedido iguala o supera el límite de 11,500 kg. Reduce las cantidades para poder enviarlo.
                     </div>
@@ -170,28 +170,28 @@ export function NuevoPedido() {
 
             {/* Confirmation modal */}
             {showConfirm && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
-                        <h3 className="text-lg font-bold text-[#1E3A6E] mb-1">¿Enviar pedido?</h3>
-                        <p className="text-sm text-gray-500 mb-4">
+                <div className="fixed inset-0 bg-black/40 dark:bg-black/60 flex items-center justify-center z-50 p-4 transition-colors">
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6 transition-colors">
+                        <h3 className="text-lg font-bold text-[#1E3A6E] dark:text-blue-400 mb-1">¿Enviar pedido?</h3>
+                        <p className="text-sm text-gray-500 dark:text-slate-400 mb-4">
                             Una vez enviado <strong>no podrás hacer modificaciones</strong>. El pedido quedará en espera de aprobación del CEDIS.
                         </p>
-                        <div className="bg-[#F4F6FA] rounded-xl p-3 mb-5">
+                        <div className="bg-[#F4F6FA] dark:bg-slate-800 rounded-xl p-3 mb-5 transition-colors">
                             <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500">Sucursal:</span>
-                                <span className="font-semibold text-[#1E3A6E]">{user?.sucursal?.nombre}</span>
+                                <span className="text-gray-500 dark:text-slate-400">Sucursal:</span>
+                                <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{user?.sucursal?.nombre}</span>
                             </div>
                             <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500">Código:</span>
-                                <span className="font-mono font-bold text-[#2B5EA7]">{codigoPedidoStr}</span>
+                                <span className="text-gray-500 dark:text-slate-400">Código:</span>
+                                <span className="font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{codigoPedidoStr}</span>
                             </div>
                             <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500">Fecha entrega:</span>
-                                <span className="font-medium">{fechaEntrega}</span>
+                                <span className="text-gray-500 dark:text-slate-400">Fecha entrega:</span>
+                                <span className="font-medium dark:text-slate-300">{fechaEntrega}</span>
                             </div>
                             <div className="flex justify-between text-sm">
-                                <span className="text-gray-500">Total:</span>
-                                <span className="font-bold font-mono text-[#1E3A6E]">
+                                <span className="text-gray-500 dark:text-slate-400">Total:</span>
+                                <span className="font-bold font-mono text-[#1E3A6E] dark:text-slate-100">
                                     {totalKilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg
                                 </span>
                             </div>
@@ -199,7 +199,7 @@ export function NuevoPedido() {
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setShowConfirm(false)}
-                                className="flex-1 py-2.5 border border-[#E2E5EB] rounded-xl text-sm font-medium hover:bg-[#F4F6FA] transition-colors"
+                                className="flex-1 py-2.5 border border-[#E2E5EB] dark:border-slate-700 dark:text-slate-300 rounded-xl text-sm font-medium hover:bg-[#F4F6FA] dark:hover:bg-slate-800 transition-colors"
                             >
                                 Cancelar
                             </button>

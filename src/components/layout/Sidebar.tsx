@@ -1,9 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
     PlusCircle, ListOrdered, LayoutDashboard,
-    Settings, LogOut, ChevronRight
+    Settings, LogOut, Sun, Moon, ChevronRight
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
+import { useTheme } from '@/context/ThemeProvider'
 import { clsx } from 'clsx'
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 export function Sidebar({ isCollapsed = false, onToggle }: Props) {
     const { user, signOut } = useAuth()
+    const { theme, toggleTheme } = useTheme()
     const navigate = useNavigate()
     const isAdmin = user?.rol === 'admin'
 
@@ -26,14 +28,14 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
             'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
             isCollapsed ? 'justify-center' : 'justify-start',
             isActive
-                ? 'bg-[#2B5EA7] text-white shadow-sm'
-                : 'text-gray-500 hover:bg-[#F4F6FA] hover:text-[#1E3A6E]'
+                ? 'bg-[#2B5EA7] text-white shadow-sm dark:bg-blue-600'
+                : 'text-gray-500 hover:bg-[#F4F6FA] hover:text-[#1E3A6E] dark:text-gray-400 dark:hover:bg-slate-800/50 dark:hover:text-blue-300'
         )
 
     return (
         <aside className={clsx(
-            "fixed left-0 top-0 h-screen bg-white border-r border-[#E2E5EB] flex flex-col z-40 transition-all duration-300",
-            isCollapsed ? "w-20" : "w-56"
+            "fixed inset-y-0 left-0 z-40 bg-white dark:bg-slate-900 border-r border-[#E2E5EB] dark:border-slate-800 transition-all duration-300 flex flex-col print:hidden shadow-sm",
+            isCollapsed ? "w-20" : "w-64"
         )}>
             {/* Header / Logo */}
             <div className={`relative flex items-center justify-center px-4 py-2 border-b border-[#E2E5EB] h-[72px] shrink-0`}>
@@ -95,28 +97,37 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                 )}
             </nav>
 
-            {/* User Footer */}
-            <div className="px-3 py-4 border-t border-[#E2E5EB]">
-                <div className={clsx("flex items-center rounded-lg hover:bg-[#F4F6FA] cursor-pointer group", isCollapsed ? "justify-center px-0 py-2" : "gap-2 px-2 py-2")} title={isCollapsed ? user?.email : undefined}>
-                    <div className="w-8 h-8 rounded-full bg-[#1E3A6E] flex items-center justify-center text-white text-xs font-bold shrink-0">
-                        {user?.nombre?.charAt(0)?.toUpperCase() ?? 'U'}
-                    </div>
-                    {!isCollapsed && (
+            {/* Settings & Logout Footer */}
+            <div className="px-3 py-4 border-t border-[#E2E5EB] dark:border-slate-800 space-y-2">
+                <button
+                    onClick={toggleTheme}
+                    className={clsx(
+                        "flex items-center w-full rounded-lg text-xs font-semibold hover:bg-[#F4F6FA] dark:hover:bg-slate-800 transition-colors text-gray-600 dark:text-gray-300",
+                        isCollapsed ? "justify-center p-2" : "gap-3 px-3 py-2"
+                    )}
+                    title={isCollapsed ? (theme === 'light' ? 'Modo Oscuro' : 'Modo Claro') : undefined}
+                >
+                    {theme === 'light' ? (
                         <>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs font-semibold text-[#1E3A6E] truncate">{user?.sucursal?.nombre ?? 'Admin'}</p>
-                                <p className="text-[10px] text-gray-400 truncate">{user?.email}</p>
-                            </div>
-                            <ChevronRight size={12} className="text-gray-300" />
+                            <Moon size={16} className="shrink-0 text-slate-500" />
+                            {!isCollapsed && <span>Modo oscuro</span>}
+                        </>
+                    ) : (
+                        <>
+                            <Sun size={16} className="shrink-0 text-amber-500" />
+                            {!isCollapsed && <span>Modo claro</span>}
                         </>
                     )}
-                </div>
+                </button>
                 <button
                     onClick={handleSignOut}
-                    className={clsx("mt-2 flex items-center w-full rounded-lg text-xs text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors", isCollapsed ? "justify-center p-2" : "gap-2 px-3 py-2")}
+                    className={clsx(
+                        "flex items-center w-full rounded-lg text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors",
+                        isCollapsed ? "justify-center p-2" : "gap-3 px-3 py-2"
+                    )}
                     title={isCollapsed ? "Cerrar Sesión" : undefined}
                 >
-                    <LogOut size={14} className="shrink-0" />
+                    <LogOut size={16} className="shrink-0" />
                     {!isCollapsed && <span>Cerrar Sesión</span>}
                 </button>
             </div>
