@@ -86,57 +86,57 @@ export function FormatoImprimible() {
     const renderAdditionalTable = (blockKey: string) => {
         if (blockKey === 'materiasPrimas') {
             return (
-                <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
-                    <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
+                <div className="mt-10 mx-auto w-fit bg-white">
+                    <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">
                         MATERIA
                     </div>
                     <table className="text-center text-[10px] border-collapse bg-white">
                         <tbody>
-                            <tr className="bg-[#D4A01E] text-[#1E3A6E] font-bold">
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">CERRADOS</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">ABIERTOS</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">METÁLICOS</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">OLLA 140</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">CUÑETES</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-16">P60</td>
+                            <tr className="text-gray-500 font-semibold">
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">CERRADOS</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">ABIERTOS</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-24">METÁLICOS</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">OLLA 140</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">CUÑETES</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-16">P60</td>
                             </tr>
                             <tr>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                            </tr>
-                            <tr>
-                                <td className="border-none"></td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P50</td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P30</td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P20 TRANS</td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P10</td>
-                                <td className="border-none"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P50</td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P30</td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P20 TRANS</td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P10</td>
                                 <td className="border-none"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
-                                <td className="border-none"></td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P5</td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P4</td>
-                                <td className="border-none"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
                                 <td className="border-none"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
                                 <td className="border-none"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P5</td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P4</td>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border-none"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
                                 <td className="border-none"></td>
                                 <td className="border-none"></td>
                             </tr>
@@ -148,45 +148,45 @@ export function FormatoImprimible() {
 
         if (blockKey === 'esencias_colores') {
             return (
-                <div className="mt-10 mx-auto w-fit border-2 border-[#1E3A6E] bg-white">
-                    <div className="bg-[#1E3A6E] text-white text-center font-bold text-[10px] py-1 uppercase tracking-widest">
+                <div className="mt-10 mx-auto w-fit bg-white">
+                    <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">
                         ESENCIAS Y COLORES
                     </div>
                     <table className="text-center text-[10px] border-collapse bg-white">
                         <tbody>
-                            <tr className="bg-[#D4A01E] text-[#1E3A6E] font-bold">
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">P60</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-20">P50</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">P20 TRANS</td>
-                                <td className="border border-[#1E3A6E] px-2 py-1.5 w-24">P20 AZUL</td>
+                            <tr className="text-gray-500 font-semibold">
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">P60</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-20">P50</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-24">P20 TRANS</td>
+                                <td className="border border-gray-300 px-2 py-1.5 w-24">P20 AZUL</td>
                             </tr>
                             <tr>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                            </tr>
-                            <tr>
-                                <td className="border-none"></td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P10</td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P5</td>
-                                <td className="border-none"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P10</td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P5</td>
                                 <td className="border-none"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
-                                <td className="bg-[#D4A01E] text-[#1E3A6E] font-bold border border-[#1E3A6E] py-1">P4</td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
+                                <td className="border-none"></td>
+                            </tr>
+                            <tr>
+                                <td className="border-none"></td>
+                                <td className="border border-gray-300 text-gray-500 font-semibold py-1">P4</td>
                                 <td className="border-none"></td>
                                 <td className="border-none"></td>
                             </tr>
                             <tr>
                                 <td className="border-none"></td>
-                                <td className="border border-[#1E3A6E] h-10"></td>
+                                <td className="border border-gray-300 h-10"></td>
                                 <td className="border-none"></td>
                                 <td className="border-none"></td>
                             </tr>
@@ -199,11 +199,11 @@ export function FormatoImprimible() {
         if (blockKey === 'varios_envases') {
             return (
                 <div className="mt-10 flex justify-center">
-                    <div className="border-2 border-[#1E3A6E] w-48 text-center flex flex-col bg-white">
-                        <div className="bg-[#D4A01E] text-[#1E3A6E] font-bold text-[10px] py-1.5 border-b-2 border-[#1E3A6E] uppercase">
+                    <div className="w-48 text-center flex flex-col bg-white">
+                        <div className="text-[#1E3A6E] font-bold text-[11px] py-1 mb-1 border-b-2 border-[#1E3A6E] uppercase tracking-widest">
                             CUÑETES
                         </div>
-                        <div className="h-10"></div>
+                        <div className="border border-gray-300 h-10"></div>
                     </div>
                 </div>
             )
