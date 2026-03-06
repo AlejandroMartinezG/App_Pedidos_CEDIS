@@ -8,7 +8,7 @@ import { CalendarView } from '@/components/admin/CalendarView'
 import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List } from 'lucide-react'
 import { ESTADO_LABELS, ESTADO_COLORS } from '@/lib/constants'
 import type { Pedido, Sucursal, EstadoPedido } from '@/lib/types'
-import { format, parseISO, startOfWeek, endOfWeek, endOfToday, startOfToday } from 'date-fns'
+import { format, parseISO, startOfWeek, endOfWeek, startOfToday } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 interface PedidoRow extends Pedido {
