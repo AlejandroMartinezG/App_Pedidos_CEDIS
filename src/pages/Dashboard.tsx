@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
 import { SolicitudesPanel } from '@/components/admin/SolicitudesPanel'
+import { SolicitudesFechasPanel } from '@/components/admin/SolicitudesFechasPanel'
 import { CalendarView } from '@/components/admin/CalendarView'
 import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List } from 'lucide-react'
 import { ESTADO_LABELS, ESTADO_COLORS } from '@/lib/constants'
@@ -32,15 +33,17 @@ export function Dashboard() {
     const [filterSucursal, setFilterSucursal] = useState<string>('all')
     const [filterEstado, setFilterEstado] = useState<string>('all')
     const [selectedPedido, setSelectedPedido] = useState<PedidoRow | null>(null)
-    const [activeView, setActiveView] = useState<'pedidos' | 'solicitudes'>(
+    const [activeView, setActiveView] = useState<'pedidos' | 'solicitudes' | 'fechas'>(
         searchParams.get('tab') === 'solicitudes' ? 'solicitudes' : 'pedidos'
     )
     const [pendingSolicitudes, setPendingSolicitudes] = useState(0)
+    const [pendingFechas, setPendingFechas] = useState(0)
     const [layout, setLayout] = useState<'lista' | 'calendario'>('lista')
 
     // Sync URL param changes (e.g. when sidebar button is clicked while on dashboard)
     useEffect(() => {
         if (searchParams.get('tab') === 'solicitudes') setActiveView('solicitudes')
+        else if (searchParams.get('tab') === 'fechas') setActiveView('fechas')
         else setActiveView('pedidos')
     }, [searchParams])
 
@@ -53,15 +56,34 @@ export function Dashboard() {
         setLoading(false)
     }
 
-    useEffect(() => {
-        fetchPedidos()
-        supabase.from('sucursales').select('*').then(({ data }) => setSucursales((data as Sucursal[]) ?? []))
-        // Fetch pending solicitudes count
+    const fetchPendingCounts = () => {
         supabase
             .from('solicitudes_acceso')
             .select('id', { count: 'exact', head: true })
             .eq('estado', 'pendiente')
             .then(({ count }) => setPendingSolicitudes(count ?? 0))
+
+        supabase
+            .from('pedidos')
+            .select('id', { count: 'exact', head: true })
+            .eq('estado', 'pendiente_fecha')
+            .then(({ count }) => setPendingFechas(count ?? 0))
+    }
+
+    useEffect(() => {
+        fetchPedidos()
+        supabase.from('sucursales').select('*').then(({ data }) => setSucursales((data as Sucursal[]) ?? []))
+        fetchPendingCounts()
+
+        // Realtime: update badge counts when pedidos change
+        const channel = supabase
+            .channel('dashboard-pending-counts')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'pedidos' }, () => {
+                fetchPendingCounts()
+                fetchPedidos()
+            })
+            .subscribe()
+        return () => { supabase.removeChannel(channel) }
     }, [])
 
     // ── Stats ──────────────────────────────────────────────────────────
@@ -117,6 +139,21 @@ export function Dashboard() {
                         Pedidos
                     </button>
                     <button
+                        onClick={() => setActiveView('fechas')}
+                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'fechas'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                            : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                            }`}
+                    >
+                        <CalendarDays size={15} />
+                        Fechas Pendientes
+                        {pendingFechas > 0 && (
+                            <span className="bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                {pendingFechas}
+                            </span>
+                        )}
+                    </button>
+                    <button
                         onClick={() => setActiveView('solicitudes')}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'solicitudes'
                             ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
@@ -133,6 +170,13 @@ export function Dashboard() {
                     </button>
                 </div>
             </div>
+
+            {/* Fechas Pendientes view */}
+            {activeView === 'fechas' && (
+                <div className="px-6">
+                    <SolicitudesFechasPanel />
+                </div>
+            )}
 
             {/* Solicitudes view */}
             {activeView === 'solicitudes' && (

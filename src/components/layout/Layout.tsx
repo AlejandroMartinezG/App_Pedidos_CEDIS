@@ -19,7 +19,7 @@ export function Layout() {
 
             {/* Main Content Area */}
             <div className={`flex-1 flex flex-col min-h-screen w-full transition-all duration-300 ${isCollapsed ? 'md:ml-20' : 'md:ml-64'} pb-16 md:pb-0`}>
-                <main className="flex-1 w-full max-w-full overflow-x-hidden">
+                <main className="flex-1 w-full max-w-full overflow-x-clip">
                     <Outlet />
                 </main>
             </div>

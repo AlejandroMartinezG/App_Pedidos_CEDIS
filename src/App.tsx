@@ -9,6 +9,7 @@ import { NuevoPedido } from '@/pages/NuevoPedido'
 import { MisPedidos } from '@/pages/MisPedidos'
 import { FormatoImprimible } from '@/pages/FormatoImprimible'
 import { CatalogoMateriales } from '@/pages/CatalogoMateriales'
+import { SeleccionarFecha } from '@/pages/SeleccionarFecha'
 import { useAuth } from '@/context/AuthContext'
 
 function RootRedirect() {
@@ -47,7 +48,7 @@ export function App() {
 
                                 {/* Sucursal routes */}
                                 <Route element={<ProtectedRoute allowedRoles={['sucursal']} />}>
-                                    <Route path="/nuevo-pedido" element={<NuevoPedido />} />
+                                    <Route path="/seleccionar-fecha" element={<SeleccionarFecha />} />
                                     <Route path="/mis-pedidos" element={<MisPedidos />} />
                                 </Route>
 

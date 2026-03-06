@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Eye, Trash2, Printer, PlusCircle } from 'lucide-react'
+import { FileText, Eye, Trash2, Printer, PlusCircle, CheckCircle2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
@@ -29,7 +29,21 @@ export function MisPedidos() {
             })
     }
 
-    useEffect(() => { fetchPedidos() }, [user?.sucursal_id]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if (!user?.sucursal_id) return
+        fetchPedidos()
+        // Realtime: refresh list when admin approves/changes a pedido
+        const channel = supabase
+            .channel('mis-pedidos-' + user.sucursal_id)
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'pedidos',
+                filter: `sucursal_id=eq.${user.sucursal_id}`
+            }, () => fetchPedidos())
+            .subscribe()
+        return () => { supabase.removeChannel(channel) }
+    }, [user?.sucursal_id]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleDelete = async (pedidoId: string) => {
         setDeleting(true)
@@ -58,7 +72,7 @@ export function MisPedidos() {
                 subtitle="Historial de pedidos de tu sucursal"
                 actions={
                     <Link
-                        to="/nuevo-pedido"
+                        to="/seleccionar-fecha"
                         className="flex items-center gap-2 px-4 py-2 bg-[#2B5EA7] text-white text-sm font-semibold rounded-lg hover:bg-[#1E3A6E] transition-colors shadow-sm"
                     >
                         <PlusCircle size={16} />
@@ -69,6 +83,15 @@ export function MisPedidos() {
             />
 
             <div className="p-6">
+                {/* Banner: fecha aprobada, pedido sin llenar */}
+                {pedidos.some(p => p.estado === 'borrador' && p.total_kilos === 0) && (
+                    <div className="mb-4 flex items-start gap-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-300 rounded-xl px-4 py-3 text-sm">
+                        <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>
+                            <strong>¡Tu fecha fue aprobada!</strong> Tienes pedidos en borrador listos para capturar. Haz clic en <strong>Editar</strong> para ingresar los materiales.
+                        </span>
+                    </div>
+                )}
                 {loading ? (
                     <div className="flex justify-center py-16">
                         <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
@@ -77,7 +100,7 @@ export function MisPedidos() {
                     <div className="flex flex-col items-center py-20 text-gray-400">
                         <FileText size={40} className="mb-3 opacity-30" />
                         <p className="text-sm">No tienes pedidos aún</p>
-                        <Link to="/nuevo-pedido" className="mt-4 text-[#2B5EA7] text-sm font-semibold hover:underline">
+                        <Link to="/seleccionar-fecha" className="mt-4 text-[#2B5EA7] text-sm font-semibold hover:underline">
                             Crear primer pedido
                         </Link>
                     </div>
@@ -132,8 +155,8 @@ export function MisPedidos() {
                                                 </Link>
 
 
-                                                {/* Eliminar solo borradores */}
-                                                {p.estado === 'borrador' && (
+                                                {/* Eliminar borradores y pendientes */}
+                                                {(p.estado === 'borrador' || p.estado === 'pendiente_fecha') && (
                                                     confirmDelete === p.id ? (
                                                         <div className="flex items-center gap-1">
                                                             <button

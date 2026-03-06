@@ -37,7 +37,9 @@ export function NuevoPedido() {
     }, [materiales]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const isAdmin = user?.rol === 'admin'
+    const isPendiente = pedido?.estado === 'pendiente_fecha'
     const isReadonly = !isAdmin && pedido != null && pedido.estado !== 'borrador'
+    const isDateReadonly = !isAdmin && pedido != null
     const overLimit = totalKilos >= 11_500
 
     const codigoPedidoStr = pedido?.codigo_pedido || (fechaEntrega && user?.sucursal
@@ -129,15 +131,23 @@ export function NuevoPedido() {
                     tipoEntrega={tipoEntrega}
                     onTipoEntregaChange={setTipoEntrega}
                     codigoPedido={codigoPedidoStr}
-                    readonly={isReadonly}
+                    readonly={isDateReadonly}
                     sucursalNombre={pedido?.sucursal?.nombre}
                 />
 
                 {/* Warning overlay for submitted orders */}
-                {isReadonly && (
+                {isReadonly && !isPendiente && (
                     <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 text-blue-700 dark:text-blue-300 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm transition-colors">
                         <AlertTriangle size={16} className="shrink-0" />
                         Este pedido ya fue enviado. No puedes modificarlo.
+                    </div>
+                )}
+
+                {/* Warning overlay for pending date approval */}
+                {isPendiente && (
+                    <div className="mb-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-900/50 text-orange-700 dark:text-orange-300 rounded-xl px-4 py-3 text-sm flex items-center gap-2 shadow-sm transition-colors">
+                        <AlertTriangle size={16} className="shrink-0" />
+                        La fecha solicitada está pendiente de aprobación por el CEDIS. Aún no puedes capturar materiales.
                     </div>
                 )}
 

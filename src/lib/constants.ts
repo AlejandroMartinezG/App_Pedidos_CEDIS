@@ -47,6 +47,7 @@ export const CATEGORIA_MAP = Object.fromEntries(
 // Order status
 // ─────────────────────────────────────────────
 export const ESTADO_LABELS: Record<string, string> = {
+    pendiente_fecha: 'Pendiente de fecha',
     borrador: 'Borrador',
     enviado: 'Enviado',
     aprobado: 'Aprobado',
@@ -54,6 +55,7 @@ export const ESTADO_LABELS: Record<string, string> = {
 }
 
 export const ESTADO_COLORS: Record<string, string> = {
+    pendiente_fecha: 'bg-orange-50 text-orange-700 border-orange-300',
     borrador: 'bg-gray-100 text-gray-700 border-gray-300',
     enviado: 'bg-amber-50 text-amber-700 border-amber-300',
     aprobado: 'bg-emerald-50 text-emerald-700 border-emerald-300',

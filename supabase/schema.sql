@@ -9,7 +9,7 @@ CREATE TYPE categoria_enum AS ENUM (
   'materia_prima', 'esencia', 'varios', 'envase_vacio', 'color'
 );
 CREATE TYPE rol_enum AS ENUM ('admin', 'sucursal');
-CREATE TYPE estado_pedido AS ENUM ('borrador', 'enviado', 'aprobado', 'impreso');
+CREATE TYPE estado_pedido AS ENUM ('pendiente_fecha', 'borrador', 'enviado', 'aprobado', 'impreso');
 
 -- ─────────────────────────────────────────────
 -- 2. TABLES
@@ -100,6 +100,20 @@ RETURNS boolean LANGUAGE sql SECURITY DEFINER AS $$
   FROM pedidos WHERE id = p_pedido_id;
 $$;
 
+CREATE OR REPLACE FUNCTION get_fechas_ocupadas(p_start_date date, p_end_date date)
+RETURNS TABLE (fecha_entrega date, total_kilos numeric, count_pedidos bigint)
+LANGUAGE sql
+SECURITY DEFINER
+AS $$
+  SELECT 
+    fecha_entrega,
+    SUM(total_kilos) as total_kilos,
+    COUNT(*) as count_pedidos
+  FROM pedidos
+  WHERE fecha_entrega >= p_start_date AND fecha_entrega <= p_end_date
+  GROUP BY fecha_entrega;
+$$;
+
 -- ─────────────────────────────────────────────
 -- 6. ROW LEVEL SECURITY
 -- ─────────────────────────────────────────────
@@ -130,7 +144,7 @@ CREATE POLICY "pedidos_insert" ON pedidos FOR INSERT WITH CHECK (
   sucursal_id = (SELECT sucursal_id FROM users WHERE id = auth.uid())
 );
 CREATE POLICY "pedidos_update_sucursal" ON pedidos FOR UPDATE USING (
-  estado = 'borrador'
+  estado IN ('borrador', 'pendiente_fecha')
   AND sucursal_id = (SELECT sucursal_id FROM users WHERE id = auth.uid())
 ) WITH CHECK (
   sucursal_id = (SELECT sucursal_id FROM users WHERE id = auth.uid())
@@ -139,7 +153,7 @@ CREATE POLICY "pedidos_update_admin" ON pedidos FOR UPDATE USING (
   EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND rol = 'admin')
 );
 CREATE POLICY "pedidos_delete_sucursal" ON pedidos FOR DELETE USING (
-  estado = 'borrador'
+  estado IN ('borrador', 'pendiente_fecha')
   AND sucursal_id = (SELECT sucursal_id FROM users WHERE id = auth.uid())
 );
 
