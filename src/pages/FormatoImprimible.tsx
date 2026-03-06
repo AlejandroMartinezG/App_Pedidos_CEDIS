@@ -427,7 +427,7 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                     {rows.map(r => (
                         <tr key={r.id} style={{ borderBottom: '1px solid #D1D5DB', height: '28px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                             <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
-                            <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_kilos ?? '—'}</td>
+                            <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_kilos != null ? Number(r.cantidad_kilos.toFixed(2)) : '—'}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
                             <td className="py-1 px-3">
                                 <div className="border-b border-gray-400 w-full h-full pt-3"></div>
