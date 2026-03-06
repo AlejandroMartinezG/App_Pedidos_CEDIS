@@ -138,26 +138,26 @@ export function Dashboard() {
                     {/* Stats Cards */}
                     <div className="grid grid-cols-4 gap-4">
                         <StatCard
-                            icon={<Package size={18} />}
+                            icon={<Package size={28} />}
                             label="Pedidos Hoy"
                             value={pedidosHoy}
                             sub="Con fecha de entrega hoy"
                             dark
                         />
                         <StatCard
-                            icon={<Clock size={18} />}
+                            icon={<Clock size={28} />}
                             label="Total Enviados"
                             value={totalEnviados}
                             sub="Esperando revisión"
                         />
                         <StatCard
-                            icon={<CheckCircle size={18} />}
+                            icon={<CheckCircle size={28} />}
                             label="Aprobados"
                             value={totalAprobados}
                             sub="Listos para imprimir"
                         />
                         <StatCard
-                            icon={<TrendingUp size={18} />}
+                            icon={<TrendingUp size={28} />}
                             label="Toneladas Totales"
                             value={`${toneladasSemana.toFixed(1)}`}
                             sub="Esta semana"
@@ -321,15 +321,15 @@ function StatCard({ icon, label, value, sub, dark = false }: {
     dark?: boolean
 }) {
     return (
-        <div className={`rounded-xl p-5 border transition-colors ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E]' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
-            <div className={`flex items-center gap-2 mb-2 ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-500'}`}>
+        <div className={`rounded-2xl p-6 border shadow-sm transition-transform hover:-translate-y-1 ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E] shadow-blue-900/20' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
+            <div className={`flex items-center gap-2.5 mb-3 ${dark ? 'text-blue-200' : 'text-gray-500 dark:text-slate-400'}`}>
                 {icon}
-                <span className="text-xs font-medium uppercase tracking-wide">{label}</span>
+                <span className="text-sm font-bold uppercase tracking-wide">{label}</span>
             </div>
-            <p className={`text-3xl font-extrabold font-mono leading-none mb-1 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
+            <p className={`text-5xl font-extrabold font-mono leading-none mb-2 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
                 {value}
             </p>
-            <p className={`text-xs ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-400'}`}>{sub}</p>
+            <p className={`text-sm font-medium ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-400'}`}>{sub}</p>
         </div>
     )
 }
