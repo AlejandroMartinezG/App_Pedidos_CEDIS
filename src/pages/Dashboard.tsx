@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
 import { SolicitudesPanel } from '@/components/admin/SolicitudesPanel'
-import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil } from 'lucide-react'
+import { CalendarView } from '@/components/admin/CalendarView'
+import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List } from 'lucide-react'
 import { ESTADO_LABELS, ESTADO_COLORS } from '@/lib/constants'
 import type { Pedido, Sucursal, EstadoPedido } from '@/lib/types'
 import { format, parseISO, startOfWeek, endOfToday, startOfToday } from 'date-fns'
@@ -35,6 +36,7 @@ export function Dashboard() {
         searchParams.get('tab') === 'solicitudes' ? 'solicitudes' : 'pedidos'
     )
     const [pendingSolicitudes, setPendingSolicitudes] = useState(0)
+    const [layout, setLayout] = useState<'lista' | 'calendario'>('lista')
 
     // Sync URL param changes (e.g. when sidebar button is clicked while on dashboard)
     useEffect(() => {
@@ -164,117 +166,147 @@ export function Dashboard() {
                         />
                     </div>
 
-                    {/* Filters */}
-                    <div className="flex items-center gap-3 bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-4 py-3 transition-colors">
-                        <span className="text-xs text-gray-400 dark:text-slate-500 font-medium flex items-center gap-1">
-                            <ChevronDown size={13} /> Filtros:
-                        </span>
-                        <select
-                            value={filterSucursal}
-                            onChange={e => setFilterSucursal(e.target.value)}
-                            className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
-                        >
-                            <option value="all">Todas las sucursales</option>
-                            {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
-                        </select>
-                        <select
-                            value={filterEstado}
-                            onChange={e => setFilterEstado(e.target.value)}
-                            className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
-                        >
-                            {ESTADOS.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
-                        </select>
+                    {/* Filters & View Toggle */}
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-4 py-3 transition-colors">
+                        <div className="flex items-center gap-3">
+                            <span className="text-xs text-gray-400 dark:text-slate-500 font-medium flex items-center gap-1">
+                                <ChevronDown size={13} /> Filtros:
+                            </span>
+                            <select
+                                value={filterSucursal}
+                                onChange={e => setFilterSucursal(e.target.value)}
+                                className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
+                            >
+                                <option value="all">Todas las sucursales</option>
+                                {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+                            </select>
+                            <select
+                                value={filterEstado}
+                                onChange={e => setFilterEstado(e.target.value)}
+                                className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
+                            >
+                                {ESTADOS.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
+                            </select>
+                        </div>
+
+                        {/* View Toggle */}
+                        <div className="flex items-center bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700">
+                            <button
+                                onClick={() => setLayout('lista')}
+                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'lista'
+                                        ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
+                                        : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                    }`}
+                            >
+                                <List size={14} /> Lista
+                            </button>
+                            <button
+                                onClick={() => setLayout('calendario')}
+                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'calendario'
+                                        ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
+                                        : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                    }`}
+                            >
+                                <CalendarDays size={14} /> Calendario
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Orders Table */}
-                    <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-x-auto transition-colors">
-                        {loading ? (
-                            <div className="flex justify-center py-16">
-                                <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
-                            </div>
-                        ) : (
-                            <table className="w-full text-xs min-w-[800px]">
-                                <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left"># Pedido</th>
-                                        <th className="px-4 py-3 text-left">Sucursal</th>
-                                        <th className="px-4 py-3 text-left">F. Entrega</th>
-                                        <th className="px-4 py-3 text-left">Tipo Entrega</th>
-                                        <th className="px-4 py-3 text-right">Total kg</th>
-                                        <th className="px-4 py-3 text-center">Estatus</th>
-                                        <th className="px-4 py-3 text-left">Enviado</th>
-                                        <th className="px-4 py-3 text-center">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
-                                    {filtered.map(p => (
-                                        <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
-                                            <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
-                                            <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
-                                            <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
-                                            </td>
-                                            <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                {p.tipo_entrega ?? '—'}
-                                            </td>
-                                            <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
-                                                {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
-                                            </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ESTADO_COLORS[p.estado]}`}>
-                                                    ● {ESTADO_LABELS[p.estado]}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-gray-400">
-                                                {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy', { locale: es }) : '—'}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <div className="flex items-center justify-center gap-1">
-                                                    <button
-                                                        onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
-                                                        className="p-1.5 text-gray-400 hover:text-[#2B5EA7] rounded-lg hover:bg-blue-50 transition-colors"
-                                                        title="Ver formato imprimible"
-                                                    >
-                                                        <Eye size={14} />
-                                                    </button>
-                                                    <Link
-                                                        to={`/nuevo-pedido/${p.id}`}
-                                                        className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
-                                                        title="Editar pedido"
-                                                    >
-                                                        <Pencil size={14} />
-                                                    </Link>
-                                                    {p.estado === 'enviado' && (
-                                                        <button
-                                                            onClick={() => cambiarEstado(p.id, 'aprobado')}
-                                                            className="px-2.5 py-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors font-medium"
-                                                        >
-                                                            Aprobar
-                                                        </button>
-                                                    )}
-                                                    {p.estado === 'aprobado' && (
-                                                        <button
-                                                            onClick={() => cambiarEstado(p.id, 'impreso')}
-                                                            className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
-                                                        >
-                                                            <Printer size={11} /> Imprimir
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {filtered.length === 0 && (
+                    {/* Layout Content */}
+                    {layout === 'calendario' ? (
+                        <div className="animate-fade-in">
+                            <CalendarView pedidos={filtered} />
+                        </div>
+                    ) : (
+                        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-x-auto transition-colors animate-fade-in">
+                            {loading ? (
+                                <div className="flex justify-center py-16">
+                                    <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
+                                </div>
+                            ) : (
+                                <table className="w-full text-xs min-w-[800px]">
+                                    <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide">
                                         <tr>
-                                            <td colSpan={8} className="py-12 text-center text-gray-400 text-sm">
-                                                No hay pedidos con los filtros seleccionados
-                                            </td>
+                                            <th className="px-4 py-3 text-left"># Pedido</th>
+                                            <th className="px-4 py-3 text-left">Sucursal</th>
+                                            <th className="px-4 py-3 text-left">F. Entrega</th>
+                                            <th className="px-4 py-3 text-left">Tipo Entrega</th>
+                                            <th className="px-4 py-3 text-right">Total kg</th>
+                                            <th className="px-4 py-3 text-center">Estatus</th>
+                                            <th className="px-4 py-3 text-left">Enviado</th>
+                                            <th className="px-4 py-3 text-center">Acciones</th>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        )}
-                    </div>
+                                    </thead>
+                                    <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
+                                        {filtered.map(p => (
+                                            <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
+                                                <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
+                                                <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
+                                                <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
+                                                    {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
+                                                </td>
+                                                <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
+                                                    {p.tipo_entrega ?? '—'}
+                                                </td>
+                                                <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
+                                                    {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ESTADO_COLORS[p.estado]}`}>
+                                                        ● {ESTADO_LABELS[p.estado]}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-gray-400">
+                                                    {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy', { locale: es }) : '—'}
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <button
+                                                            onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
+                                                            className="p-1.5 text-gray-400 hover:text-[#2B5EA7] rounded-lg hover:bg-blue-50 transition-colors"
+                                                            title="Ver formato imprimible"
+                                                        >
+                                                            <Eye size={14} />
+                                                        </button>
+                                                        <Link
+                                                            to={`/nuevo-pedido/${p.id}`}
+                                                            className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
+                                                            title="Editar pedido"
+                                                        >
+                                                            <Pencil size={14} />
+                                                        </Link>
+                                                        {p.estado === 'enviado' && (
+                                                            <button
+                                                                onClick={() => cambiarEstado(p.id, 'aprobado')}
+                                                                className="px-2.5 py-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors font-medium"
+                                                            >
+                                                                Aprobar
+                                                            </button>
+                                                        )}
+                                                        {p.estado === 'aprobado' && (
+                                                            <button
+                                                                onClick={() => cambiarEstado(p.id, 'impreso')}
+                                                                className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
+                                                            >
+                                                                <Printer size={11} /> Imprimir
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        {filtered.length === 0 && (
+                                            <tr>
+                                                <td colSpan={8} className="py-12 text-center text-gray-400 text-sm">
+                                                    No hay pedidos con los filtros seleccionados
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                    )}
 
                     {/* Printable preview inline */}
                     {selectedPedido && (
