@@ -270,12 +270,6 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
                                     </span>
                                 </div>
                             </div>
-                            {modalPedido.observaciones && (
-                                <div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-800/30">
-                                    <p className="text-[10px] text-amber-600 font-bold uppercase tracking-widest mb-1.5">Observaciones de Entrega</p>
-                                    <p className="text-sm text-amber-800 dark:text-amber-200/90 leading-relaxed font-medium">{modalPedido.observaciones}</p>
-                                </div>
-                            )}
                         </div>
                         <div className="p-6 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-end gap-3">
                             <button onClick={() => setModalPedido(null)} className="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-200 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors">
