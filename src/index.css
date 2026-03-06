@@ -2,28 +2,56 @@
 @variant dark (&:where(.dark, .dark *));
 
 /* ─────────────────────────────────────────────
-   Google Fonts already loaded via index.html
+   Custom Corporate Fonts (Avenir)
    ───────────────────────────────────────────── */
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/AvenirNextLTPro-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/AvenirLTStd-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/AvenirLTStd-HeavyOblique.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@theme {
+  --font-sans: 'Avenir', 'Inter', system-ui, sans-serif;
+}
 
 :root {
   --color-primary-dark: #1E3A6E;
-  --color-primary-mid:  #2B5EA7;
-  --color-accent:       #D4A01E;
-  --color-bg:           #F4F6FA;
-  --color-border:       #E2E5EB;
-  --color-danger:       #DC2626;
-  --color-success:      #1B8553;
+  --color-primary-mid: #2B5EA7;
+  --color-accent: #D4A01E;
+  --color-bg: #F4F6FA;
+  --color-border: #E2E5EB;
+  --color-danger: #DC2626;
+  --color-success: #1B8553;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Avenir', system-ui, sans-serif;
   background-color: var(--color-bg);
   color: #1a1a2e;
   -webkit-font-smoothing: antialiased;
@@ -35,34 +63,75 @@ html, body, #root {
 }
 
 /* Subtle scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 
-/* Number input: hide arrows */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
-input[type="number"] { -moz-appearance: textfield; }
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
 
 /* Animations */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.animate-fade-in { animation: fade-in 0.25s ease-out both; }
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out both;
+}
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-.animate-spin { animation: spin 0.8s linear infinite; }
+
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+}
 
 /* Print overrides */
 @media print {
-  @page { size: A4 landscape; margin: 8mm; }
-  body  { background: white !important; }
-  .print\:hidden { display: none !important; }
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
 }
