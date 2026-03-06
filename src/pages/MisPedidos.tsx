@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Eye, Trash2, Printer } from 'lucide-react'
+import { FileText, Eye, Trash2, Printer, PlusCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
@@ -53,7 +53,20 @@ export function MisPedidos() {
 
     return (
         <div>
-            <Topbar title="Mis Pedidos" subtitle="Historial de pedidos de tu sucursal" />
+            <Topbar
+                title="Mis Pedidos"
+                subtitle="Historial de pedidos de tu sucursal"
+                actions={
+                    <Link
+                        to="/nuevo-pedido"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#2B5EA7] text-white text-sm font-semibold rounded-lg hover:bg-[#1E3A6E] transition-colors shadow-sm"
+                    >
+                        <PlusCircle size={16} />
+                        <span className="hidden sm:inline">Nuevo Pedido</span>
+                        <span className="sm:hidden">Nuevo</span>
+                    </Link>
+                }
+            />
 
             <div className="p-6">
                 {loading ? (

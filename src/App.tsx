@@ -17,7 +17,7 @@ function RootRedirect() {
     if (!user) return <Navigate to="/login" replace />
     return user.rol === 'admin'
         ? <Navigate to="/dashboard" replace />
-        : <Navigate to="/nuevo-pedido" replace />
+        : <Navigate to="/mis-pedidos" replace />
 }
 
 export function App() {
