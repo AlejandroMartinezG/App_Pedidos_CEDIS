@@ -8,7 +8,7 @@ import { CalendarView } from '@/components/admin/CalendarView'
 import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List } from 'lucide-react'
 import { ESTADO_LABELS, ESTADO_COLORS } from '@/lib/constants'
 import type { Pedido, Sucursal, EstadoPedido } from '@/lib/types'
-import { format, parseISO, startOfWeek, endOfToday, startOfToday } from 'date-fns'
+import { format, parseISO, startOfWeek, endOfWeek, endOfToday, startOfToday } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 interface PedidoRow extends Pedido {
@@ -67,6 +67,7 @@ export function Dashboard() {
     // ── Stats ──────────────────────────────────────────────────────────
     const today = format(startOfToday(), 'yyyy-MM-dd')
     const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 })
+    const weekEnd = endOfWeek(new Date(), { weekStartsOn: 1 })
 
     const pedidosHoy = pedidos.filter(p => p.fecha_entrega === today).length
     const totalEnviados = pedidos.filter(p => p.estado === 'enviado').length
@@ -74,7 +75,7 @@ export function Dashboard() {
     const toneladasSemana = pedidos
         .filter(p => {
             const d = parseISO(p.fecha_entrega)
-            return d >= weekStart && d <= endOfToday() && ['enviado', 'aprobado', 'impreso'].includes(p.estado)
+            return d >= weekStart && d <= weekEnd && ['enviado', 'aprobado', 'impreso'].includes(p.estado)
         })
         .reduce((sum, p) => sum + (p.total_kilos ?? 0), 0) / 1000
 
@@ -194,8 +195,8 @@ export function Dashboard() {
                             <button
                                 onClick={() => setLayout('lista')}
                                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'lista'
-                                        ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
-                                        : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
+                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                                     }`}
                             >
                                 <List size={14} /> Lista
@@ -203,8 +204,8 @@ export function Dashboard() {
                             <button
                                 onClick={() => setLayout('calendario')}
                                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'calendario'
-                                        ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
-                                        : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
+                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                                     }`}
                             >
                                 <CalendarDays size={14} /> Calendario
