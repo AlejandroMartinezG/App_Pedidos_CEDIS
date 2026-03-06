@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, cloneElement, isValidElement } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
@@ -147,43 +147,44 @@ export function Dashboard() {
                     {/* Stats Cards */}
                     <div className="grid grid-cols-4 gap-4 mt-4">
                         <StatCard
-                            icon={<Package size={32} strokeWidth={2.5} />}
+                            icon={<Package size={28} strokeWidth={2} />}
                             label="Pedidos Hoy"
                             value={pedidosHoy}
                             sub="Con fecha de entrega hoy"
                             dark
                         />
                         <StatCard
-                            icon={<Clock size={32} strokeWidth={2.5} />}
+                            icon={<Clock size={28} strokeWidth={2} />}
                             label="Total Enviados"
                             value={totalEnviados}
                             sub="Esperando revisión"
                         />
                         <StatCard
-                            icon={<CheckCircle size={32} strokeWidth={2.5} />}
+                            icon={<CheckCircle size={28} strokeWidth={2} />}
                             label="Aprobados"
                             value={totalAprobados}
                             sub="Listos para imprimir"
                         />
                         <StatCard
-                            icon={<TrendingUp size={32} strokeWidth={2.5} />}
+                            icon={<TrendingUp size={28} strokeWidth={2} />}
                             label="Toneladas Totales"
-                            value={`${toneladasSemana.toFixed(1)}`}
+                            value={toneladasSemana.toFixed(1)}
+                            unit="t"
                             sub={
-                                <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-[#F4F6FA] dark:border-slate-800">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                            <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">Entregas HINO</span>
+                                <div className="flex flex-col gap-1.5 mt-2">
+                                    <div className="flex items-center justify-between text-[11px] font-bold border-t border-gray-100 dark:border-slate-800 pt-2">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="w-1 h-1 rounded-full bg-blue-500" />
+                                            <span className="text-gray-400 dark:text-slate-500">HINO</span>
                                         </div>
-                                        <span className="text-sm font-bold text-[#1E3A6E] dark:text-blue-300">{toneladasHino.toFixed(1)} <span className="text-[10px] ml-0.5">t</span></span>
+                                        <span className="text-gray-700 dark:text-slate-200">{toneladasHino.toFixed(1)} t</span>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                                            <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">Recolecciones</span>
+                                    <div className="flex items-center justify-between text-[11px] font-bold">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="w-1 h-1 rounded-full bg-amber-500" />
+                                            <span className="text-gray-400 dark:text-slate-500">CEDIS</span>
                                         </div>
-                                        <span className="text-sm font-bold text-[#1E3A6E] dark:text-amber-500">{toneladasCEDIS.toFixed(1)} <span className="text-[10px] ml-0.5">t</span></span>
+                                        <span className="text-gray-700 dark:text-slate-200">{toneladasCEDIS.toFixed(1)} t</span>
                                     </div>
                                 </div>
                             }
@@ -369,25 +370,61 @@ export function Dashboard() {
     )
 }
 
-function StatCard({ icon, label, value, sub, dark = false }: {
+function StatCard({ icon, label, value, sub, unit, dark = false }: {
     icon: React.ReactNode
     label: string
     value: string | number
     sub: React.ReactNode
+    unit?: string
     dark?: boolean
 }) {
     return (
-        <div className={`relative rounded-2xl p-6 border shadow-sm transition-transform hover:-translate-y-1 ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E] shadow-blue-900/20' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
-            <div className={`absolute -top-5 -right-3 w-16 h-16 flex items-center justify-center rounded-2xl shadow-lg transform -rotate-6 transition-all duration-300 hover:scale-110 hover:rotate-0 ${dark ? 'bg-gradient-to-br from-blue-400 to-blue-600 text-white border-4 border-white' : 'bg-gradient-to-br from-amber-400 to-amber-600 text-white border-4 border-white'}`}>
-                {icon}
+        <div className={`relative overflow-hidden rounded-3xl p-6 border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 group ${dark
+            ? 'bg-[#1E3A6E] text-white border-[#1E3A6E]'
+            : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'
+            }`}>
+            {/* Massive Background Icon (Visual Anchor) */}
+            <div className={`absolute -bottom-8 -right-8 opacity-[0.06] transform transition-transform duration-700 group-hover:scale-125 group-hover:rotate-12 ${dark ? 'text-white' : 'text-[#1E3A6E]'}`}>
+                <div className="scale-[5] origin-center">
+                    {icon}
+                </div>
             </div>
-            <div className={`flex items-center gap-2.5 mb-3 mt-1 ${dark ? 'text-blue-200' : 'text-gray-500 dark:text-slate-400'}`}>
-                <span className="text-sm font-bold uppercase tracking-wide">{label}</span>
+
+            {/* Header with Icon and Label */}
+            <div className="relative z-10 flex items-center gap-2.5 mb-2">
+                <div className={`p-2 rounded-xl border-2 transition-transform duration-300 group-hover:rotate-6 ${dark
+                    ? 'bg-blue-400/20 text-blue-300 border-blue-400/30'
+                    : 'bg-blue-50 dark:bg-blue-900/30 text-[#2B5EA7] border-[#2B5EA7]/20 dark:border-blue-400/20'
+                    }`}>
+                    <div className="scale-[0.65]">
+                        {icon}
+                    </div>
+                </div>
+                <span className={`text-[11px] font-black uppercase tracking-[0.1em] ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-500'}`}>
+                    {label}
+                </span>
             </div>
-            <p className={`text-6xl font-extrabold font-mono leading-none mb-2 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
-                {value}
-            </p>
-            <p className={`text-sm font-medium ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-400'}`}>{sub}</p>
+
+            {/* Main Value */}
+            <div className="relative z-10 flex items-baseline gap-2 mb-1">
+                <p className={`text-6xl font-[900] tracking-tighter leading-none ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-50'}`}>
+                    {value}
+                </p>
+                {unit && (
+                    <span className={`text-xl font-black opacity-60 ${dark ? 'text-blue-100' : 'text-[#1E3A6E] dark:text-slate-300'}`}>
+                        {unit}
+                    </span>
+                )}
+            </div>
+
+            {/* Subtext or Breakdown */}
+            <div className="relative z-10">
+                {typeof sub === 'string' ? (
+                    <p className={`text-xs font-bold ${dark ? 'text-blue-300/80' : 'text-gray-400 dark:text-slate-500'}`}>
+                        {sub}
+                    </p>
+                ) : sub}
+            </div>
         </div>
     )
 }
