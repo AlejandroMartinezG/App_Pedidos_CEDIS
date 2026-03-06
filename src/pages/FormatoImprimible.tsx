@@ -294,18 +294,15 @@ export function FormatoImprimible() {
 
             {/* Printable document */}
             <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 dark:bg-slate-950 print:bg-white transition-colors">
-                <div ref={printRef} className="print:w-full flex flex-col">
+                <div ref={printRef} className="print:w-full flex flex-col w-[8.5in] max-w-full print:block">
                     {bloquesParaImprimir.map((bloque, index) => (
                         <div
                             key={bloque.blockKey}
-                            className="bg-white print:w-full print:shadow-none shadow-sm mb-4 print:mb-0"
+                            className={`bg-white shadow-sm mb-4 print:shadow-none print:mb-0 print-section relative ${index < bloquesParaImprimir.length - 1 ? 'print:break-after-page' : ''}`}
                             style={{
-                                width: '210mm',
-                                minHeight: '297mm',
+                                minHeight: '11in',
                                 fontFamily: 'Inter, sans-serif',
                                 fontSize: '11px',
-                                pageBreakAfter: index === bloquesParaImprimir.length - 1 ? 'auto' : 'always',
-                                breakAfter: index === bloquesParaImprimir.length - 1 ? 'auto' : 'page',
                             }}
                         >
                             {/* Header (repite por hoja) */}
@@ -377,11 +374,32 @@ export function FormatoImprimible() {
 
             <style>{`
         @media print {
-          @page { size: A4 portrait; margin: 10mm; }
-          body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+          @page { 
+            size: letter portrait; 
+            margin: 12mm 10mm; 
+          }
+          body { 
+            print-color-adjust: exact; 
+            -webkit-print-color-adjust: exact; 
+            counter-reset: page;
+          }
+          .print-section {
+            min-height: auto !important; /* Allow natural breaking to next page */
+          }
           .print\\:hidden { display: none !important; }
           .print\\:p-0 { padding: 0 !important; }
-          .print\\:w-full { width: 100% !important; }
+          
+          /* Prevent rows from being cut in half */
+          table { page-break-inside: auto; }
+          tr { page-break-inside: avoid; break-inside: avoid; }
+          thead { display: table-header-group; }
+          tfoot { display: table-footer-group; }
+
+          /* Adding custom page numbers using CSS if the browser supports it */
+          .page-number:after {
+             counter-increment: page;
+             content: "Página " counter(page);
+          }
         }
       `}</style>
         </div>
@@ -392,8 +410,8 @@ export function FormatoImprimible() {
 function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase' }) {
     if (type === 'standard') {
         return (
-            <table className="w-full" style={{ borderCollapse: 'collapse', fontSize: '10px' }}>
-                <thead>
+            <table className="w-full" style={{ borderCollapse: 'collapse', fontSize: '10px', pageBreakInside: 'auto' }}>
+                <thead style={{ display: 'table-header-group' }}>
                     <tr style={{ borderBottom: '2px solid #E2E5EB' }}>
                         <th className="text-left pb-1 font-semibold text-gray-500" style={{ width: '35%' }}>MATERIAL</th>
                         <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '10%' }}>CANT. KG</th>
@@ -404,7 +422,7 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                 </thead>
                 <tbody>
                     {rows.map(r => (
-                        <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '28px' }}>
+                        <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '28px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                             <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_kilos ?? '—'}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
@@ -422,8 +440,8 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
     }
 
     return (
-        <table className="w-full" style={{ borderCollapse: 'collapse', fontSize: '10px' }}>
-            <thead>
+        <table className="w-full" style={{ borderCollapse: 'collapse', fontSize: '10px', pageBreakInside: 'auto' }}>
+            <thead style={{ display: 'table-header-group' }}>
                 <tr style={{ borderBottom: '2px solid #E2E5EB' }}>
                     <th className="text-left pb-1 font-semibold text-gray-500" style={{ width: '35%' }}>MATERIAL</th>
                     <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>PESO UNI</th>
@@ -434,7 +452,7 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
             </thead>
             <tbody>
                 {rows.map(r => (
-                    <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '24px' }}>
+                    <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '24px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                         <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.material.peso_aproximado ?? '—'}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
