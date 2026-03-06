@@ -13,7 +13,7 @@ import {
     subMonths
 } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { ChevronLeft, ChevronRight, Eye } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, X } from 'lucide-react'
 import type { Pedido, Sucursal } from '@/lib/types'
 import { Link } from 'react-router-dom'
 
@@ -28,6 +28,7 @@ interface CalendarViewProps {
 export function CalendarView({ pedidos }: CalendarViewProps) {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [modalPedido, setModalPedido] = useState<PedidoRow | null>(null)
 
     const nextMonth = () => setCurrentDate(addMonths(currentDate, 1))
     const prevMonth = () => setCurrentDate(subMonths(currentDate, 1))
@@ -131,7 +132,14 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
 
                             <div className="flex flex-col gap-1 overflow-y-auto max-h-[120px] custom-scrollbar pb-1 pointer-events-auto">
                                 {dayPedidos.map((pedido) => (
-                                    <div key={pedido.id} className="text-[10px] font-medium flex flex-col bg-gray-50 dark:bg-slate-800/50 p-1.5 rounded-md border border-gray-100 dark:border-slate-700/50 shadow-sm leading-tight hover:border-gray-300 dark:hover:border-slate-600 transition-colors">
+                                    <div
+                                        key={pedido.id}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            setModalPedido(pedido)
+                                        }}
+                                        className="cursor-pointer text-[10px] font-medium flex flex-col bg-gray-50 dark:bg-slate-800/50 p-1.5 rounded-md border border-gray-100 dark:border-slate-700/50 shadow-sm leading-tight hover:border-blue-300 dark:hover:border-blue-600 hover:shadow transition-all group/item"
+                                    >
                                         <div className="flex justify-between items-center mb-0.5">
                                             <span className="font-bold text-[#1E3A6E] dark:text-blue-300 truncate max-w-[70%]">
                                                 {pedido.codigo_pedido.replace('ACT-', '')}
@@ -184,26 +192,28 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
                     {pedidosPorFecha[format(selectedDate, 'yyyy-MM-dd')]?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {pedidosPorFecha[format(selectedDate, 'yyyy-MM-dd')].map(pedido => (
-                                <div key={pedido.id} className="border border-[#E2E5EB] dark:border-slate-700 rounded-xl p-4 flex flex-col justify-between hover:border-blue-300 transition-colors bg-white dark:bg-slate-800">
+                                <div
+                                    key={pedido.id}
+                                    onClick={() => setModalPedido(pedido)}
+                                    className="cursor-pointer border border-[#E2E5EB] dark:border-slate-700 rounded-xl p-4 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all bg-white dark:bg-slate-800"
+                                >
                                     <div>
                                         <div className="flex justify-between items-start mb-2">
                                             <span className="font-mono font-bold text-[#2B5EA7]">{pedido.codigo_pedido}</span>
-                                            <span className="text-[10px] uppercase font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{pedido.estado}</span>
+                                            <span className="text-[10px] uppercase font-bold text-gray-500 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">{pedido.estado}</span>
                                         </div>
                                         <p className="font-bold text-gray-800 dark:text-slate-200 text-sm mb-1">{pedido.sucursal?.nombre || 'Sin sucursal'}</p>
                                         <div className="text-xs text-gray-500 flex gap-4 mt-2">
-                                            <p><span className="font-semibold text-gray-400">Entrega:</span> {pedido.tipo_entrega}</p>
-                                            <p><span className="font-semibold text-gray-400">Total:</span> {pedido.total_kilos.toLocaleString()} kg</p>
+                                            <p><span className="font-semibold text-gray-400">Entrega:</span> {pedido.tipo_entrega || '—'}</p>
+                                            <p><span className="font-semibold text-gray-400">Total:</span> {pedido.total_kilos?.toLocaleString()} kg</p>
                                         </div>
                                     </div>
                                     <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-700 flex justify-end">
-                                        <Link
-                                            to={`/imprimir/${pedido.id}`}
-                                            target="_blank"
-                                            className="text-xs flex items-center gap-1 font-semibold text-[#1E3A6E] hover:text-[#2B5EA7]"
+                                        <button
+                                            className="text-xs flex items-center gap-1 font-semibold text-[#1E3A6E] hover:text-[#2B5EA7] dark:text-blue-400 dark:hover:text-blue-300"
                                         >
-                                            <Eye size={12} /> Ver Detalle
-                                        </Link>
+                                            <Eye size={12} /> Ver Resumen
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -213,6 +223,73 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
                             No hay entregas programadas para este día
                         </div>
                     )}
+                </div>
+            )}
+
+            {/* Modal de Pedido */}
+            {modalPedido && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setModalPedido(null)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col border border-gray-200 dark:border-slate-800" onClick={e => e.stopPropagation()}>
+                        <div className="flex justify-between items-start p-6 border-b border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">
+                            <div>
+                                <h3 className="text-xl font-bold text-[#1E3A6E] dark:text-blue-300 font-mono tracking-tight">
+                                    {modalPedido.codigo_pedido}
+                                </h3>
+                                <p className="text-sm text-gray-500 dark:text-slate-400 font-medium mt-1">
+                                    {modalPedido.sucursal?.nombre || 'Sin sucursal asignada'}
+                                </p>
+                            </div>
+                            <button onClick={() => setModalPedido(null)} className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-slate-300 rounded-full hover:bg-white dark:hover:bg-slate-700 transition-colors shadow-sm bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                <X size={18} />
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-gray-50 dark:bg-slate-800/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-700">
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Estatus</p>
+                                    <span className="text-sm font-bold capitalize text-gray-700 dark:text-slate-200 flex items-center gap-2">
+                                        {modalPedido.estado === 'impreso' && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
+                                        {modalPedido.estado === 'aprobado' && <span className="w-2 h-2 rounded-full bg-emerald-500"></span>}
+                                        {modalPedido.estado}
+                                    </span>
+                                </div>
+                                <div className="bg-gray-50 dark:bg-slate-800/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-700">
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Tipo de Entrega</p>
+                                    <span className="text-sm font-bold text-gray-700 dark:text-slate-200">{modalPedido.tipo_entrega || '—'}</span>
+                                </div>
+                                <div className="bg-gray-50 dark:bg-slate-800/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-700">
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Fecha programada</p>
+                                    <span className="text-sm font-bold text-gray-700 dark:text-slate-200">
+                                        {format(parseISO(modalPedido.fecha_entrega), "dd 'de' MMM, yyyy", { locale: es })}
+                                    </span>
+                                </div>
+                                <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-xl border border-blue-100 dark:border-blue-800">
+                                    <p className="text-[10px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">Masa Total</p>
+                                    <span className="text-lg font-bold text-[#1E3A6E] dark:text-blue-300 leading-none block">
+                                        {modalPedido.total_kilos?.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg
+                                    </span>
+                                </div>
+                            </div>
+                            {modalPedido.observaciones && (
+                                <div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-800/30">
+                                    <p className="text-[10px] text-amber-600 font-bold uppercase tracking-widest mb-1.5">Observaciones de Entrega</p>
+                                    <p className="text-sm text-amber-800 dark:text-amber-200/90 leading-relaxed font-medium">{modalPedido.observaciones}</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="p-6 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-end gap-3">
+                            <button onClick={() => setModalPedido(null)} className="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-200 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors">
+                                Regresar
+                            </button>
+                            <Link
+                                to={`/imprimir/${modalPedido.id}`}
+                                target="_blank"
+                                className="px-5 py-2.5 rounded-lg text-sm font-bold bg-[#1E3A6E] text-white hover:bg-[#2B5EA7] transition-all flex items-center gap-2 shadow-sm hover:shadow-md active:scale-95"
+                            >
+                                <Eye size={16} /> Ver Formulario Completo
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
