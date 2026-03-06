@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
@@ -264,61 +264,112 @@ export function Dashboard() {
                                     </thead>
                                     <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
                                         {filtered.map(p => (
-                                            <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
-                                                <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
-                                                <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
-                                                <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                    {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
-                                                </td>
-                                                <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                    {p.tipo_entrega ?? '—'}
-                                                </td>
-                                                <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
-                                                    {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
-                                                </td>
-                                                <td className="px-4 py-3 text-center">
-                                                    <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ESTADO_COLORS[p.estado]}`}>
-                                                        ● {ESTADO_LABELS[p.estado]}
-                                                    </span>
-                                                </td>
-                                                <td className="px-4 py-3 text-gray-400">
-                                                    {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy', { locale: es }) : '—'}
-                                                </td>
-                                                <td className="px-4 py-3">
-                                                    <div className="flex items-center justify-center gap-1">
-                                                        <button
-                                                            onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
-                                                            className="p-1.5 text-gray-400 hover:text-[#2B5EA7] rounded-lg hover:bg-blue-50 transition-colors"
-                                                            title="Ver formato imprimible"
-                                                        >
-                                                            <Eye size={14} />
-                                                        </button>
-                                                        <Link
-                                                            to={`/nuevo-pedido/${p.id}`}
-                                                            className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
-                                                            title="Editar pedido"
-                                                        >
-                                                            <Pencil size={14} />
-                                                        </Link>
-                                                        {p.estado === 'enviado' && (
+                                            <Fragment key={p.id}>
+                                                <tr className={`hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors ${selectedPedido?.id === p.id ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}>
+                                                    <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
+                                                    <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
+                                                    <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
+                                                        {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
+                                                        {p.tipo_entrega ?? '—'}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
+                                                        {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-center">
+                                                        <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ESTADO_COLORS[p.estado]}`}>
+                                                            ● {ESTADO_LABELS[p.estado]}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-4 py-3 text-gray-400">
+                                                        {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy', { locale: es }) : '—'}
+                                                    </td>
+                                                    <td className="px-4 py-3">
+                                                        <div className="flex items-center justify-center gap-1">
                                                             <button
-                                                                onClick={() => cambiarEstado(p.id, 'aprobado')}
-                                                                className="px-2.5 py-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors font-medium"
+                                                                onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
+                                                                className={`p-1.5 rounded-lg transition-colors ${selectedPedido?.id === p.id ? 'text-blue-600 bg-blue-100' : 'text-gray-400 hover:text-[#2B5EA7] hover:bg-blue-50'}`}
+                                                                title="Ver formato imprimible"
                                                             >
-                                                                Aprobar
+                                                                <Eye size={14} />
                                                             </button>
-                                                        )}
-                                                        {p.estado === 'aprobado' && (
-                                                            <button
-                                                                onClick={() => cambiarEstado(p.id, 'impreso')}
-                                                                className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
+                                                            <Link
+                                                                to={`/nuevo-pedido/${p.id}`}
+                                                                className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
+                                                                title="Editar pedido"
                                                             >
-                                                                <Printer size={11} /> Imprimir
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                                <Pencil size={14} />
+                                                            </Link>
+                                                            {p.estado === 'enviado' && (
+                                                                <button
+                                                                    onClick={() => cambiarEstado(p.id, 'aprobado')}
+                                                                    className="px-2.5 py-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors font-medium"
+                                                                >
+                                                                    Aprobar
+                                                                </button>
+                                                            )}
+                                                            {p.estado === 'aprobado' && (
+                                                                <button
+                                                                    onClick={() => cambiarEstado(p.id, 'impreso')}
+                                                                    className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
+                                                                >
+                                                                    <Printer size={11} /> Imprimir
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {/* Inline Preview Row */}
+                                                {selectedPedido?.id === p.id && (
+                                                    <tr>
+                                                        <td colSpan={8} className="px-6 py-6 bg-gray-50 dark:bg-slate-800/40 border-y border-gray-100 dark:border-slate-800 animate-fade-in">
+                                                            <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden">
+                                                                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/80">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className="p-2 bg-blue-100 dark:bg-blue-900/40 text-blue-600 rounded-lg">
+                                                                            <Printer size={16} />
+                                                                        </div>
+                                                                        <div>
+                                                                            <h3 className="text-sm font-bold text-[#1E3A6E] dark:text-blue-300">Vista previa del Formato</h3>
+                                                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Pedido {p.codigo_pedido}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex gap-2">
+                                                                        <Link
+                                                                            to={`/imprimir/${p.id}`}
+                                                                            target="_blank"
+                                                                            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-xl text-xs font-bold text-gray-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 shadow-sm transition-all"
+                                                                        >
+                                                                            <Printer size={14} /> Imprimir
+                                                                        </Link>
+                                                                        <Link
+                                                                            to={`/imprimir/${p.id}`}
+                                                                            target="_blank"
+                                                                            className="flex items-center gap-2 px-4 py-2 bg-[#1E3A6E] dark:bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-[#2B5EA7] dark:hover:bg-blue-500 shadow-lg shadow-blue-900/20 transition-all"
+                                                                        >
+                                                                            ↓ Exportar PDF
+                                                                        </Link>
+                                                                        <button
+                                                                            onClick={() => setSelectedPedido(null)}
+                                                                            className="ml-2 p-2 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-full transition-colors"
+                                                                        >
+                                                                            <Package className="rotate-45" size={16} />
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="p-0 bg-white">
+                                                                    <iframe
+                                                                        src={`/imprimir/${p.id}?preview=1`}
+                                                                        className="w-full h-[500px] bg-white"
+                                                                        title="Vista previa"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </Fragment>
                                         ))}
                                         {filtered.length === 0 && (
                                             <tr>
@@ -330,38 +381,6 @@ export function Dashboard() {
                                     </tbody>
                                 </table>
                             )}
-                        </div>
-                    )}
-
-                    {/* Printable preview inline */}
-                    {selectedPedido && (
-                        <div className="bg-white border border-[#E2E5EB] rounded-xl p-4">
-                            <div className="flex items-center justify-between mb-3">
-                                <h3 className="text-sm font-semibold text-[#1E3A6E]">Vista previa — Formato Imprimible (Hoja 2)</h3>
-                                <div className="flex gap-2">
-                                    <Link
-                                        to={`/imprimir/${selectedPedido.id}`}
-                                        target="_blank"
-                                        className="flex items-center gap-1.5 px-3 py-1.5 border border-[#E2E5EB] rounded-lg text-xs hover:bg-[#F4F6FA] transition-colors"
-                                    >
-                                        <Printer size={13} /> Imprimir
-                                    </Link>
-                                    <Link
-                                        to={`/imprimir/${selectedPedido.id}`}
-                                        target="_blank"
-                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A6E] text-white rounded-lg text-xs hover:bg-[#2B5EA7] transition-colors font-semibold"
-                                    >
-                                        ↓ Exportar PDF
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="border border-[#E2E5EB] rounded-lg overflow-hidden">
-                                <iframe
-                                    src={`/imprimir/${selectedPedido.id}?preview=1`}
-                                    className="w-full h-80 bg-gray-50"
-                                    title="Vista previa"
-                                />
-                            </div>
                         </div>
                     )}
                 </div>
