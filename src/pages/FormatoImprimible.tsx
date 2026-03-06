@@ -85,7 +85,7 @@ export function FormatoImprimible() {
 
     const renderAdditionalTable = (blockKey: string) => {
         const signatureBoxes = (
-            <div className="flex justify-center gap-24 mt-8 mb-2">
+            <div className="flex justify-center gap-24 mt-4 mb-2">
                 <div className="flex flex-col items-center">
                     <div className="w-48 border-b-2 border-gray-600 h-8"></div>
                     <span className="text-[10px] text-gray-700 font-bold mt-1.5 uppercase tracking-widest">ENTREGÓ</span>
@@ -94,6 +94,42 @@ export function FormatoImprimible() {
                     <div className="w-48 border-b-2 border-gray-600 h-8"></div>
                     <span className="text-[10px] text-gray-700 font-bold mt-1.5 uppercase tracking-widest">RECIBIÓ</span>
                 </div>
+            </div>
+        )
+
+        const evaluationTable = (
+            <div className="mx-auto w-[85%] mt-6 mb-4">
+                <table className="w-full text-center text-[9px] border-collapse bg-white">
+                    <tbody>
+                        <tr className="bg-gray-200 text-[#1E3A6E] font-bold">
+                            <td colSpan={3} className="border border-gray-400 py-1">ENTREGA DE PEDIDO</td>
+                            <td className="border border-gray-400 py-1 w-[35%]">OBSERVACIÓN</td>
+                        </tr>
+                        <tr className="bg-gray-200 text-[#1E3A6E] font-bold">
+                            <td className="border border-gray-400 w-8"></td>
+                            <td className="border border-gray-400 py-1">ACTIVIDAD</td>
+                            <td className="border border-gray-400 w-12"></td>
+                            <td className="border border-gray-400"></td>
+                        </tr>
+                        {[
+                            'IDENTIFICADO',
+                            'LIMPIO',
+                            'ETIQUETADO',
+                            'ROTULADO',
+                            'PEDIDO COMPLETO SEGÚN REGISTRO',
+                            'ENTREGA EN FORMA',
+                            'REGISTRO CORRECTO EN HOJA',
+                            'UBICADO EN AREA CORRESPONDIENTE'
+                        ].map((actividad, idx) => (
+                            <tr key={idx}>
+                                <td className="border border-gray-400 py-1 font-bold text-gray-600">{idx + 1}</td>
+                                <td className="border border-gray-400 py-1 text-left px-2 font-semibold text-gray-700">{actividad}</td>
+                                <td className="border border-gray-400 py-1"></td>
+                                <td className="border border-gray-400 py-1"></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         )
 
@@ -106,7 +142,7 @@ export function FormatoImprimible() {
                         </div>
                         <table className="text-center text-[10px] border-collapse bg-white">
                             <tbody>
-                                <tr className="bg-gray-50 text-gray-600 font-bold">
+                                <tr className="bg-gray-200 text-gray-700 font-bold">
                                     <td className="border border-gray-300 px-2 py-1.5 w-20">CERRADOS</td>
                                     <td className="border border-gray-300 px-2 py-1.5 w-20">ABIERTOS</td>
                                     <td className="border border-gray-300 px-2 py-1.5 w-24">METÁLICOS</td>
@@ -124,10 +160,10 @@ export function FormatoImprimible() {
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P50</td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P30</td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P20 TRANS</td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P10</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P50</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P30</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P20 TRANS</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P10</td>
                                     <td className="border-none"></td>
                                 </tr>
                                 <tr>
@@ -141,8 +177,8 @@ export function FormatoImprimible() {
                                 <tr>
                                     <td className="border-none"></td>
                                     <td className="border-none"></td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P5</td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P4</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P5</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P4</td>
                                     <td className="border-none"></td>
                                     <td className="border-none"></td>
                                 </tr>
@@ -157,6 +193,7 @@ export function FormatoImprimible() {
                             </tbody>
                         </table>
                     </div>
+                    {evaluationTable}
                     {signatureBoxes}
                 </div>
             )
@@ -171,7 +208,7 @@ export function FormatoImprimible() {
                         </div>
                         <table className="text-center text-[10px] border-collapse bg-white">
                             <tbody>
-                                <tr className="bg-gray-50 text-gray-600 font-bold">
+                                <tr className="bg-gray-200 text-gray-700 font-bold">
                                     <td className="border border-gray-300 px-2 py-1.5 w-20">P60</td>
                                     <td className="border border-gray-300 px-2 py-1.5 w-20">P50</td>
                                     <td className="border border-gray-300 px-2 py-1.5 w-24">P20 TRANS</td>
@@ -185,8 +222,8 @@ export function FormatoImprimible() {
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P10</td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P5</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P10</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P5</td>
                                     <td className="border-none"></td>
                                 </tr>
                                 <tr>
@@ -197,7 +234,7 @@ export function FormatoImprimible() {
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
-                                    <td className="border border-gray-300 bg-gray-50 text-gray-600 font-bold py-1">P4</td>
+                                    <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P4</td>
                                     <td className="border-none"></td>
                                     <td className="border-none"></td>
                                 </tr>
@@ -210,6 +247,7 @@ export function FormatoImprimible() {
                             </tbody>
                         </table>
                     </div>
+                    {evaluationTable}
                     {signatureBoxes}
                 </div>
             )
@@ -224,6 +262,7 @@ export function FormatoImprimible() {
                         </div>
                         <div className="border border-gray-300 h-10"></div>
                     </div>
+                    {evaluationTable}
                     {signatureBoxes}
                 </div>
             )
