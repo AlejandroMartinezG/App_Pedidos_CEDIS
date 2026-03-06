@@ -22,9 +22,12 @@ export function FormatoImprimible() {
             supabase.from('pedido_detalle').select('*, material:materiales(*)').eq('pedido_id', id),
         ]).then(([{ data: ped }, { data: dets }]) => {
             if (ped) setPedido(ped as Pedido & { sucursal: Sucursal })
-            if (dets) setDetalles((dets as DetRow[]).filter(d =>
-                (d.cantidad_kilos ?? 0) > 0 || (d.cantidad_solicitada ?? 0) > 0
-            ))
+            if (dets) {
+                const sortedDets = (dets as DetRow[])
+                    .filter(d => (d.cantidad_kilos ?? 0) > 0 || (d.cantidad_solicitada ?? 0) > 0)
+                    .sort((a, b) => a.material.nombre.localeCompare(b.material.nombre))
+                setDetalles(sortedDets)
+            }
             setLoading(false)
         })
     }, [id])
@@ -422,15 +425,15 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                 </thead>
                 <tbody>
                     {rows.map(r => (
-                        <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '28px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                        <tr key={r.id} style={{ borderBottom: '1px solid #D1D5DB', height: '28px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                             <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_kilos ?? '—'}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
                             <td className="py-1 px-3">
-                                <div className="border-b border-gray-300 w-full h-full pt-3"></div>
+                                <div className="border-b border-gray-400 w-full h-full pt-3"></div>
                             </td>
                             <td className="py-1 px-3">
-                                <div className="border-b border-gray-300 w-full h-full pt-3"></div>
+                                <div className="border-b border-gray-400 w-full h-full pt-3"></div>
                             </td>
                         </tr>
                     ))}
@@ -446,17 +449,19 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                     <th className="text-left pb-1 font-semibold text-gray-500" style={{ width: '35%' }}>MATERIAL</th>
                     <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>PESO UNI</th>
                     <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>CANT. SOL.</th>
-                    <th className="text-center pb-1 font-semibold text-gray-500" style={{ width: '20%' }}>PRESENTACIÓN</th>
+                    <th className="text-center pb-1 font-semibold text-gray-500" style={{ width: '20%' }}>LOTE</th>
                     <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>PESO TOT.</th>
                 </tr>
             </thead>
             <tbody>
                 {rows.map(r => (
-                    <tr key={r.id} style={{ borderBottom: '1px solid #F4F6FA', height: '24px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                    <tr key={r.id} style={{ borderBottom: '1px solid #D1D5DB', height: '28px', pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                         <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.material.peso_aproximado ?? '—'}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
-                        <td className="py-1 text-center text-gray-500">{r.material.envase ?? '—'}</td>
+                        <td className="py-1 px-3">
+                            <div className="border-b border-gray-400 w-full h-full pt-3"></div>
+                        </td>
                         <td className="py-1 text-right font-mono font-semibold text-gray-800">{r.peso_total ?? 0}</td>
                     </tr>
                 ))}
