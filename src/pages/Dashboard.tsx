@@ -136,28 +136,28 @@ export function Dashboard() {
             {activeView === 'pedidos' && (
                 <div className="p-6 space-y-5">
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-4 gap-4 mt-4">
                         <StatCard
-                            icon={<Package size={28} />}
+                            icon={<Package size={32} strokeWidth={2.5} />}
                             label="Pedidos Hoy"
                             value={pedidosHoy}
                             sub="Con fecha de entrega hoy"
                             dark
                         />
                         <StatCard
-                            icon={<Clock size={28} />}
+                            icon={<Clock size={32} strokeWidth={2.5} />}
                             label="Total Enviados"
                             value={totalEnviados}
                             sub="Esperando revisión"
                         />
                         <StatCard
-                            icon={<CheckCircle size={28} />}
+                            icon={<CheckCircle size={32} strokeWidth={2.5} />}
                             label="Aprobados"
                             value={totalAprobados}
                             sub="Listos para imprimir"
                         />
                         <StatCard
-                            icon={<TrendingUp size={28} />}
+                            icon={<TrendingUp size={32} strokeWidth={2.5} />}
                             label="Toneladas Totales"
                             value={`${toneladasSemana.toFixed(1)}`}
                             sub="Esta semana"
@@ -321,12 +321,14 @@ function StatCard({ icon, label, value, sub, dark = false }: {
     dark?: boolean
 }) {
     return (
-        <div className={`rounded-2xl p-6 border shadow-sm transition-transform hover:-translate-y-1 ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E] shadow-blue-900/20' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
-            <div className={`flex items-center gap-2.5 mb-3 ${dark ? 'text-blue-200' : 'text-gray-500 dark:text-slate-400'}`}>
+        <div className={`relative rounded-2xl p-6 border shadow-sm transition-transform hover:-translate-y-1 ${dark ? 'bg-[#1E3A6E] text-white border-[#1E3A6E] shadow-blue-900/20' : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'}`}>
+            <div className={`absolute -top-5 -right-3 w-16 h-16 flex items-center justify-center rounded-2xl shadow-lg transform -rotate-6 transition-all duration-300 hover:scale-110 hover:rotate-0 ${dark ? 'bg-gradient-to-br from-blue-400 to-blue-600 text-white border-4 border-white' : 'bg-gradient-to-br from-amber-400 to-amber-600 text-white border-4 border-white'}`}>
                 {icon}
+            </div>
+            <div className={`flex items-center gap-2.5 mb-3 mt-1 ${dark ? 'text-blue-200' : 'text-gray-500 dark:text-slate-400'}`}>
                 <span className="text-sm font-bold uppercase tracking-wide">{label}</span>
             </div>
-            <p className={`text-5xl font-extrabold font-mono leading-none mb-2 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
+            <p className={`text-6xl font-extrabold font-mono leading-none mb-2 ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-100'}`}>
                 {value}
             </p>
             <p className={`text-sm font-medium ${dark ? 'text-blue-200' : 'text-gray-400 dark:text-slate-400'}`}>{sub}</p>
