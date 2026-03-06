@@ -1,4 +1,4 @@
-import React, { useEffect, useState, cloneElement, isValidElement } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
