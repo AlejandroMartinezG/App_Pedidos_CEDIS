@@ -72,11 +72,17 @@ export function Dashboard() {
     const pedidosHoy = pedidos.filter(p => p.fecha_entrega === today).length
     const totalEnviados = pedidos.filter(p => p.estado === 'enviado').length
     const totalAprobados = pedidos.filter(p => p.estado === 'aprobado').length
-    const toneladasSemana = pedidos
-        .filter(p => {
-            const d = parseISO(p.fecha_entrega)
-            return d >= weekStart && d <= weekEnd && ['enviado', 'aprobado', 'impreso'].includes(p.estado)
-        })
+    const pedidosSemana = pedidos.filter(p => {
+        const d = parseISO(p.fecha_entrega)
+        return d >= weekStart && d <= weekEnd && ['enviado', 'aprobado', 'impreso'].includes(p.estado)
+    })
+
+    const toneladasSemana = pedidosSemana.reduce((sum, p) => sum + (p.total_kilos ?? 0), 0) / 1000
+    const toneladasHino = pedidosSemana
+        .filter(p => p.tipo_entrega === 'HINO')
+        .reduce((sum, p) => sum + (p.total_kilos ?? 0), 0) / 1000
+    const toneladasCEDIS = pedidosSemana
+        .filter(p => p.tipo_entrega === 'Recolección en CEDIS')
         .reduce((sum, p) => sum + (p.total_kilos ?? 0), 0) / 1000
 
     // ── Filtered ───────────────────────────────────────────────────────
@@ -163,7 +169,24 @@ export function Dashboard() {
                             icon={<TrendingUp size={32} strokeWidth={2.5} />}
                             label="Toneladas Totales"
                             value={`${toneladasSemana.toFixed(1)}`}
-                            sub="Esta semana"
+                            sub={
+                                <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-[#F4F6FA] dark:border-slate-800">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                            <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">Entregas HINO</span>
+                                        </div>
+                                        <span className="text-sm font-bold text-[#1E3A6E] dark:text-blue-300">{toneladasHino.toFixed(1)} <span className="text-[10px] ml-0.5">t</span></span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                            <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">Recolecciones</span>
+                                        </div>
+                                        <span className="text-sm font-bold text-[#1E3A6E] dark:text-amber-500">{toneladasCEDIS.toFixed(1)} <span className="text-[10px] ml-0.5">t</span></span>
+                                    </div>
+                                </div>
+                            }
                         />
                     </div>
 
@@ -350,7 +373,7 @@ function StatCard({ icon, label, value, sub, dark = false }: {
     icon: React.ReactNode
     label: string
     value: string | number
-    sub: string
+    sub: React.ReactNode
     dark?: boolean
 }) {
     return (
