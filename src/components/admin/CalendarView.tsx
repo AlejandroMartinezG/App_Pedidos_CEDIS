@@ -129,13 +129,29 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-1 overflow-y-auto max-h-[70px] pointer-events-none">
-                                {dayPedidos.length > 0 && (
-                                    <div className="text-[10px] font-medium text-gray-500 flex flex-col gap-1">
-                                        <div className="flex justify-between items-center bg-gray-50 p-1.5 rounded-md border border-gray-100">
-                                            <span>Masa total:</span>
-                                            <span className="font-bold text-[#1E3A6E]">{totalKg.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg</span>
+                            <div className="flex flex-col gap-1 overflow-y-auto max-h-[70px] pointer-events-none custom-scrollbar pb-1">
+                                {dayPedidos.map((pedido) => (
+                                    <div key={pedido.id} className="text-[10px] font-medium flex flex-col bg-gray-50 dark:bg-slate-800/50 p-1.5 rounded-md border border-gray-100 dark:border-slate-700/50 shadow-sm leading-tight">
+                                        <div className="flex justify-between items-center mb-0.5">
+                                            <span className="font-bold text-[#1E3A6E] dark:text-blue-300 truncate max-w-[70%]">
+                                                {pedido.codigo_pedido.replace('ACT-', '')}
+                                            </span>
+                                            {pedido.estado === 'impreso' && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" title="Impreso"></span>
+                                            )}
+                                            {pedido.estado === 'aprobado' && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Aprobado"></span>
+                                            )}
                                         </div>
+                                        <div className="flex justify-between items-center text-gray-500 dark:text-slate-400">
+                                            <span className="truncate max-w-[60%]">{pedido.sucursal?.nombre || '—'}</span>
+                                            <span className="font-semibold">{pedido.total_kilos?.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg</span>
+                                        </div>
+                                    </div>
+                                ))}
+                                {dayPedidos.length > 0 && (
+                                    <div className="text-[10px] font-bold text-[#2B5EA7] dark:text-blue-400 text-center mt-1 border-t border-gray-100 dark:border-slate-700 pt-1">
+                                        Total: {totalKg.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg
                                     </div>
                                 )}
                             </div>
