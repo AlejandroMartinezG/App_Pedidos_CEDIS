@@ -232,8 +232,12 @@ export function SeleccionarFecha() {
                                                                 if (est === 'pendiente_fecha') { dotColor = "bg-orange-400"; title = "Pendiente de Fecha"; }
                                                                 else if (est === 'pendiente_revision') { dotColor = "bg-amber-400"; title = "Pendiente de Revisión"; }
                                                                 else if (est === 'aprobado') { dotColor = "bg-emerald-500"; title = "Aprobado"; }
+                                                                else if (est === 'impreso') { dotColor = "bg-blue-500"; title = "Impreso"; }
+                                                                else if (est === 'colocado_piso') { dotColor = "bg-indigo-500"; title = "Colocado en Piso"; }
+                                                                else if (est === 'expedido') { dotColor = "bg-purple-500"; title = "Expedido"; }
+                                                                else if (est === 'recibido') { dotColor = "bg-teal-500"; title = "Recibido"; }
                                                                 else if (est === 'en_ruta') { dotColor = "bg-blue-500"; title = "En Ruta"; }
-                                                                else if (est === 'entregado') { dotColor = "bg-indigo-500"; title = "Entregado"; }
+                                                                else if (est === 'entregado') { dotColor = "bg-emerald-500"; title = "Entregado"; }
                                                                 else if (est === 'cancelado') { dotColor = "bg-red-500"; title = "Cancelado"; }
 
                                                                 return (

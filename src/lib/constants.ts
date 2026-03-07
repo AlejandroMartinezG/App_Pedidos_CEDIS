@@ -52,6 +52,9 @@ export const ESTADO_LABELS: Record<string, string> = {
     enviado: 'Enviado',
     aprobado: 'Aprobado',
     impreso: 'Impreso',
+    colocado_piso: 'Colocado en piso',
+    expedido: 'Expedido',
+    recibido: 'Recibido',
 }
 
 export const ESTADO_COLORS: Record<string, string> = {
@@ -60,6 +63,9 @@ export const ESTADO_COLORS: Record<string, string> = {
     enviado: 'bg-amber-50 text-amber-700 border-amber-300',
     aprobado: 'bg-emerald-50 text-emerald-700 border-emerald-300',
     impreso: 'bg-blue-50 text-blue-700 border-blue-300',
+    colocado_piso: 'bg-indigo-50 text-indigo-700 border-indigo-300',
+    expedido: 'bg-purple-50 text-purple-700 border-purple-300',
+    recibido: 'bg-teal-50 text-teal-700 border-teal-300',
 }
 
 // ─────────────────────────────────────────────

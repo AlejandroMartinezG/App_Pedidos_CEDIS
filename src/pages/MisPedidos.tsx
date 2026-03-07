@@ -15,6 +15,7 @@ export function MisPedidos() {
     const [loading, setLoading] = useState(true)
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
     const [deleting, setDeleting] = useState(false)
+    const [updating, setUpdating] = useState<string | null>(null)
 
     const fetchPedidos = () => {
         if (!user?.sucursal_id) return
@@ -62,6 +63,20 @@ export function MisPedidos() {
         } finally {
             setDeleting(false)
             setConfirmDelete(null)
+        }
+    }
+
+    const confirmarRecibido = async (pedidoId: string) => {
+        setUpdating(pedidoId)
+        try {
+            const { error } = await supabase.from('pedidos').update({ estado: 'recibido' }).eq('id', pedidoId)
+            if (error) throw error
+            setPedidos(prev => prev.map(p => p.id === pedidoId ? { ...p, estado: 'recibido' } : p))
+        } catch (error: any) {
+            console.error('Error al confirmar recibido:', error)
+            alert('No se pudo confirmar: ' + error.message)
+        } finally {
+            setUpdating(null)
         }
     }
 
@@ -154,6 +169,17 @@ export function MisPedidos() {
                                                     Resumen
                                                 </Link>
 
+                                                {p.estado === 'expedido' && (
+                                                    <button
+                                                        onClick={() => confirmarRecibido(p.id)}
+                                                        disabled={updating === p.id}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-emerald-600 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors font-semibold"
+                                                    >
+                                                        <CheckCircle2 size={12} />
+                                                        {updating === p.id ? '...' : 'Confirmar Recibido'}
+                                                    </button>
+                                                )}
+
 
                                                 {/* Eliminar borradores y pendientes */}
                                                 {(p.estado === 'borrador' || p.estado === 'pendiente_fecha') && (
@@ -192,6 +218,6 @@ export function MisPedidos() {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     )
 }

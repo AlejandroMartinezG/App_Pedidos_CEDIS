@@ -22,6 +22,9 @@ const ESTADOS: { value: EstadoPedido | 'all'; label: string }[] = [
     { value: 'enviado', label: 'Enviado' },
     { value: 'aprobado', label: 'Aprobado' },
     { value: 'impreso', label: 'Impreso' },
+    { value: 'colocado_piso', label: 'Colocado en piso' },
+    { value: 'expedido', label: 'Expedido' },
+    { value: 'recibido', label: 'Recibido' },
 ]
 
 export function Dashboard() {
@@ -399,6 +402,22 @@ export function Dashboard() {
                                                                     className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
                                                                 >
                                                                     <Printer size={11} /> Imprimir
+                                                                </button>
+                                                            )}
+                                                            {p.estado === 'impreso' && (
+                                                                <button
+                                                                    onClick={() => cambiarEstado(p.id, 'colocado_piso')}
+                                                                    className="px-2.5 py-1 text-[10px] bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors font-medium"
+                                                                >
+                                                                    Poner en piso
+                                                                </button>
+                                                            )}
+                                                            {p.estado === 'colocado_piso' && (
+                                                                <button
+                                                                    onClick={() => cambiarEstado(p.id, 'expedido')}
+                                                                    className="px-2.5 py-1 text-[10px] bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors font-medium"
+                                                                >
+                                                                    Expedir
                                                                 </button>
                                                             )}
                                                         </div>

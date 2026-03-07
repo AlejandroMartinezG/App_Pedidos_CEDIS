@@ -11,7 +11,7 @@ export type Categoria =
 
 export type Rol = 'admin' | 'sucursal'
 export type EstadoCuenta = 'pendiente' | 'activo' | 'inactivo'
-export type EstadoPedido = 'pendiente_fecha' | 'borrador' | 'enviado' | 'aprobado' | 'impreso'
+export type EstadoPedido = 'pendiente_fecha' | 'borrador' | 'enviado' | 'aprobado' | 'impreso' | 'colocado_piso' | 'expedido' | 'recibido'
 export type TipoEntrega = 'HINO' | 'Recolección en CEDIS'
 export type EstadoSolicitud = 'pendiente' | 'aprobado' | 'rechazado'
 
