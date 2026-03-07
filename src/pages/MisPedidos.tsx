@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Eye, Trash2, Printer, PlusCircle, CheckCircle2, Upload } from 'lucide-react'
+import { Eye, Trash2, Printer, PlusCircle, CheckCircle2, Upload, Box, History } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
@@ -16,6 +16,7 @@ export function MisPedidos() {
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
     const [deleting, setDeleting] = useState(false)
     const [updating, setUpdating] = useState<string | null>(null)
+    const [activeTab, setActiveTab] = useState<'process' | 'history'>('process')
 
     const fetchPedidos = () => {
         if (!user?.sucursal_id) return
@@ -80,6 +81,10 @@ export function MisPedidos() {
         }
     }
 
+    const pedidosProceso = pedidos.filter(p => p.estado !== 'recibido')
+    const pedidosHistorial = pedidos.filter(p => p.estado === 'recibido')
+    const displayPedidos = activeTab === 'process' ? pedidosProceso : pedidosHistorial
+
     return (
         <div>
             <Topbar
@@ -98,8 +103,40 @@ export function MisPedidos() {
             />
 
             <div className="p-6">
-                {/* Banner: fecha aprobada, pedido sin llenar */}
-                {pedidos.some(p => p.estado === 'borrador' && p.total_kilos === 0) && (
+                {/* Tab Selector */}
+                <div className="flex justify-center mb-8">
+                    <div className="inline-flex p-1 bg-[#F4F6FA] dark:bg-slate-800 rounded-xl border border-[#E2E5EB] dark:border-slate-700 shadow-sm">
+                        <button
+                            onClick={() => setActiveTab('process')}
+                            className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'process'
+                                ? 'bg-white dark:bg-slate-700 text-[#2B5EA7] dark:text-blue-400 shadow-md'
+                                : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
+                                }`}
+                        >
+                            <Box size={16} />
+                            En Proceso
+                            {pedidosProceso.length > 0 && (
+                                <span className={`ml-1 px-1.5 py-0.5 text-[10px] rounded-full ${activeTab === 'process' ? 'bg-blue-100 dark:bg-blue-900/40' : 'bg-gray-200 dark:bg-slate-800'
+                                    }`}>
+                                    {pedidosProceso.length}
+                                </span>
+                            )}
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('history')}
+                            className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'history'
+                                ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-md'
+                                : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
+                                }`}
+                        >
+                            <History size={16} />
+                            Historial
+                        </button>
+                    </div>
+                </div>
+
+                {/* Banner: fecha aprobada, pedido sin llenar (only in process) */}
+                {activeTab === 'process' && pedidosProceso.some(p => p.estado === 'borrador' && p.total_kilos === 0) && (
                     <div className="mb-4 flex items-start gap-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-300 rounded-xl px-4 py-3 text-sm">
                         <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
                         <span>
@@ -111,13 +148,22 @@ export function MisPedidos() {
                     <div className="flex justify-center py-16">
                         <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
                     </div>
-                ) : pedidos.length === 0 ? (
+                ) : displayPedidos.length === 0 ? (
                     <div className="flex flex-col items-center py-20 text-gray-400">
-                        <FileText size={40} className="mb-3 opacity-30" />
-                        <p className="text-sm">No tienes pedidos aún</p>
-                        <Link to="/seleccionar-fecha" className="mt-4 text-[#2B5EA7] text-sm font-semibold hover:underline">
-                            Crear primer pedido
-                        </Link>
+                        {activeTab === 'process' ? (
+                            <>
+                                <Box size={40} className="mb-3 opacity-30" />
+                                <p className="text-sm">No tienes pedidos en proceso</p>
+                                <Link to="/seleccionar-fecha" className="mt-4 text-[#2B5EA7] text-sm font-semibold hover:underline">
+                                    Crear nuevo pedido
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <History size={40} className="mb-3 opacity-30" />
+                                <p className="text-sm">Tu historial está vacío</p>
+                            </>
+                        )}
                     </div>
                 ) : (
                     <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#E2E5EB] dark:border-slate-800 overflow-x-auto transition-colors">
@@ -133,7 +179,7 @@ export function MisPedidos() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
-                                {pedidos.map(p => (
+                                {displayPedidos.map(p => (
                                     <tr key={p.id} className="hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors">
                                         <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400 text-xs">{p.codigo_pedido}</td>
                                         <td className="px-4 py-3 text-gray-600 dark:text-slate-300">
