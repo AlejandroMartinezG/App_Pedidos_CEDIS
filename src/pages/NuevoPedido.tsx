@@ -225,73 +225,60 @@ export function NuevoPedido() {
                             </div>
                         </div>
 
-                        {/* Detalle de materiales */}
+                        {/* Detalle de materiales agrupado por categorías */}
                         <div className="flex-1 overflow-y-auto min-h-0 pr-1 custom-scrollbar mb-6">
-                            {/* Tabla Productos */}
-                            <div className="mb-6">
-                                <h4 className="text-xs font-bold text-[#2B5EA7] dark:text-blue-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                    <div className="w-1.5 h-4 bg-[#2B5EA7] rounded-full" />
-                                    Productos Solicitados
-                                </h4>
-                                <div className="border border-[#E2E5EB] dark:border-slate-800 rounded-lg overflow-hidden">
-                                    <table className="w-full text-[11px]">
-                                        <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400">
-                                            <tr>
-                                                <th className="px-3 py-2 text-left font-bold">Material</th>
-                                                <th className="px-3 py-2 text-center font-bold">Cant. Sol.</th>
-                                                <th className="px-3 py-2 text-right font-bold">Cant. Kilos</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
-                                            {detalles.filter(d => d.material.categoria !== 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).map(d => (
-                                                <tr key={d.material.id} className="bg-white dark:bg-slate-900">
-                                                    <td className="px-3 py-2 font-medium text-gray-700 dark:text-slate-300">{d.material.nombre}</td>
-                                                    <td className="px-3 py-2 text-center font-mono text-blue-600 dark:text-blue-400 font-bold">{d.cantidad_solicitada}</td>
-                                                    <td className="px-3 py-2 text-right font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                                                        {d.cantidad_kilos?.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            {detalles.filter(d => d.material.categoria !== 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).length === 0 && (
-                                                <tr><td colSpan={3} className="px-3 py-4 text-center text-gray-400 italic">No se agregaron productos</td></tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            {CATEGORIAS.map(cat => {
+                                const itemsEnCategoria = detalles
+                                    .filter(d => d.material.categoria === cat.key && (d.cantidad_solicitada ?? 0) > 0)
+                                    .sort((a, b) => a.material.nombre.localeCompare(b.material.nombre))
 
-                            {/* Tabla Envases */}
-                            <div>
-                                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                    <div className="w-1.5 h-4 bg-amber-500 rounded-full" />
-                                    Envases Vacíos a Retornar
-                                </h4>
-                                <div className="border border-[#E2E5EB] dark:border-slate-800 rounded-lg overflow-hidden">
-                                    <table className="w-full text-[11px]">
-                                        <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400">
-                                            <tr>
-                                                <th className="px-3 py-2 text-left font-bold">Material</th>
-                                                <th className="px-3 py-2 text-center font-bold">Cant. Sol.</th>
-                                                <th className="px-3 py-2 text-right font-bold">Total pzs</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
-                                            {detalles.filter(d => d.material.categoria === 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).map(d => (
-                                                <tr key={d.material.id} className="bg-white dark:bg-slate-900">
-                                                    <td className="px-3 py-2 font-medium text-gray-700 dark:text-slate-300">{d.material.nombre}</td>
-                                                    <td className="px-3 py-2 text-center font-mono text-amber-600 dark:text-amber-400 font-bold">{d.cantidad_solicitada}</td>
-                                                    <td className="px-3 py-2 text-right font-mono text-gray-700 dark:text-slate-300 font-bold">
-                                                        {d.peso_total?.toLocaleString('es-MX', { minimumFractionDigits: 0 })}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            {detalles.filter(d => d.material.categoria === 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).length === 0 && (
-                                                <tr><td colSpan={3} className="px-3 py-4 text-center text-gray-400 italic">No se agregaron envases</td></tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                if (itemsEnCategoria.length === 0) return null
+
+                                const isEnvase = cat.key === 'envase_vacio'
+
+                                return (
+                                    <div key={cat.key} className="mb-6 last:mb-0">
+                                        <h4 className="text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2" style={{ color: cat.color }}>
+                                            <div className="w-1.5 h-4 rounded-full" style={{ backgroundColor: cat.color }} />
+                                            {cat.label}
+                                        </h4>
+                                        <div className="border border-[#E2E5EB] dark:border-slate-800 rounded-lg overflow-hidden">
+                                            <table className="w-full text-[11px]">
+                                                <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400">
+                                                    <tr>
+                                                        <th className="px-3 py-2 text-left font-bold">Material</th>
+                                                        <th className="px-3 py-2 text-center font-bold">Cant. Sol.</th>
+                                                        <th className="px-3 py-2 text-right font-bold">
+                                                            {isEnvase ? 'Total pzs' : 'Cant. Kilos'}
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                                                    {itemsEnCategoria.map(d => (
+                                                        <tr key={d.material.id} className="bg-white dark:bg-slate-900">
+                                                            <td className="px-3 py-2 font-medium text-gray-700 dark:text-slate-300">{d.material.nombre}</td>
+                                                            <td className="px-3 py-2 text-center font-mono font-bold" style={{ color: cat.color }}>
+                                                                {d.cantidad_solicitada}
+                                                            </td>
+                                                            <td className="px-3 py-2 text-right font-mono font-bold text-gray-700 dark:text-slate-300">
+                                                                {isEnvase
+                                                                    ? d.peso_total?.toLocaleString('es-MX', { minimumFractionDigits: 0 })
+                                                                    : d.cantidad_kilos?.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+
+                            {detalles.filter(d => (d.cantidad_solicitada ?? 0) > 0).length === 0 && (
+                                <div className="py-12 text-center">
+                                    <p className="text-gray-400 italic">No hay materiales seleccionados en el pedido.</p>
                                 </div>
-                            </div>
+                            )}
                         </div>
 
                         <div className="flex gap-3 pt-4 border-t border-gray-100 dark:border-slate-800">
