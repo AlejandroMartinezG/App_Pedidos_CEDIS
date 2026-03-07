@@ -183,24 +183,28 @@ export function SeleccionarFecha() {
                                     const isLleno = countPedidos >= 3 || ocupadoKg >= LIMITE_KG
                                     const isMedium = countPedidos > 0 && !isLleno
 
+                                    const isDomingo = day.getDay() === 0
+
                                     let bgColor = "bg-white dark:bg-slate-900"
-                                    if (isLleno) bgColor = "bg-red-50 dark:bg-red-900/10"
+                                    if (isDomingo) bgColor = "bg-gray-100 dark:bg-slate-800/50 opacity-60"
+                                    else if (isLleno) bgColor = "bg-red-50 dark:bg-red-900/10"
                                     else if (isMedium) bgColor = "bg-amber-50 dark:bg-amber-900/10"
                                     else if (!isPast) bgColor = "bg-emerald-50 dark:bg-emerald-900/10"
 
-                                    const clickable = !isPast && !isLleno
+                                    const clickable = !isPast && !isLleno && !isDomingo
+                                    const isLibre = !isPast && !isDomingo && !isLleno && !isMedium
 
                                     return (
                                         <div
                                             key={i}
                                             onClick={() => { if (clickable) handleDateClick(day) }}
-                                            className={`min-h-[100px] p-2 border-none transition-colors relative 
+                                            className={`min-h-[100px] p-2 border-none transition-colors relative flex flex-col items-center justify-start 
                                                 ${bgColor}
                                                 ${!isCurrentMonth ? 'opacity-40' : ''} 
                                                 ${clickable ? 'cursor-pointer hover:bg-blue-50/50 hover:ring-2 ring-inset ring-blue-300 dark:hover:bg-blue-900/20' : 'cursor-not-allowed'}
                                             `}
                                         >
-                                            <div className="flex justify-between items-start mb-2">
+                                            <div className="flex justify-between items-start w-full mb-2">
                                                 <span className={`w-7 h-7 flex items-center justify-center rounded-full text-sm font-semibold ${isSameDay(day, new Date()) ? 'bg-[#1E3A6E] text-white' : 'text-gray-700 dark:text-slate-300'
                                                     }`}>
                                                     {format(day, 'd')}
@@ -208,6 +212,11 @@ export function SeleccionarFecha() {
                                                 {countPedidos > 0 && (
                                                     <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${isLleno ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'}`}>
                                                         {countPedidos} {countPedidos === 1 ? 'envío' : 'envíos'}
+                                                    </span>
+                                                )}
+                                                {isLibre && (
+                                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                                                        Libre
                                                     </span>
                                                 )}
                                             </div>
