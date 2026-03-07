@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { PlusCircle, ListOrdered, LayoutDashboard, Settings, Sun, Moon, LogOut } from 'lucide-react'
+import { PlusCircle, ListOrdered, LayoutDashboard, Settings, Sun, Moon, LogOut, CalendarDays } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeProvider'
 import { clsx } from 'clsx'
@@ -48,7 +48,11 @@ export function MobileNav() {
                     </NavLink>
                     <NavLink to="/mis-pedidos" className={navLinkClass}>
                         <ListOrdered size={20} />
-                        <span className="text-[10px] font-medium">Historial</span>
+                        <span className="text-[10px] font-medium">Pedidos</span>
+                    </NavLink>
+                    <NavLink to="/disponibilidad" className={navLinkClass}>
+                        <CalendarDays size={20} />
+                        <span className="text-[10px] font-medium">Calendario</span>
                     </NavLink>
                 </>
             )}

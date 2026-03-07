@@ -10,6 +10,7 @@ import { MisPedidos } from '@/pages/MisPedidos'
 import { FormatoImprimible } from '@/pages/FormatoImprimible'
 import { CatalogoMateriales } from '@/pages/CatalogoMateriales'
 import { SeleccionarFecha } from '@/pages/SeleccionarFecha'
+import { CalendarioDisponibilidad } from '@/pages/CalendarioDisponibilidad'
 import { useAuth } from '@/context/AuthContext'
 
 function RootRedirect() {
@@ -49,6 +50,7 @@ export function App() {
                                 {/* Sucursal routes */}
                                 <Route element={<ProtectedRoute allowedRoles={['sucursal']} />}>
                                     <Route path="/seleccionar-fecha" element={<SeleccionarFecha />} />
+                                    <Route path="/disponibilidad" element={<CalendarioDisponibilidad />} />
                                     <Route path="/mis-pedidos" element={<MisPedidos />} />
                                 </Route>
 

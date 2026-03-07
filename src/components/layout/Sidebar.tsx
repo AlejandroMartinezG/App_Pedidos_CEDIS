@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
     ListOrdered, LayoutDashboard,
-    Settings, LogOut, Sun, Moon, ChevronRight
+    Settings, LogOut, Sun, Moon, ChevronRight, CalendarDays
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeProvider'
@@ -91,6 +91,10 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         <NavLink to="/mis-pedidos" className={linkClass} title={isCollapsed ? "Mis Pedidos" : undefined}>
                             <ListOrdered size={16} className="shrink-0" />
                             {!isCollapsed && <span>Mis Pedidos</span>}
+                        </NavLink>
+                        <NavLink to="/disponibilidad" className={linkClass} title={isCollapsed ? "Disponibilidad" : undefined}>
+                            <CalendarDays size={16} className="shrink-0" />
+                            {!isCollapsed && <span>Calendario de Disponibilidad</span>}
                         </NavLink>
                     </>
                 )}
