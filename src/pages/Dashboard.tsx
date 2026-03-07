@@ -6,7 +6,7 @@ import { Topbar } from '@/components/layout/Topbar'
 import { SolicitudesPanel } from '@/components/admin/SolicitudesPanel'
 import { SolicitudesFechasPanel } from '@/components/admin/SolicitudesFechasPanel'
 import { CalendarView } from '@/components/admin/CalendarView'
-import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List } from 'lucide-react'
+import { CheckCircle, Clock, Package, TrendingUp, Eye, Printer, ChevronDown, Users2, Pencil, CalendarDays, List, Trash2 } from 'lucide-react'
 import { ESTADO_LABELS, ESTADO_COLORS } from '@/lib/constants'
 import type { Pedido, Sucursal, EstadoPedido } from '@/lib/types'
 import { format, parseISO, startOfWeek, endOfWeek, startOfToday } from 'date-fns'
@@ -39,6 +39,8 @@ export function Dashboard() {
     const [pendingSolicitudes, setPendingSolicitudes] = useState(0)
     const [pendingFechas, setPendingFechas] = useState(0)
     const [layout, setLayout] = useState<'lista' | 'calendario'>('lista')
+    const [deleting, setDeleting] = useState<string | null>(null)
+    const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
 
     // Sync URL param changes (e.g. when sidebar button is clicked while on dashboard)
     useEffect(() => {
@@ -117,6 +119,16 @@ export function Dashboard() {
     const cambiarEstado = async (pedidoId: string, nuevoEstado: EstadoPedido) => {
         await supabase.from('pedidos').update({ estado: nuevoEstado }).eq('id', pedidoId)
         await fetchPedidos()
+    }
+
+    const handleDelete = async (pedidoId: string) => {
+        setDeleting(pedidoId)
+        const { error } = await supabase.from('pedidos').delete().eq('id', pedidoId)
+        if (!error) {
+            setPedidos(prev => prev.filter(p => p.id !== pedidoId))
+        }
+        setDeleting(null)
+        setConfirmDelete(null)
     }
 
     return (
@@ -284,7 +296,7 @@ export function Dashboard() {
                     {/* Layout Content */}
                     {layout === 'calendario' ? (
                         <div className="animate-fade-in">
-                            <CalendarView pedidos={filtered} />
+                            <CalendarView pedidos={filtered} onDelete={handleDelete} />
                         </div>
                     ) : (
                         <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-x-auto transition-colors animate-fade-in">
@@ -345,6 +357,34 @@ export function Dashboard() {
                                                             >
                                                                 <Pencil size={14} />
                                                             </Link>
+
+                                                            {/* Delete Action */}
+                                                            {confirmDelete === p.id ? (
+                                                                <div className="flex items-center gap-1 mx-1">
+                                                                    <button
+                                                                        onClick={() => handleDelete(p.id)}
+                                                                        disabled={deleting === p.id}
+                                                                        className="px-2 py-1 text-[10px] font-bold bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-60 transition-colors"
+                                                                    >
+                                                                        {deleting === p.id ? '...' : 'Sí'}
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => setConfirmDelete(null)}
+                                                                        disabled={deleting === p.id}
+                                                                        className="px-2 py-1 text-[10px] font-bold bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-60 transition-colors"
+                                                                    >
+                                                                        No
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => setConfirmDelete(p.id)}
+                                                                    className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                                                                    title="Eliminar pedido permanentemente"
+                                                                >
+                                                                    <Trash2 size={14} />
+                                                                </button>
+                                                            )}
                                                             {p.estado === 'enviado' && (
                                                                 <button
                                                                     onClick={() => cambiarEstado(p.id, 'aprobado')}

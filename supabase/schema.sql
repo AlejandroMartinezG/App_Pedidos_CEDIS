@@ -156,6 +156,9 @@ CREATE POLICY "pedidos_delete_sucursal" ON pedidos FOR DELETE USING (
   estado IN ('borrador', 'pendiente_fecha')
   AND sucursal_id = (SELECT sucursal_id FROM users WHERE id = auth.uid())
 );
+CREATE POLICY "pedidos_delete_admin" ON pedidos FOR DELETE USING (
+  EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND rol = 'admin')
+);
 
 -- pedido_detalle: follow parent pedido rules
 CREATE POLICY "detalle_select" ON pedido_detalle FOR SELECT USING (

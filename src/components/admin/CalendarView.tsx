@@ -13,7 +13,7 @@ import {
     subMonths
 } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { ChevronLeft, ChevronRight, Eye, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, X, Trash2 } from 'lucide-react'
 import type { Pedido, Sucursal } from '@/lib/types'
 import { Link } from 'react-router-dom'
 
@@ -23,12 +23,15 @@ interface PedidoRow extends Pedido {
 
 interface CalendarViewProps {
     pedidos: PedidoRow[]
+    onDelete?: (id: string) => Promise<void>
 }
 
-export function CalendarView({ pedidos }: CalendarViewProps) {
+export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [modalPedido, setModalPedido] = useState<PedidoRow | null>(null)
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
 
     const nextMonth = () => setCurrentDate(addMonths(currentDate, 1))
     const prevMonth = () => setCurrentDate(subMonths(currentDate, 1))
@@ -228,7 +231,7 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
 
             {/* Modal de Pedido */}
             {modalPedido && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setModalPedido(null)}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" onClick={() => { setModalPedido(null); setConfirmDelete(false); }}>
                     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col border border-gray-200 dark:border-slate-800" onClick={e => e.stopPropagation()}>
                         <div className="flex justify-between items-start p-6 border-b border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">
                             <div>
@@ -271,17 +274,55 @@ export function CalendarView({ pedidos }: CalendarViewProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-end gap-3">
-                            <button onClick={() => setModalPedido(null)} className="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-200 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors">
-                                Regresar
-                            </button>
-                            <Link
-                                to={`/imprimir/${modalPedido.id}`}
-                                target="_blank"
-                                className="px-5 py-2.5 rounded-lg text-sm font-bold bg-[#1E3A6E] text-white hover:bg-[#2B5EA7] transition-all flex items-center gap-2 shadow-sm hover:shadow-md active:scale-95"
-                            >
-                                <Eye size={16} /> Ver Formulario Completo
-                            </Link>
+                        <div className="p-6 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-between gap-3">
+                            <div className="flex items-center gap-2">
+                                {onDelete && (
+                                    confirmDelete ? (
+                                        <div className="flex items-center gap-1.5 animate-fade-in">
+                                            <button
+                                                onClick={async () => {
+                                                    setIsDeleting(true)
+                                                    await onDelete(modalPedido.id)
+                                                    setIsDeleting(false)
+                                                    setModalPedido(null)
+                                                    setConfirmDelete(false)
+                                                }}
+                                                disabled={isDeleting}
+                                                className="px-3 py-2 rounded-lg text-sm font-bold bg-red-600 text-white hover:bg-red-700 disabled:opacity-60 transition-colors"
+                                            >
+                                                {isDeleting ? 'Eliminando...' : 'Sí, eliminar'}
+                                            </button>
+                                            <button
+                                                onClick={() => setConfirmDelete(false)}
+                                                disabled={isDeleting}
+                                                className="px-3 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-60 transition-colors"
+                                            >
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => setConfirmDelete(true)}
+                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center"
+                                            title="Eliminar pedido permanentemente"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    )
+                                )}
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <button onClick={() => { setModalPedido(null); setConfirmDelete(false); }} className="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-200 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors">
+                                    Regresar
+                                </button>
+                                <Link
+                                    to={`/imprimir/${modalPedido.id}`}
+                                    target="_blank"
+                                    className="px-5 py-2.5 rounded-lg text-sm font-bold bg-[#1E3A6E] text-white hover:bg-[#2B5EA7] transition-all flex items-center gap-2 shadow-sm hover:shadow-md active:scale-95"
+                                >
+                                    <Eye size={16} /> Ver Formulario Completo
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
