@@ -150,6 +150,15 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                             {pedido.estado === 'impreso' && (
                                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500" title="Impreso"></span>
                                             )}
+                                            {pedido.estado === 'colocado_piso' && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" title="Colocado en Piso"></span>
+                                            )}
+                                            {pedido.estado === 'expedido' && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-purple-500" title="Expedido"></span>
+                                            )}
+                                            {pedido.estado === 'recibido' && (
+                                                <span className="w-1.5 h-1.5 rounded-full bg-teal-500" title="Recibido"></span>
+                                            )}
                                             {pedido.estado === 'aprobado' && (
                                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Aprobado"></span>
                                             )}
@@ -252,6 +261,9 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Estatus</p>
                                     <span className="text-sm font-bold capitalize text-gray-700 dark:text-slate-200 flex items-center gap-2">
                                         {modalPedido.estado === 'impreso' && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
+                                        {modalPedido.estado === 'colocado_piso' && <span className="w-2 h-2 rounded-full bg-indigo-500"></span>}
+                                        {modalPedido.estado === 'expedido' && <span className="w-2 h-2 rounded-full bg-purple-500"></span>}
+                                        {modalPedido.estado === 'recibido' && <span className="w-2 h-2 rounded-full bg-teal-500"></span>}
                                         {modalPedido.estado === 'aprobado' && <span className="w-2 h-2 rounded-full bg-emerald-500"></span>}
                                         {modalPedido.estado}
                                     </span>
