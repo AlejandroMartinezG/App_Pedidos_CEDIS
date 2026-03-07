@@ -16,7 +16,7 @@ interface FechaOcupada {
     fecha_entrega: string
     total_kilos: number
     count_pedidos: number
-    sucursales?: string[]
+    pedidos_info?: string[]
 }
 
 export function SeleccionarFecha() {
@@ -214,13 +214,28 @@ export function SeleccionarFecha() {
 
                                             {countPedidos > 0 && (
                                                 <div className="absolute bottom-2 left-2 right-2 text-center flex flex-col items-center gap-0.5">
-                                                    {ocupacion.sucursales && ocupacion.sucursales.length > 0 && (
+                                                    {ocupacion.pedidos_info && ocupacion.pedidos_info.length > 0 && (
                                                         <div className="flex flex-wrap gap-0.5 justify-center mb-0.5">
-                                                            {ocupacion.sucursales.map((suc, idx) => (
-                                                                <span key={idx} className="text-[10px] font-semibold text-gray-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm max-w-[80px] truncate border border-slate-200/50 dark:border-slate-700/50" title={suc}>
-                                                                    {suc}
-                                                                </span>
-                                                            ))}
+                                                            {ocupacion.pedidos_info.map((info, idx) => {
+                                                                const [suc, est] = info.split('|');
+                                                                let dotColor = "bg-gray-400";
+                                                                let title = "Borrador";
+                                                                if (est === 'pendiente_fecha') { dotColor = "bg-orange-400"; title = "Pendiente de Fecha"; }
+                                                                else if (est === 'pendiente_revision') { dotColor = "bg-amber-400"; title = "Pendiente de Revisión"; }
+                                                                else if (est === 'aprobado') { dotColor = "bg-emerald-500"; title = "Aprobado"; }
+                                                                else if (est === 'en_ruta') { dotColor = "bg-blue-500"; title = "En Ruta"; }
+                                                                else if (est === 'entregado') { dotColor = "bg-indigo-500"; title = "Entregado"; }
+                                                                else if (est === 'cancelado') { dotColor = "bg-red-500"; title = "Cancelado"; }
+
+                                                                return (
+                                                                    <div key={idx} className="flex flex-row items-center gap-1 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm max-w-[80px] border border-slate-200/50 dark:border-slate-700/50" title={`${suc} - ${title}`}>
+                                                                        <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor}`} />
+                                                                        <span className="text-[10px] font-semibold text-gray-700 dark:text-slate-300 truncate">
+                                                                            {suc}
+                                                                        </span>
+                                                                    </div>
+                                                                )
+                                                            })}
                                                         </div>
                                                     )}
                                                     {isLleno && <p className="text-[9px] text-red-600 dark:text-red-400 mt-0.5 font-bold uppercase">Lleno</p>}
