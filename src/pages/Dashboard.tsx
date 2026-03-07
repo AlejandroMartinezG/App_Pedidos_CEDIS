@@ -38,7 +38,7 @@ export function Dashboard() {
     )
     const [pendingSolicitudes, setPendingSolicitudes] = useState(0)
     const [pendingFechas, setPendingFechas] = useState(0)
-    const [layout, setLayout] = useState<'lista' | 'calendario'>('lista')
+    const [layout, setLayout] = useState<'lista' | 'calendario'>('calendario')
     const [deleting, setDeleting] = useState<string | null>(null)
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
 
@@ -273,15 +273,6 @@ export function Dashboard() {
                         {/* View Toggle */}
                         <div className="flex items-center bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700">
                             <button
-                                onClick={() => setLayout('lista')}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'lista'
-                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
-                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
-                                    }`}
-                            >
-                                <List size={14} /> Lista
-                            </button>
-                            <button
                                 onClick={() => setLayout('calendario')}
                                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'calendario'
                                     ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
@@ -289,6 +280,15 @@ export function Dashboard() {
                                     }`}
                             >
                                 <CalendarDays size={14} /> Calendario
+                            </button>
+                            <button
+                                onClick={() => setLayout('lista')}
+                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'lista'
+                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
+                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                    }`}
+                            >
+                                <List size={14} /> Lista
                             </button>
                         </div>
                     </div>
