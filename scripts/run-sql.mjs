@@ -61,6 +61,8 @@ async function main() {
         console.log(`   Status: ${r.status}`)
         if (r.status !== 200 && r.status !== 201) {
             console.error(`   Error details:`, r.body)
+        } else {
+            console.log(`   Result:`, r.body)
         }
     }
 
