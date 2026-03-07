@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Eye, Trash2, Printer, PlusCircle, CheckCircle2 } from 'lucide-react'
+import { FileText, Eye, Trash2, Printer, PlusCircle, CheckCircle2, Upload } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import { Topbar } from '@/components/layout/Topbar'
@@ -103,7 +103,7 @@ export function MisPedidos() {
                     <div className="mb-4 flex items-start gap-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-300 rounded-xl px-4 py-3 text-sm">
                         <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
                         <span>
-                            <strong>¡Tu fecha fue aprobada!</strong> Tienes pedidos en borrador listos para capturar. Haz clic en <strong>Editar</strong> para ingresar los materiales.
+                            <strong>¡Tu fecha fue aprobada!</strong> Tienes pedidos en borrador listos para capturar. Haz clic en <strong>Subir pedido</strong> para ingresar los materiales.
                         </span>
                     </div>
                 )}
@@ -156,8 +156,8 @@ export function MisPedidos() {
                                                     to={`/nuevo-pedido/${p.id}`}
                                                     className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-[#2B5EA7] dark:text-blue-400 border border-[#2B5EA7]/30 dark:border-blue-400/30 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                                                 >
-                                                    <Eye size={12} />
-                                                    {p.estado === 'borrador' ? 'Editar' : 'Ver'}
+                                                    {p.estado === 'borrador' ? <Upload size={12} /> : <Eye size={12} />}
+                                                    {p.estado === 'borrador' ? 'Subir pedido' : 'Ver'}
                                                 </Link>
 
                                                 <Link
