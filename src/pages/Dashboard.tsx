@@ -230,20 +230,20 @@ export function Dashboard() {
                             value={toneladasSemana.toFixed(1)}
                             unit="t"
                             sub={
-                                <div className="flex flex-col gap-3 mt-4">
-                                    <div className="flex items-center justify-between text-base font-bold border-t border-gray-200 dark:border-slate-800 pt-3.5">
+                                <div className="flex flex-col gap-2 mt-2">
+                                    <div className="flex items-center justify-between text-sm font-bold border-t border-gray-200 dark:border-slate-800 pt-2.5">
                                         <div className="flex items-center gap-2">
                                             <div className="w-2 h-2 rounded-full bg-blue-500" />
                                             <span className="text-gray-500 dark:text-slate-400">HINO</span>
                                         </div>
-                                        <span className="text-gray-800 dark:text-slate-200 text-lg">{toneladasHino.toFixed(1)} t</span>
+                                        <span className="text-gray-800 dark:text-slate-200">{toneladasHino.toFixed(1)} t</span>
                                     </div>
-                                    <div className="flex items-center justify-between text-base font-bold">
+                                    <div className="flex items-center justify-between text-sm font-bold">
                                         <div className="flex items-center gap-2">
                                             <div className="w-2 h-2 rounded-full bg-amber-500" />
                                             <span className="text-gray-500 dark:text-slate-400">CEDIS</span>
                                         </div>
-                                        <span className="text-gray-800 dark:text-slate-200 text-lg">{toneladasCEDIS.toFixed(1)} t</span>
+                                        <span className="text-gray-800 dark:text-slate-200">{toneladasCEDIS.toFixed(1)} t</span>
                                     </div>
                                 </div>
                             }
@@ -501,48 +501,48 @@ function StatCard({ icon, label, value, sub, unit, dark = false }: {
     dark?: boolean
 }) {
     return (
-        <div className={`relative overflow-hidden rounded-3xl p-6 border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 group ${dark
+        <div className={`relative overflow-hidden rounded-3xl p-5 border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group ${dark
             ? 'bg-[#1E3A6E] text-white border-[#1E3A6E]'
             : 'bg-white dark:bg-slate-900 border-[#E2E5EB] dark:border-slate-800'
             }`}>
-            {/* Massive Background Icon (Visual Anchor) */}
-            <div className={`absolute bottom-0 right-4 opacity-[0.15] transform transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12 ${dark ? 'text-white' : 'text-[#1E3A6E]'}`}>
-                <div className="scale-[4] origin-bottom-right">
+            {/* Background Icon (Visual Anchor) */}
+            <div className={`absolute bottom-0 right-4 opacity-[0.1] transform transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12 ${dark ? 'text-white' : 'text-[#1E3A6E]'}`}>
+                <div className="scale-[2.5] origin-bottom-right">
                     {icon}
                 </div>
             </div>
 
             {/* Header with Icon and Label */}
-            <div className="relative z-10 flex items-center gap-4 mb-3">
-                <div className={`p-3.5 rounded-2xl shadow-xl transition-all duration-300 group-hover:-translate-y-1.5 group-hover:scale-105 relative -top-3 -left-1 ${dark
-                    ? 'bg-gradient-to-br from-blue-500 to-[#1e325c] text-white border border-blue-400/30 shadow-blue-900/50'
+            <div className="relative z-10 flex items-center gap-3 mb-2">
+                <div className={`p-2.5 rounded-2xl shadow-lg transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-105 relative -top-1 ${dark
+                    ? 'bg-gradient-to-br from-blue-500 to-[#1e325c] text-white border border-blue-400/30'
                     : 'bg-white dark:bg-slate-800 text-[#2B5EA7] dark:text-blue-400 border border-gray-100 dark:border-slate-700 shadow-gray-200/50 dark:shadow-none'
                     }`}>
-                    <div className="scale-95 origin-center">
+                    <div className="scale-90 origin-center">
                         {icon}
                     </div>
                 </div>
-                <span className={`text-[13px] font-black uppercase tracking-[0.15em] relative -top-1.5 ${dark ? 'text-blue-100' : 'text-gray-500 dark:text-slate-400'}`}>
+                <span className={`text-[11px] font-black uppercase tracking-[0.15em] relative -top-0.5 ${dark ? 'text-blue-100' : 'text-gray-400 dark:text-slate-500'}`}>
                     {label}
                 </span>
             </div>
 
             {/* Main Value */}
-            <div className="relative z-10 flex items-baseline gap-2 mb-2 mt-4">
-                <p className={`${unit ? 'text-7xl' : 'text-[7.5rem]'} font-[900] tracking-tighter leading-[0.85] ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-50'}`}>
+            <div className="relative z-10 flex items-baseline gap-2 mb-1 mt-2">
+                <p className={`${unit ? 'text-5xl' : 'text-6xl'} font-[900] tracking-tighter leading-none ${dark ? 'text-white' : 'text-[#1E3A6E] dark:text-slate-50'}`}>
                     {value}
                 </p>
                 {unit && (
-                    <span className={`text-xl font-black opacity-60 ${dark ? 'text-blue-100' : 'text-[#1E3A6E] dark:text-slate-300'}`}>
+                    <span className={`text-lg font-black opacity-60 ${dark ? 'text-blue-100' : 'text-[#1E3A6E] dark:text-slate-300'}`}>
                         {unit}
                     </span>
                 )}
             </div>
 
             {/* Subtext or Breakdown */}
-            <div className="relative z-10 mt-3 pt-2">
+            <div className="relative z-10 mt-2">
                 {typeof sub === 'string' ? (
-                    <p className={`text-base leading-tight font-bold ${dark ? 'text-blue-200/90' : 'text-gray-500 dark:text-slate-400'}`}>
+                    <p className={`text-xs leading-tight font-bold uppercase tracking-tight ${dark ? 'text-blue-200/90' : 'text-gray-400 dark:text-slate-500'}`}>
                         {sub}
                     </p>
                 ) : sub}
