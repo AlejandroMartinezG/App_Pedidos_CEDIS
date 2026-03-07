@@ -205,6 +205,11 @@ export function SeleccionarFecha() {
                                                     }`}>
                                                     {format(day, 'd')}
                                                 </span>
+                                                {countPedidos > 0 && (
+                                                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${isLleno ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'}`}>
+                                                        {countPedidos} {countPedidos === 1 ? 'envío' : 'envíos'}
+                                                    </span>
+                                                )}
                                             </div>
 
                                             {countPedidos > 0 && (
@@ -212,18 +217,12 @@ export function SeleccionarFecha() {
                                                     {ocupacion.sucursales && ocupacion.sucursales.length > 0 && (
                                                         <div className="flex flex-wrap gap-0.5 justify-center mb-0.5">
                                                             {ocupacion.sucursales.map((suc, idx) => (
-                                                                <span key={idx} className="text-[8px] font-semibold text-gray-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm px-1 rounded shadow-sm max-w-[80px] truncate" title={suc}>
+                                                                <span key={idx} className="text-[10px] font-semibold text-gray-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm max-w-[80px] truncate border border-slate-200/50 dark:border-slate-700/50" title={suc}>
                                                                     {suc}
                                                                 </span>
                                                             ))}
                                                         </div>
                                                     )}
-                                                    <p className={`text-[9px] font-bold rounded px-1 py-0.5 w-full ${isLleno ? 'text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
-                                                        : 'text-amber-700 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
-                                                        }`}>
-                                                        {countPedidos} {countPedidos === 1 ? 'envío' : 'envíos'}
-                                                        {ocupadoKg > 0 && ` · ${(ocupadoKg / 1000).toFixed(1)} t`}
-                                                    </p>
                                                     {isLleno && <p className="text-[9px] text-red-600 dark:text-red-400 mt-0.5 font-bold uppercase">Lleno</p>}
                                                 </div>
                                             )}
