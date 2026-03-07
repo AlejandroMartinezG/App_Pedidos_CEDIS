@@ -16,6 +16,7 @@ interface FechaOcupada {
     fecha_entrega: string
     total_kilos: number
     count_pedidos: number
+    sucursales?: string[]
 }
 
 export function SeleccionarFecha() {
@@ -207,8 +208,17 @@ export function SeleccionarFecha() {
                                             </div>
 
                                             {countPedidos > 0 && (
-                                                <div className="absolute bottom-2 left-2 right-2 text-center">
-                                                    <p className={`text-[10px] font-bold rounded px-1 py-0.5 ${isLleno ? 'text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                                                <div className="absolute bottom-2 left-2 right-2 text-center flex flex-col items-center gap-0.5">
+                                                    {ocupacion.sucursales && ocupacion.sucursales.length > 0 && (
+                                                        <div className="flex flex-wrap gap-0.5 justify-center mb-0.5">
+                                                            {ocupacion.sucursales.map((suc, idx) => (
+                                                                <span key={idx} className="text-[8px] font-semibold text-gray-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm px-1 rounded shadow-sm max-w-[80px] truncate" title={suc}>
+                                                                    {suc}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    <p className={`text-[9px] font-bold rounded px-1 py-0.5 w-full ${isLleno ? 'text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
                                                         : 'text-amber-700 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
                                                         }`}>
                                                         {countPedidos} {countPedidos === 1 ? 'envío' : 'envíos'}
