@@ -184,46 +184,127 @@ export function NuevoPedido() {
             {/* Confirmation modal */}
             {showConfirm && (
                 <div className="fixed inset-0 bg-black/40 dark:bg-black/60 flex items-center justify-center z-50 p-4 transition-colors">
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6 transition-colors">
-                        <h3 className="text-lg font-bold text-[#1E3A6E] dark:text-blue-400 mb-1">¿Enviar pedido?</h3>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-3xl w-full p-6 transition-colors flex flex-col max-h-[90vh]">
+                        <h3 className="text-xl font-bold text-[#1E3A6E] dark:text-blue-400 mb-1">Confirmación de Pedido</h3>
                         <p className="text-sm text-gray-500 dark:text-slate-400 mb-4">
-                            Una vez enviado <strong>no podrás hacer modificaciones</strong>. El pedido quedará en espera de aprobación del CEDIS.
+                            Revisa los materiales cargados. Una vez enviado <strong>no podrás hacer modificaciones</strong>.
                         </p>
-                        <div className="bg-[#F4F6FA] dark:bg-slate-800 rounded-xl p-3 mb-5 transition-colors">
-                            <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500 dark:text-slate-400">Sucursal:</span>
-                                <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{user?.sucursal?.nombre}</span>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div className="bg-[#F4F6FA] dark:bg-slate-800/50 rounded-xl p-3 border border-[#E2E5EB] dark:border-slate-800 transition-colors">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Información General</p>
+                                <div className="space-y-1">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-gray-500 dark:text-slate-400">Sucursal:</span>
+                                        <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{user?.sucursal?.nombre}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-gray-500 dark:text-slate-400">Código:</span>
+                                        <span className="font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{codigoPedidoStr}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-gray-500 dark:text-slate-400">Fecha:</span>
+                                        <span className="font-medium dark:text-slate-300">{fechaEntrega}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500 dark:text-slate-400">Código:</span>
-                                <span className="font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{codigoPedidoStr}</span>
-                            </div>
-                            <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500 dark:text-slate-400">Fecha entrega:</span>
-                                <span className="font-medium dark:text-slate-300">{fechaEntrega}</span>
-                            </div>
-                            <div className="flex justify-between text-sm mb-1">
-                                <span className="text-gray-500 dark:text-slate-400">Tipo de entrega:</span>
-                                <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{tipoEntrega}</span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                                <span className="text-gray-500 dark:text-slate-400">Total:</span>
-                                <span className="font-bold font-mono text-[#1E3A6E] dark:text-slate-100">
-                                    {totalKilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg
-                                </span>
+                            <div className="bg-[#F4F6FA] dark:bg-slate-800/50 rounded-xl p-3 border border-[#E2E5EB] dark:border-slate-800 transition-colors">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Resumen de Carga</p>
+                                <div className="space-y-1">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-gray-500 dark:text-slate-400">Tipo entrega:</span>
+                                        <span className="font-semibold text-[#1E3A6E] dark:text-slate-200">{tipoEntrega}</span>
+                                    </div>
+                                    <div className="flex justify-between text-sm pt-1 border-t border-gray-200 dark:border-slate-700 mt-1">
+                                        <span className="font-bold text-[#1E3A6E] dark:text-slate-300">Total:</span>
+                                        <span className="font-bold font-mono text-[#1E3A6E] dark:text-slate-100">
+                                            {totalKilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })} kg
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex gap-3">
+
+                        {/* Detalle de materiales */}
+                        <div className="flex-1 overflow-y-auto min-h-0 pr-1 custom-scrollbar mb-6">
+                            {/* Tabla Productos */}
+                            <div className="mb-6">
+                                <h4 className="text-xs font-bold text-[#2B5EA7] dark:text-blue-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                    <div className="w-1.5 h-4 bg-[#2B5EA7] rounded-full" />
+                                    Productos Solicitados
+                                </h4>
+                                <div className="border border-[#E2E5EB] dark:border-slate-800 rounded-lg overflow-hidden">
+                                    <table className="w-full text-[11px]">
+                                        <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400">
+                                            <tr>
+                                                <th className="px-3 py-2 text-left font-bold">Material</th>
+                                                <th className="px-3 py-2 text-center font-bold">Cant. Sol.</th>
+                                                <th className="px-3 py-2 text-right font-bold">Cant. Kilos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                                            {detalles.filter(d => d.material.categoria !== 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).map(d => (
+                                                <tr key={d.material.id} className="bg-white dark:bg-slate-900">
+                                                    <td className="px-3 py-2 font-medium text-gray-700 dark:text-slate-300">{d.material.nombre}</td>
+                                                    <td className="px-3 py-2 text-center font-mono text-blue-600 dark:text-blue-400 font-bold">{d.cantidad_solicitada}</td>
+                                                    <td className="px-3 py-2 text-right font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                                                        {d.cantidad_kilos?.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {detalles.filter(d => d.material.categoria !== 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).length === 0 && (
+                                                <tr><td colSpan={3} className="px-3 py-4 text-center text-gray-400 italic">No se agregaron productos</td></tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            {/* Tabla Envases */}
+                            <div>
+                                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                    <div className="w-1.5 h-4 bg-amber-500 rounded-full" />
+                                    Envases Vacíos a Retornar
+                                </h4>
+                                <div className="border border-[#E2E5EB] dark:border-slate-800 rounded-lg overflow-hidden">
+                                    <table className="w-full text-[11px]">
+                                        <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400">
+                                            <tr>
+                                                <th className="px-3 py-2 text-left font-bold">Material</th>
+                                                <th className="px-3 py-2 text-center font-bold">Cant. Sol.</th>
+                                                <th className="px-3 py-2 text-right font-bold">Total pzs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                                            {detalles.filter(d => d.material.categoria === 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).map(d => (
+                                                <tr key={d.material.id} className="bg-white dark:bg-slate-900">
+                                                    <td className="px-3 py-2 font-medium text-gray-700 dark:text-slate-300">{d.material.nombre}</td>
+                                                    <td className="px-3 py-2 text-center font-mono text-amber-600 dark:text-amber-400 font-bold">{d.cantidad_solicitada}</td>
+                                                    <td className="px-3 py-2 text-right font-mono text-gray-700 dark:text-slate-300 font-bold">
+                                                        {d.peso_total?.toLocaleString('es-MX', { minimumFractionDigits: 0 })}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {detalles.filter(d => d.material.categoria === 'envase_vacio' && (d.cantidad_solicitada ?? 0) > 0).length === 0 && (
+                                                <tr><td colSpan={3} className="px-3 py-4 text-center text-gray-400 italic">No se agregaron envases</td></tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-4 border-t border-gray-100 dark:border-slate-800">
                             <button
                                 onClick={() => setShowConfirm(false)}
-                                className="flex-1 py-2.5 border border-[#E2E5EB] dark:border-slate-700 dark:text-slate-300 rounded-xl text-sm font-medium hover:bg-[#F4F6FA] dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 py-3 border border-[#E2E5EB] dark:border-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-[#F4F6FA] dark:hover:bg-slate-800 transition-colors"
                             >
                                 Cancelar
                             </button>
                             <button
                                 onClick={handleSubmit}
                                 disabled={submitting}
-                                className="flex-1 py-2.5 bg-[#1E3A6E] text-white rounded-xl text-sm font-semibold hover:bg-[#2B5EA7] transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+                                className="flex-1 py-3 bg-[#1E3A6E] text-white rounded-xl text-sm font-bold hover:bg-[#2B5EA7] transition-colors disabled:opacity-60 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/10"
                             >
                                 {submitting && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                                 Sí, enviar pedido
