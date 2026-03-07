@@ -114,14 +114,14 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                         <div
                             key={i}
                             onClick={() => setSelectedDate(day)}
-                            className={`min-h-[120px] bg-white dark:bg-slate-900 p-2 border-none transition-colors cursor-pointer group hover:bg-[#F4F6FA] dark:hover:bg-slate-800/80 relative ${!isCurrentMonth ? 'opacity-50 bg-gray-50/50' : ''
+                            className={`min-h-[140px] bg-white dark:bg-slate-900 p-2.5 border-none transition-colors cursor-pointer group hover:bg-[#F4F6FA] dark:hover:bg-slate-800/80 relative ${!isCurrentMonth ? 'opacity-40 bg-gray-50/50' : ''
                                 } ${isSelected ? 'ring-2 ring-inset ring-[#2B5EA7] bg-blue-50/30' : ''}`}
                         >
-                            <div className="flex justify-between items-start mb-2">
-                                <span className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold transition-colors ${isToday
-                                    ? 'bg-[#1E3A6E] text-white shadow-md'
+                            <div className="flex justify-between items-start mb-3">
+                                <span className={`w-9 h-9 flex items-center justify-center rounded-full text-base font-bold transition-all ${isToday
+                                    ? 'bg-[#1E3A6E] text-white shadow-lg scale-110'
                                     : isSelected
-                                        ? 'bg-blue-100 text-[#2B5EA7]'
+                                        ? 'bg-blue-100 text-[#2B5EA7] border-2 border-blue-200'
                                         : 'text-gray-700 dark:text-slate-300 group-hover:bg-gray-200 dark:group-hover:bg-slate-700'
                                     }`}>
                                     {format(day, 'd')}
@@ -133,44 +133,48 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-1 overflow-y-auto max-h-[120px] custom-scrollbar pb-1 pointer-events-auto">
-                                {dayPedidos.map((pedido) => (
-                                    <div
-                                        key={pedido.id}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            setModalPedido(pedido)
-                                        }}
-                                        className="cursor-pointer text-[10px] font-medium flex flex-col bg-gray-50 dark:bg-slate-800/50 p-1.5 rounded-md border border-gray-100 dark:border-slate-700/50 shadow-sm leading-tight hover:border-blue-300 dark:hover:border-blue-600 hover:shadow transition-all group/item"
-                                    >
-                                        <div className="flex justify-between items-center mb-0.5">
-                                            <span className="font-bold text-[#1E3A6E] dark:text-blue-300 truncate max-w-[70%]">
-                                                {pedido.codigo_pedido.replace('ACT-', '')}
-                                            </span>
-                                            {pedido.estado === 'impreso' && (
-                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" title="Impreso"></span>
-                                            )}
-                                            {pedido.estado === 'colocado_piso' && (
-                                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" title="Colocado en Piso"></span>
-                                            )}
-                                            {pedido.estado === 'expedido' && (
-                                                <span className="w-1.5 h-1.5 rounded-full bg-purple-500" title="Expedido"></span>
-                                            )}
-                                            {pedido.estado === 'recibido' && (
-                                                <span className="w-1.5 h-1.5 rounded-full bg-teal-500" title="Recibido"></span>
-                                            )}
-                                            {pedido.estado === 'aprobado' && (
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Aprobado"></span>
-                                            )}
+                            <div className="flex flex-col gap-2 overflow-y-auto max-h-[130px] custom-scrollbar pb-1 pointer-events-auto">
+                                {dayPedidos.map((pedido) => {
+                                    const statusColors: Record<string, string> = {
+                                        borrador: 'bg-gray-400',
+                                        enviado: 'bg-amber-500',
+                                        aprobado: 'bg-emerald-500',
+                                        impreso: 'bg-blue-500',
+                                        colocado_piso: 'bg-indigo-500',
+                                        expedido: 'bg-purple-500',
+                                        recibido: 'bg-teal-500'
+                                    }
+                                    const barColor = statusColors[pedido.estado] || 'bg-slate-300'
+
+                                    return (
+                                        <div
+                                            key={pedido.id}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                setModalPedido(pedido)
+                                            }}
+                                            className="cursor-pointer text-[11px] font-bold flex flex-col bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm leading-tight hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all relative overflow-hidden pl-3.5 group/item"
+                                        >
+                                            {/* Indicador lateral de estatus */}
+                                            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${barColor} opacity-90`} />
+
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className="font-black text-[#1E3A6E] dark:text-blue-300 truncate max-w-[70%] tracking-tight">
+                                                    {pedido.codigo_pedido.replace('ACT-', '')}
+                                                </span>
+                                                <div className={`w-2 h-2 rounded-full ${barColor} shadow-sm`} />
+                                            </div>
+                                            <div className="flex justify-between items-center text-[10px] text-gray-500 dark:text-slate-400 uppercase font-bold tracking-tighter">
+                                                <span className="truncate max-w-[55%]">{pedido.sucursal?.nombre || '—'}</span>
+                                                <span className="font-black text-[#2B5EA7] dark:text-slate-200 whitespace-nowrap">
+                                                    {pedido.total_kilos?.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-between items-center text-gray-500 dark:text-slate-400">
-                                            <span className="truncate max-w-[60%]">{pedido.sucursal?.nombre || '—'}</span>
-                                            <span className="font-semibold text-gray-700 dark:text-slate-300">{pedido.total_kilos?.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg</span>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                                 {dayPedidos.length > 0 && (
-                                    <div className="text-[10px] font-bold text-[#2B5EA7] dark:text-blue-400 text-center mt-1 border-t border-gray-100 dark:border-slate-700 pt-1 sticky bottom-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm">
+                                    <div className="text-[11px] font-black text-[#1E3A6E] dark:text-blue-400 text-center mt-2 border-t-2 border-gray-100 dark:border-slate-700 pt-1.5 sticky bottom-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm z-10 transition-colors">
                                         Total: {totalKg.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg
                                     </div>
                                 )}
