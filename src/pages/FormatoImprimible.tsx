@@ -56,13 +56,11 @@ export function FormatoImprimible() {
         )
     }
 
-    // Split detalles by category for 3-column layout
     const materiasPrimas = detalles.filter(d => d.material.categoria === 'materia_prima')
     const varios = detalles.filter(d => d.material.categoria === 'varios')
     const envases = detalles.filter(d => d.material.categoria === 'envase_vacio')
     const esencias = detalles.filter(d => d.material.categoria === 'esencia')
     const colores = detalles.filter(d => d.material.categoria === 'color')
-
     const toneladas = ((pedido?.total_kilos ?? 0) / 1000).toFixed(3)
 
     const bloquesParaImprimir = [
@@ -140,9 +138,7 @@ export function FormatoImprimible() {
             return (
                 <div className="mt-8 flex flex-col w-full">
                     <div className="mx-auto w-fit bg-white mb-2">
-                        <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">
-                            MATERIA
-                        </div>
+                        <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">MATERIA</div>
                         <table className="text-center text-[10px] border-collapse bg-white">
                             <tbody>
                                 <tr className="bg-gray-200 text-gray-700 font-bold">
@@ -154,12 +150,7 @@ export function FormatoImprimible() {
                                     <td className="border border-gray-300 px-2 py-1.5 w-16">P60</td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
+                                    <td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td>
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
@@ -170,28 +161,16 @@ export function FormatoImprimible() {
                                     <td className="border-none"></td>
                                 </tr>
                                 <tr>
-                                    <td className="border-none"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border-none"></td>
                                 </tr>
                                 <tr>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border-none"></td>
                                     <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P5</td>
                                     <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P4</td>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border-none"></td>
                                 </tr>
                                 <tr>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border-none"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border-none"></td><td className="border-none"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -206,9 +185,7 @@ export function FormatoImprimible() {
             return (
                 <div className="mt-8 flex flex-col w-full">
                     <div className="mx-auto w-fit bg-white mb-2">
-                        <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">
-                            ESENCIAS Y COLORES
-                        </div>
+                        <div className="text-[#1E3A6E] text-center font-bold text-[11px] py-1 mb-1 uppercase tracking-widest border-b-2 border-[#1E3A6E]">ESENCIAS Y COLORES</div>
                         <table className="text-center text-[10px] border-collapse bg-white">
                             <tbody>
                                 <tr className="bg-gray-200 text-gray-700 font-bold">
@@ -218,10 +195,7 @@ export function FormatoImprimible() {
                                     <td className="border border-gray-300 px-2 py-1.5 w-24">P20 AZUL</td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
+                                    <td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td>
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
@@ -230,22 +204,15 @@ export function FormatoImprimible() {
                                     <td className="border-none"></td>
                                 </tr>
                                 <tr>
-                                    <td className="border-none"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border border-gray-300 h-10"></td><td className="border border-gray-300 h-10"></td><td className="border-none"></td>
                                 </tr>
                                 <tr>
                                     <td className="border-none"></td>
                                     <td className="border border-gray-300 bg-gray-200 text-gray-700 font-bold py-1">P4</td>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border-none"></td>
                                 </tr>
                                 <tr>
-                                    <td className="border-none"></td>
-                                    <td className="border border-gray-300 h-10"></td>
-                                    <td className="border-none"></td>
-                                    <td className="border-none"></td>
+                                    <td className="border-none"></td><td className="border border-gray-300 h-10"></td><td className="border-none"></td><td className="border-none"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -260,9 +227,7 @@ export function FormatoImprimible() {
             return (
                 <div className="mt-8 flex flex-col w-full">
                     <div className="mx-auto w-48 text-center flex flex-col bg-white mb-2">
-                        <div className="text-[#1E3A6E] font-bold text-[11px] py-1 mb-1 border-b-2 border-[#1E3A6E] uppercase tracking-widest">
-                            CUÑETES
-                        </div>
+                        <div className="text-[#1E3A6E] font-bold text-[11px] py-1 mb-1 border-b-2 border-[#1E3A6E] uppercase tracking-widest">CUÑETES</div>
                         <div className="border border-gray-300 h-10"></div>
                     </div>
                     {evaluationTable}
@@ -270,108 +235,55 @@ export function FormatoImprimible() {
                 </div>
             )
         }
-
         return null
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-slate-950 transition-colors">
-            {/* Toolbar (hidden on print) */}
-            <div className="print:hidden flex items-center justify-between px-6 py-3 bg-white dark:bg-slate-900 border-b border-[#E2E5EB] dark:border-slate-800 sticky top-0 z-10 transition-colors">
-                <h1 className="text-sm font-bold text-[#1E3A6E] dark:text-blue-400">Formato Imprimible — {pedido?.codigo_pedido}</h1>
-                <div className="flex gap-2">
-                    <button
-                        onClick={handlePrint}
-                        className="flex items-center gap-1.5 px-4 py-1.5 border border-[#E2E5EB] dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-[#F4F6FA] dark:hover:bg-slate-800 dark:text-slate-200 transition-colors"
-                    >
-                        <Printer size={13} /> Imprimir
-                    </button>
-                    <button
-                        onClick={handlePDF}
-                        className="flex items-center gap-1.5 px-4 py-1.5 bg-[#1E3A6E] text-white rounded-lg text-xs font-semibold hover:bg-[#2B5EA7] transition-colors"
-                    >
-                        ↓ Exportar PDF
-                    </button>
+        <>
+            <div className="min-h-screen bg-gray-100 dark:bg-slate-950 transition-colors">
+                <div className="print:hidden flex items-center justify-between px-6 py-3 bg-white dark:bg-slate-900 border-b border-[#E2E5EB] dark:border-slate-800 sticky top-0 z-10 transition-colors">
+                    <h1 className="text-sm font-bold text-[#1E3A6E] dark:text-blue-400">Formato Imprimible — {pedido?.codigo_pedido}</h1>
+                    <div className="flex gap-2">
+                        <button onClick={handlePrint} className="flex items-center gap-1.5 px-4 py-1.5 border border-[#E2E5EB] dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-[#F4F6FA] dark:hover:bg-slate-800 dark:text-slate-200 transition-colors"><Printer size={13} /> Imprimir</button>
+                        <button onClick={handlePDF} className="flex items-center gap-1.5 px-4 py-1.5 bg-[#1E3A6E] text-white rounded-lg text-xs font-semibold hover:bg-[#2B5EA7] transition-colors">↓ Exportar PDF</button>
+                    </div>
                 </div>
-            </div>
 
-            {/* Printable document */}
-            <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 dark:bg-slate-950 print:bg-white transition-colors">
-                <div ref={printRef} className="print:w-full flex flex-col w-[8.5in] max-w-full print:block">
-                    {bloquesParaImprimir.map((bloque, index) => (
-                        <div
-                            key={bloque.blockKey}
-                            className={`bg-white shadow-sm mb-4 print:shadow-none print:mb-0 print-section relative ${index < bloquesParaImprimir.length - 1 ? 'print:break-after-page' : ''}`}
-                            style={{
-                                minHeight: '11in',
-                                fontFamily: 'Inter, sans-serif',
-                                fontSize: '11px',
-                            }}
-                        >
-                            {/* Header (repite por hoja) */}
-                            <div className="px-6 py-4 border-b-[3px] border-[#1E3A6E] flex items-center justify-between bg-white">
-                                {/* Left: Logo */}
-                                <div className="w-1/3">
-                                    <img src="/LogoCH.png" alt="Logo CH" className="h-[45px] object-contain" />
-                                </div>
-
-                                {/* Center: Titles */}
-                                <div className="w-1/3 text-center">
-                                    <p className="text-[14px] font-black text-[#1E3A6E] uppercase tracking-wide">
-                                        Formato de Surtido
-                                    </p>
-                                    <p className="text-[12px] font-semibold text-gray-600 mt-1">
-                                        Sucursal: <span className="text-[#D4A01E]">{pedido?.sucursal?.nombre}</span>
-                                    </p>
-                                    <p className="text-[11px] text-[#2B5EA7] font-medium mt-0.5">
-                                        Entrega:{' '}
-                                        <span className="font-bold">
-                                            {pedido?.fecha_entrega
-                                                ? format(parseISO(pedido.fecha_entrega), "d 'de' MMMM 'de' yyyy", { locale: es })
-                                                : '—'}
-                                        </span>
-                                    </p>
-                                    {pedido?.tipo_entrega && (
-                                        <p className="text-[11px] text-gray-600 font-medium mt-0.5">
-                                            Tipo:{' '}
-                                            <span className="font-bold text-[#1E3A6E]">{pedido.tipo_entrega}</span>
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Right: Toneladas & Folio */}
-                                <div className="w-1/3 text-right">
-                                    <div className="inline-block bg-[#1E3A6E] text-white px-3 py-1 rounded-md mb-1 border border-[#1E3A6E] shadow-sm">
-                                        <span className="text-[10px] font-medium opacity-80 mr-1">TONELADAS</span>
-                                        <span className="text-[14px] font-black">{toneladas}</span>
+                <div className="p-4 print:p-0 flex flex-col items-center gap-4 bg-gray-100 dark:bg-slate-950 print:bg-white transition-colors">
+                    <div ref={printRef} id="print-area" className="print:w-full flex flex-col w-[8.5in] max-w-full print:block relative">
+                        {bloquesParaImprimir.map((bloque, index) => (
+                            <div
+                                key={bloque.blockKey}
+                                className={`bg-white shadow-sm mb-4 print:shadow-none print:mb-0 print-block relative ${index < bloquesParaImprimir.length - 1 ? 'print:break-after-page' : ''}`}
+                                style={{ minHeight: '11in', fontFamily: 'Inter, sans-serif', fontSize: '11px' }}
+                            >
+                                <div className="px-6 py-4 border-b-[3px] border-[#1E3A6E] flex items-center justify-between bg-white">
+                                    <div className="w-1/3"><img src="/LogoCH.png" alt="Logo CH" className="h-[45px] object-contain" /></div>
+                                    <div className="w-1/3 text-center">
+                                        <p className="text-[14px] font-black text-[#1E3A6E] uppercase tracking-wide">Formato de Surtido</p>
+                                        <p className="text-[12px] font-semibold text-gray-600 mt-1">Sucursal: <span className="text-[#D4A01E]">{pedido?.sucursal?.nombre}</span></p>
+                                        <p className="text-[11px] text-[#2B5EA7] font-medium mt-0.5">Entrega: <span className="font-bold">{pedido?.fecha_entrega ? format(parseISO(pedido.fecha_entrega), "d 'de' MMMM 'de' yyyy", { locale: es }) : '—'}</span></p>
                                     </div>
-                                    <p className="text-[12px] text-gray-500 font-bold mt-1">
-                                        FOLIO:{' '}
-                                        <span className="text-[14px] text-[#D4A01E] font-black tracking-wider border-b border-[#D4A01E]">
-                                            {pedido?.codigo_pedido}
-                                        </span>
-                                    </p>
+                                    <div className="w-1/3 text-right">
+                                        <div className="inline-block bg-[#1E3A6E] text-white px-3 py-1 rounded-md mb-1 border border-[#1E3A6E] shadow-sm">
+                                            <span className="text-[10px] font-medium opacity-80 mr-1">TONELADAS</span>
+                                            <span className="text-[14px] font-black">{toneladas}</span>
+                                        </div>
+                                        <p className="text-[12px] text-gray-500 font-bold mt-1">FOLIO: <span className="text-[14px] text-[#D4A01E] font-black tracking-wider border-b border-[#D4A01E]">{pedido?.codigo_pedido}</span></p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-6 pt-4 px-6 border-t border-[#E2E5EB]" style={{ minHeight: '250mm' }}>
+                                    {bloque.sections.map(sec => (
+                                        <div key={sec.key} className="mb-2">
+                                            <p className="text-[12px] font-bold text-[#1E3A6E] uppercase tracking-wider mb-2">{sec.title}</p>
+                                            {sec.rows.length === 0 ? <p className="text-[11px] text-gray-400 italic">Sin materiales</p> : <PrintTable rows={sec.rows} type={sec.type} />}
+                                        </div>
+                                    ))}
+                                    {renderAdditionalTable(bloque.blockKey)}
                                 </div>
                             </div>
-
-                            {/* Body para la categoría */}
-                            <div className="flex flex-col gap-6 pt-4 px-6 border-t border-[#E2E5EB]" style={{ minHeight: '250mm' }}>
-                                {bloque.sections.map(sec => (
-                                    <div key={sec.key} className="mb-2">
-                                        <p className="text-[12px] font-bold text-[#1E3A6E] uppercase tracking-wider mb-2">{sec.title}</p>
-                                        {sec.rows.length === 0 ? (
-                                            <p className="text-[11px] text-gray-400 italic">Sin {sec.key === 'envases' ? 'envases solicitados' : 'materiales en esta categoría'}</p>
-                                        ) : (
-                                            <PrintTable rows={sec.rows} type={sec.type} />
-                                        )}
-                                    </div>
-                                ))}
-
-                                {/* Additional tracking tables at the bottom of the category */}
-                                {renderAdditionalTable(bloque.blockKey)}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -379,37 +291,29 @@ export function FormatoImprimible() {
         @media print {
           @page { 
             size: letter portrait; 
-            margin: 12mm 10mm; 
+            margin: 15mm 12mm 15mm 12mm; 
+          }
+          html, body {
+            height: auto;
           }
           body { 
             print-color-adjust: exact; 
             -webkit-print-color-adjust: exact; 
-            counter-reset: page;
           }
-          .print-section {
-            min-height: auto !important; /* Allow natural breaking to next page */
+          .print-block { 
+            min-height: auto !important; 
+            page-break-after: always;
+            break-after: page;
           }
-          .print\\:hidden { display: none !important; }
-          .print\\:p-0 { padding: 0 !important; }
-          
-          /* Prevent rows from being cut in half */
-          table { page-break-inside: auto; }
+          table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
           tr { page-break-inside: avoid; break-inside: avoid; }
           thead { display: table-header-group; }
-          tfoot { display: table-footer-group; }
-
-          /* Adding custom page numbers using CSS if the browser supports it */
-          .page-number:after {
-             counter-increment: page;
-             content: "Página " counter(page);
-          }
         }
       `}</style>
-        </div>
+        </>
     )
 }
 
-// Mini table component for the print layout
 function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase' }) {
     if (type === 'standard') {
         return (
@@ -429,18 +333,15 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                             <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_kilos != null ? Number(r.cantidad_kilos.toFixed(2)) : '—'}</td>
                             <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
-                            <td className="py-1 px-3">
-                                <div className="border-b border-gray-400 w-full h-full pt-3"></div>
-                            </td>
-                            <td className="py-1 px-3">
-                                <div className="border-b border-gray-400 w-full h-full pt-3"></div>
-                            </td>
+                            <td className="py-1 px-3"><div className="border-b border-gray-400 w-full h-full pt-3"></div></td>
+                            <td className="py-1 px-3"><div className="border-b border-gray-400 w-full h-full pt-3"></div></td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         )
     }
+    const totalSolicitado = rows.reduce((sum, r) => sum + (r.cantidad_solicitada ?? 0), 0)
 
     return (
         <table className="w-full" style={{ borderCollapse: 'collapse', fontSize: '10px', pageBreakInside: 'auto' }}>
@@ -448,9 +349,8 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                 <tr style={{ borderBottom: '2px solid #E2E5EB' }}>
                     <th className="text-left pb-1 font-semibold text-gray-500" style={{ width: '35%' }}>MATERIAL</th>
                     <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>PESO UNI</th>
-                    <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>CANT. SOL.</th>
-                    <th className="text-center pb-1 font-semibold text-gray-500" style={{ width: '20%' }}>LOTE</th>
-                    <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '15%' }}>PESO TOT.</th>
+                    <th className="text-right pb-1 font-semibold text-gray-500" style={{ width: '20%' }}>CANT. SOL.</th>
+                    <th className="text-center pb-1 font-semibold text-gray-500" style={{ width: '30%' }}>LOTE</th>
                 </tr>
             </thead>
             <tbody>
@@ -459,12 +359,15 @@ function PrintTable({ rows, type }: { rows: DetRow[]; type: 'standard' | 'envase
                         <td className="py-1 text-gray-800 font-medium">{r.material.nombre}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.material.peso_aproximado ?? '—'}</td>
                         <td className="py-1 text-right font-mono text-gray-700">{r.cantidad_solicitada ?? '—'}</td>
-                        <td className="py-1 px-3">
-                            <div className="border-b border-gray-400 w-full h-full pt-3"></div>
-                        </td>
-                        <td className="py-1 text-right font-mono font-semibold text-gray-800">{r.peso_total ?? 0}</td>
+                        <td className="py-1 px-3"><div className="border-b border-gray-400 w-full h-full pt-3"></div></td>
                     </tr>
                 ))}
+                {/* Total Row */}
+                <tr style={{ borderTop: '2px solid #1E3A6E', height: '32px', backgroundColor: '#F9FAFB' }}>
+                    <td colSpan={2} className="py-2 text-right font-bold text-[#1E3A6E] pr-4 uppercase tracking-wider">Total:</td>
+                    <td className="py-2 text-right font-black text-[#D4A01E] text-[12px]">{totalSolicitado}</td>
+                    <td className="py-2"></td>
+                </tr>
             </tbody>
         </table>
     )
