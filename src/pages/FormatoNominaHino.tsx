@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
-import { Printer, ChevronLeft, Loader2, Mail, Phone, Globe } from 'lucide-react'
+import { Printer, ChevronLeft, Loader2 } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
-import { es } from 'date-fns/locale'
-import { clsx } from 'clsx'
 
 interface Viaje {
     trayecto: number

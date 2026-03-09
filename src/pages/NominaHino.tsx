@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { Topbar } from '@/components/layout/Topbar'
 import {
-    Search, Calendar, Truck, User, Hash, MapPin,
-    Play, Save, Printer, History, Plus, Trash2,
-    X, Check, AlertCircle, Loader2, Eye, FileText
+    Calendar, Truck, User, Hash, MapPin,
+    Play, Save, History, Trash2,
+    Loader2, Eye, FileText
 } from 'lucide-react'
 import {
     format, parseISO, startOfWeek, addDays,
-    eachDayOfInterval, isSameDay, getDay
+    eachDayOfInterval
 } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { clsx } from 'clsx'
-import type { Pedido, Sucursal } from '@/lib/types'
 
 interface Viaje {
     trayecto: number
