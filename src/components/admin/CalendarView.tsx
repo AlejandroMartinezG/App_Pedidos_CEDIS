@@ -58,8 +58,8 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
 
     const renderHeader = () => {
         return (
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-[#1E3A6E] capitalize dark:text-slate-100">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                <h2 className="text-xl md:text-2xl font-bold text-[#1E3A6E] capitalize dark:text-slate-100 text-center sm:text-left">
                     {format(currentDate, dateFormat, { locale: es })}
                 </h2>
                 <div className="flex gap-2">
@@ -67,11 +67,11 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                         onClick={prevMonth}
                         className="p-2 border border-gray-200 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-500 transition-colors"
                     >
-                        <ChevronLeft size={20} />
+                        <ChevronLeft size={18} />
                     </button>
                     <button
                         onClick={() => setCurrentDate(new Date())}
-                        className="px-4 py-2 text-sm font-semibold border border-[#E2E5EB] dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 text-[#1E3A6E] dark:text-slate-300 transition-colors bg-white dark:bg-slate-900"
+                        className="px-3 md:px-4 py-2 text-xs md:text-sm font-semibold border border-[#E2E5EB] dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 text-[#1E3A6E] dark:text-slate-300 transition-colors bg-white dark:bg-slate-900"
                     >
                         Hoy
                     </button>
@@ -79,7 +79,7 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                         onClick={nextMonth}
                         className="p-2 border border-gray-200 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-500 transition-colors"
                     >
-                        <ChevronRight size={20} />
+                        <ChevronRight size={18} />
                     </button>
                 </div>
             </div>
@@ -90,8 +90,9 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
         return (
             <div className="grid grid-cols-7 mb-2">
                 {weekDays.map((day, i) => (
-                    <div key={i} className="text-center text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider py-2">
-                        {day}
+                    <div key={i} className="text-center text-[10px] md:text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest py-2">
+                        <span className="hidden md:inline">{day}</span>
+                        <span className="md:hidden">{day.charAt(0)}</span>
                     </div>
                 ))}
             </div>
@@ -114,11 +115,11 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                         <div
                             key={i}
                             onClick={() => setSelectedDate(day)}
-                            className={`min-h-[140px] bg-white dark:bg-slate-900 p-2.5 border-none transition-colors cursor-pointer group hover:bg-[#F4F6FA] dark:hover:bg-slate-800/80 relative ${!isCurrentMonth ? 'opacity-40 bg-gray-50/50' : ''
+                            className={`min-h-[90px] md:min-h-[140px] bg-white dark:bg-slate-900 p-1 md:p-2.5 border-none transition-colors cursor-pointer group hover:bg-[#F4F6FA] dark:hover:bg-slate-800/80 relative ${!isCurrentMonth ? 'opacity-40 bg-gray-50/50' : ''
                                 } ${isSelected ? 'ring-2 ring-inset ring-[#2B5EA7] bg-blue-50/30' : ''}`}
                         >
-                            <div className="flex justify-between items-start mb-3">
-                                <span className={`w-9 h-9 flex items-center justify-center rounded-full text-base font-bold transition-all ${isToday
+                            <div className="flex justify-between items-start mb-1 md:mb-3">
+                                <span className={`w-6 h-6 md:w-9 md:h-9 flex items-center justify-center rounded-full text-xs md:text-base font-bold transition-all ${isToday
                                     ? 'bg-[#1E3A6E] text-white shadow-lg scale-110'
                                     : isSelected
                                         ? 'bg-blue-100 text-[#2B5EA7] border-2 border-blue-200'
@@ -127,13 +128,13 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                     {format(day, 'd')}
                                 </span>
                                 {dayPedidos.length > 0 && (
-                                    <span className="text-[10px] font-bold text-[#2B5EA7] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
-                                        {dayPedidos.length} {dayPedidos.length === 1 ? 'ped' : 'peds'}
+                                    <span className="text-[8px] md:text-[10px] font-bold text-[#2B5EA7] bg-blue-50 px-1 md:px-2 py-0.5 rounded-full border border-blue-100 whitespace-nowrap">
+                                        {dayPedidos.length} <span className="hidden md:inline">{dayPedidos.length === 1 ? 'ped' : 'peds'}</span>
                                     </span>
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-2 overflow-y-auto max-h-[130px] custom-scrollbar pb-1 pointer-events-auto">
+                            <div className="flex flex-col gap-1 md:gap-2 overflow-y-auto max-h-[80px] md:max-h-[130px] custom-scrollbar pb-1 pointer-events-auto">
                                 {dayPedidos.map((pedido) => {
                                     const statusColors: Record<string, string> = {
                                         borrador: 'bg-gray-400',
@@ -153,18 +154,18 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                                 e.stopPropagation()
                                                 setModalPedido(pedido)
                                             }}
-                                            className="cursor-pointer text-[11px] font-bold flex flex-col bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm leading-tight hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all relative overflow-hidden pl-3.5 group/item"
+                                            className="cursor-pointer text-[9px] md:text-[11px] font-bold flex flex-col bg-white dark:bg-slate-800 p-1 md:p-2 rounded-md md:rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm leading-tight hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all relative overflow-hidden pl-2 md:pl-3.5 group/item"
                                         >
                                             {/* Indicador lateral de estatus */}
-                                            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${barColor} opacity-90`} />
+                                            <div className={`absolute left-0 top-0 bottom-0 w-1 md:w-1.5 ${barColor} opacity-90`} />
 
-                                            <div className="flex justify-between items-center mb-1">
-                                                <span className="font-black text-[#1E3A6E] dark:text-blue-300 truncate max-w-[70%] tracking-tight">
+                                            <div className="flex justify-between items-center mb-0.5 md:mb-1">
+                                                <span className="font-black text-[#1E3A6E] dark:text-blue-300 truncate max-w-[85%] md:max-w-[70%] tracking-tight">
                                                     {pedido.codigo_pedido.replace('ACT-', '')}
                                                 </span>
-                                                <div className={`w-2 h-2 rounded-full ${barColor} shadow-sm`} />
+                                                <div className={`hidden md:block w-2 h-2 rounded-full ${barColor} shadow-sm`} />
                                             </div>
-                                            <div className="flex justify-between items-center text-[10px] text-gray-500 dark:text-slate-400 uppercase font-bold tracking-tighter">
+                                            <div className="hidden md:flex justify-between items-center text-[10px] text-gray-500 dark:text-slate-400 uppercase font-bold tracking-tighter">
                                                 <span className="truncate max-w-[55%]">{pedido.sucursal?.nombre || '—'}</span>
                                                 <span className="font-black text-[#2B5EA7] dark:text-slate-200 whitespace-nowrap">
                                                     {pedido.total_kilos?.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg
@@ -174,8 +175,8 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
                                     )
                                 })}
                                 {dayPedidos.length > 0 && (
-                                    <div className="text-[11px] font-black text-[#1E3A6E] dark:text-blue-400 text-center mt-2 border-t-2 border-gray-100 dark:border-slate-700 pt-1.5 sticky bottom-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm z-10 transition-colors">
-                                        Total: {totalKg.toLocaleString('es-MX', { maximumFractionDigits: 0 })} kg
+                                    <div className="text-[9px] md:text-[11px] font-black text-[#1E3A6E] dark:text-blue-400 text-center mt-1 md:mt-2 border-t md:border-t-2 border-gray-100 dark:border-slate-700 pt-1 sticky bottom-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm z-10 transition-colors">
+                                        <span className="hidden md:inline">Total: </span>{totalKg.toLocaleString('es-MX', { maximumFractionDigits: 0 })}<span className="md:inline"> kg</span>
                                     </div>
                                 )}
                             </div>
@@ -187,7 +188,7 @@ export function CalendarView({ pedidos, onDelete }: CalendarViewProps) {
     }
 
     return (
-        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl p-6 transition-colors shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl p-3 md:p-6 transition-colors shadow-sm overflow-hidden">
             {renderHeader()}
             {renderDays()}
             {renderCells()}

@@ -141,12 +141,12 @@ export function Dashboard() {
                 subtitle={activeView === 'pedidos' ? 'Vista tabular de todos los pedidos programados.' : 'Solicitudes de acceso y gestión de usuarios.'}
             />
             {/* View Tabs */}
-            <div className="px-6 pt-4 pb-0">
-                <div className="flex gap-1 border-b border-gray-200 dark:border-slate-800 mb-6 transition-colors">
+            <div className="px-4 md:px-6 pt-4 pb-0">
+                <div className="flex overflow-x-auto no-scrollbar gap-1 border-b border-gray-200 dark:border-slate-800 mb-6 transition-colors -mx-4 px-4 md:mx-0 md:px-0">
                     <button
                         onClick={() => setSearchParams({})}
-                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'pedidos'
-                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap ${activeView === 'pedidos'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400 font-bold'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                             }`}
                     >
@@ -155,30 +155,30 @@ export function Dashboard() {
                     </button>
                     <button
                         onClick={() => setSearchParams({ tab: 'fechas' })}
-                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'fechas'
-                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap ${activeView === 'fechas'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400 font-bold'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                             }`}
                     >
                         <CalendarDays size={15} />
                         Fechas Pendientes
                         {pendingFechas > 0 && (
-                            <span className="bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            <span className="bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                                 {pendingFechas}
                             </span>
                         )}
                     </button>
                     <button
                         onClick={() => setSearchParams({ tab: 'solicitudes' })}
-                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'solicitudes'
-                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
+                        className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap ${activeView === 'solicitudes'
+                            ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400 font-bold'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
                             }`}
                     >
                         <Users2 size={15} />
-                        Solicitudes & Usuarios
+                        Usuarios
                         {pendingSolicitudes > 0 && (
-                            <span className="bg-amber-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                                 {pendingSolicitudes}
                             </span>
                         )}
@@ -202,9 +202,9 @@ export function Dashboard() {
 
             {/* Pedidos view */}
             {activeView === 'pedidos' && (
-                <div className="p-6 space-y-5">
+                <div className="p-4 md:p-6 space-y-5">
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-4 gap-4 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-2 md:mt-4">
                         <StatCard
                             icon={<Package size={28} strokeWidth={2} />}
                             label="Pedidos Hoy"
@@ -250,48 +250,54 @@ export function Dashboard() {
                         />
                     </div>
 
-                    {/* Filters & View Toggle */}
-                    <div className="flex items-center justify-between bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl px-4 py-3 transition-colors">
-                        <div className="flex items-center gap-3">
-                            <span className="text-xs text-gray-400 dark:text-slate-500 font-medium flex items-center gap-1">
-                                <ChevronDown size={13} /> Filtros:
-                            </span>
-                            <select
-                                value={filterSucursal}
-                                onChange={e => setFilterSucursal(e.target.value)}
-                                className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
-                            >
-                                <option value="all">Todas las sucursales</option>
-                                {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
-                            </select>
-                            <select
-                                value={filterEstado}
-                                onChange={e => setFilterEstado(e.target.value)}
-                                className="text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-medium transition-colors"
-                            >
-                                {ESTADOS.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
-                            </select>
+                    {/* Filters & View Toggle Section */}
+                    <div className="space-y-3">
+                        {/* Filters Container */}
+                        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-2xl p-3 shadow-sm transition-colors">
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                <div className="flex items-center gap-2 px-1 text-gray-400 dark:text-slate-500">
+                                    <ChevronDown size={14} className="flex-shrink-0" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Filtros</span>
+                                </div>
+                                <div className="flex flex-1 gap-2">
+                                    <select
+                                        value={filterSucursal}
+                                        onChange={e => setFilterSucursal(e.target.value)}
+                                        className="flex-1 text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-xl px-3 py-2.5 sm:py-2 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-bold transition-colors appearance-none shadow-sm"
+                                    >
+                                        <option value="all">Todas las sucursales</option>
+                                        {sucursales.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+                                    </select>
+                                    <select
+                                        value={filterEstado}
+                                        onChange={e => setFilterEstado(e.target.value)}
+                                        className="flex-1 text-xs border border-[#E2E5EB] dark:border-slate-700 rounded-xl px-3 py-2.5 sm:py-2 focus:outline-none focus:ring-2 focus:ring-[#2B5EA7]/30 dark:focus:ring-blue-500/50 bg-white dark:bg-slate-800 text-[#1E3A6E] dark:text-slate-200 font-bold transition-colors appearance-none shadow-sm"
+                                    >
+                                        {ESTADOS.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* View Toggle */}
-                        <div className="flex items-center bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700">
+                        {/* View Switcher (Full width on mobile) */}
+                        <div className="bg-gray-100 dark:bg-slate-800 p-1.5 rounded-2xl border border-gray-200 dark:border-slate-700/50 flex w-full md:w-max">
                             <button
                                 onClick={() => setLayout('calendario')}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'calendario'
-                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
-                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black transition-all ${layout === 'calendario'
+                                    ? 'bg-white dark:bg-slate-700 text-[#2B5EA7] dark:text-blue-300 shadow-md ring-1 ring-black/5 scale-[1.02]'
+                                    : 'text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-400'
                                     }`}
                             >
-                                <CalendarDays size={14} /> Calendario
+                                <CalendarDays size={16} /> Calendario
                             </button>
                             <button
                                 onClick={() => setLayout('lista')}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${layout === 'lista'
-                                    ? 'bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-blue-400 shadow-sm'
-                                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
+                                className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black transition-all ${layout === 'lista'
+                                    ? 'bg-white dark:bg-slate-700 text-[#2B5EA7] dark:text-blue-300 shadow-md ring-1 ring-black/5 scale-[1.02]'
+                                    : 'text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-400'
                                     }`}
                             >
-                                <List size={14} /> Lista
+                                <List size={16} /> Ver Lista
                             </button>
                         </div>
                     </div>
@@ -302,193 +308,234 @@ export function Dashboard() {
                             <CalendarView pedidos={filtered} onDelete={handleDelete} />
                         </div>
                     ) : (
-                        <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-x-auto transition-colors animate-fade-in">
-                            {loading ? (
-                                <div className="flex justify-center py-16">
-                                    <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
-                                </div>
-                            ) : (
-                                <table className="w-full text-xs min-w-[800px]">
-                                    <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-wide">
-                                        <tr>
-                                            <th className="px-4 py-3 text-left"># Pedido</th>
-                                            <th className="px-4 py-3 text-left">Sucursal</th>
-                                            <th className="px-4 py-3 text-left">F. Entrega</th>
-                                            <th className="px-4 py-3 text-left">Tipo Entrega</th>
-                                            <th className="px-4 py-3 text-right">Total kg</th>
-                                            <th className="px-4 py-3 text-center">Estatus</th>
-                                            <th className="px-4 py-3 text-left">Enviado</th>
-                                            <th className="px-4 py-3 text-center">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-[#F4F6FA] dark:divide-slate-800/80">
-                                        {filtered.map(p => (
-                                            <Fragment key={p.id}>
-                                                <tr className={`hover:bg-[#F4F6FA]/50 dark:hover:bg-slate-800/30 transition-colors ${selectedPedido?.id === p.id ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}>
-                                                    <td className="px-4 py-3 font-mono font-bold text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
-                                                    <td className="px-4 py-3 text-gray-700 dark:text-slate-300 font-medium">{p.sucursal?.nombre ?? '—'}</td>
-                                                    <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                        {format(parseISO(p.fecha_entrega), 'dd/MMM/yy', { locale: es })}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-gray-600 dark:text-slate-400">
-                                                        {p.tipo_entrega ?? '—'}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-right font-mono font-semibold text-[#1E3A6E] dark:text-slate-100">
-                                                        {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-center">
-                                                        <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ESTADO_COLORS[p.estado]}`}>
-                                                            ● {ESTADO_LABELS[p.estado]}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-4 py-3 text-gray-400">
-                                                        {p.enviado_at ? format(parseISO(p.enviado_at), 'dd/MMM/yy', { locale: es }) : '—'}
-                                                    </td>
-                                                    <td className="px-4 py-3">
-                                                        <div className="flex items-center justify-center gap-1">
-                                                            <button
-                                                                onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
-                                                                className={`p-1.5 rounded-lg transition-colors ${selectedPedido?.id === p.id ? 'text-blue-600 bg-blue-100' : 'text-gray-400 hover:text-[#2B5EA7] hover:bg-blue-50'}`}
-                                                                title="Ver formato imprimible"
-                                                            >
-                                                                <Eye size={14} />
-                                                            </button>
-                                                            <Link
-                                                                to={`/nuevo-pedido/${p.id}`}
-                                                                className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
-                                                                title="Editar pedido"
-                                                            >
-                                                                <Pencil size={14} />
-                                                            </Link>
-
-                                                            {/* Delete Action */}
-                                                            {confirmDelete === p.id ? (
-                                                                <div className="flex items-center gap-1 mx-1">
-                                                                    <button
-                                                                        onClick={() => handleDelete(p.id)}
-                                                                        disabled={deleting === p.id}
-                                                                        className="px-2 py-1 text-[10px] font-bold bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-60 transition-colors"
-                                                                    >
-                                                                        {deleting === p.id ? '...' : 'Sí'}
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => setConfirmDelete(null)}
-                                                                        disabled={deleting === p.id}
-                                                                        className="px-2 py-1 text-[10px] font-bold bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-60 transition-colors"
-                                                                    >
-                                                                        No
-                                                                    </button>
-                                                                </div>
-                                                            ) : (
-                                                                <button
-                                                                    onClick={() => setConfirmDelete(p.id)}
-                                                                    className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
-                                                                    title="Eliminar pedido permanentemente"
-                                                                >
-                                                                    <Trash2 size={14} />
-                                                                </button>
-                                                            )}
-                                                            {p.estado === 'enviado' && (
-                                                                <button
-                                                                    onClick={() => cambiarEstado(p.id, 'aprobado')}
-                                                                    className="px-2.5 py-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors font-medium"
-                                                                >
-                                                                    Aprobar
-                                                                </button>
-                                                            )}
-                                                            {p.estado === 'aprobado' && (
-                                                                <button
-                                                                    onClick={() => cambiarEstado(p.id, 'impreso')}
-                                                                    className="px-2.5 py-1 text-[10px] bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors font-medium flex items-center gap-1"
-                                                                >
-                                                                    <Printer size={11} /> Imprimir
-                                                                </button>
-                                                            )}
-                                                            {p.estado === 'impreso' && (
-                                                                <button
-                                                                    onClick={() => cambiarEstado(p.id, 'colocado_piso')}
-                                                                    className="px-2.5 py-1 text-[10px] bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors font-medium"
-                                                                >
-                                                                    Poner en piso
-                                                                </button>
-                                                            )}
-                                                            {p.estado === 'colocado_piso' && (
-                                                                <button
-                                                                    onClick={() => cambiarEstado(p.id, 'expedido')}
-                                                                    className="px-2.5 py-1 text-[10px] bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors font-medium"
-                                                                >
-                                                                    Expedir
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </td>
+                        <div className="animate-fade-in space-y-4">
+                            {/* Desktop Table View (Hidden on Mobile) */}
+                            <div className="hidden lg:block bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
+                                {loading ? (
+                                    <div className="flex justify-center py-16">
+                                        <span className="w-8 h-8 border-4 border-[#2B5EA7] border-t-transparent rounded-full animate-spin" />
+                                    </div>
+                                ) : (
+                                    <table className="w-full text-xs">
+                                        <thead className="bg-[#F4F6FA] dark:bg-slate-800/50 text-gray-500 dark:text-slate-400 uppercase tracking-widest font-black h-12">
+                                            <tr>
+                                                <th className="px-5 py-3 text-left"># Pedido</th>
+                                                <th className="px-5 py-3 text-left">Sucursal</th>
+                                                <th className="px-5 py-3 text-left">Entrega</th>
+                                                <th className="px-5 py-3 text-left">Tipo</th>
+                                                <th className="px-5 py-3 text-right">Kilos</th>
+                                                <th className="px-5 py-3 text-center">Estatus</th>
+                                                <th className="px-5 py-3 text-center">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
+                                            {filtered.length === 0 ? (
+                                                <tr>
+                                                    <td colSpan={7} className="px-5 py-20 text-center text-gray-400 font-medium">No se encontraron pedidos matching</td>
                                                 </tr>
-                                                {/* Inline Preview Row */}
-                                                {selectedPedido?.id === p.id && (
-                                                    <tr>
-                                                        <td colSpan={8} className="px-6 py-6 bg-gray-50 dark:bg-slate-800/40 border-y border-gray-100 dark:border-slate-800 animate-fade-in">
-                                                            <div className="bg-white dark:bg-slate-900 border border-[#E2E5EB] dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden">
-                                                                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/80">
-                                                                    <div className="flex items-center gap-3">
-                                                                        <div className="p-2 bg-blue-100 dark:bg-blue-900/40 text-blue-600 rounded-lg">
-                                                                            <Printer size={16} />
-                                                                        </div>
-                                                                        <div>
-                                                                            <h3 className="text-sm font-bold text-[#1E3A6E] dark:text-blue-300">Vista previa del Formato</h3>
-                                                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Pedido {p.codigo_pedido}</p>
-                                                                        </div>
+                                            ) : filtered.map(p => (
+                                                <Fragment key={p.id}>
+                                                    <tr className={`hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors ${selectedPedido?.id === p.id ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''}`}>
+                                                        <td className="px-5 py-4 font-mono font-black text-[#2B5EA7] dark:text-blue-400">{p.codigo_pedido}</td>
+                                                        <td className="px-5 py-4 text-gray-700 dark:text-slate-200 font-bold">{p.sucursal?.nombre ?? '—'}</td>
+                                                        <td className="px-5 py-4 text-gray-600 dark:text-slate-400 font-medium capitalize">
+                                                            {format(parseISO(p.fecha_entrega), "dd 'de' MMM", { locale: es })}
+                                                        </td>
+                                                        <td className="px-5 py-4 text-[10px] font-black text-gray-500 dark:text-slate-500 uppercase">
+                                                            {p.tipo_entrega ?? '—'}
+                                                        </td>
+                                                        <td className="px-5 py-4 text-right font-mono font-bold text-[#1E3A6E] dark:text-slate-100">
+                                                            {p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                                                        </td>
+                                                        <td className="px-5 py-4 text-center">
+                                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border tracking-tight ${ESTADO_COLORS[p.estado]}`}>
+                                                                {ESTADO_LABELS[p.estado]}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-5 py-4">
+                                                            <div className="flex items-center justify-center gap-1.5">
+                                                                <button
+                                                                    onClick={() => setSelectedPedido(selectedPedido?.id === p.id ? null : p)}
+                                                                    className={`p-2 rounded-xl border transition-all active:scale-95 ${selectedPedido?.id === p.id ? 'bg-blue-600 border-blue-600 text-white shadow-md' : 'border-blue-100 text-blue-500 hover:bg-blue-50'}`}
+                                                                >
+                                                                    <Eye size={16} />
+                                                                </button>
+                                                                <Link
+                                                                    to={`/nuevo-pedido/${p.id}`}
+                                                                    className="p-2 border border-amber-100 text-amber-600 hover:bg-amber-50 rounded-xl transition-all active:scale-95"
+                                                                >
+                                                                    <Pencil size={16} />
+                                                                </Link>
+                                                                {confirmDelete === p.id ? (
+                                                                    <div className="flex items-center gap-1">
+                                                                        <button onClick={() => handleDelete(p.id)} disabled={deleting === p.id} className="p-2 bg-red-600 text-white rounded-xl shadow-md"><CheckCircle size={14} /></button>
+                                                                        <button onClick={() => setConfirmDelete(null)} className="p-2 bg-gray-100 text-gray-500 rounded-xl"><Package size={14} className="rotate-45" /></button>
                                                                     </div>
-                                                                    <div className="flex gap-2">
-                                                                        <Link
-                                                                            to={`/imprimir/${p.id}`}
-                                                                            target="_blank"
-                                                                            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-xl text-xs font-bold text-gray-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 shadow-sm transition-all"
-                                                                        >
-                                                                            <Printer size={14} /> Imprimir
-                                                                        </Link>
-                                                                        <Link
-                                                                            to={`/imprimir/${p.id}`}
-                                                                            target="_blank"
-                                                                            className="flex items-center gap-2 px-4 py-2 bg-[#1E3A6E] dark:bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-[#2B5EA7] dark:hover:bg-blue-500 shadow-lg shadow-blue-900/20 transition-all"
-                                                                        >
-                                                                            ↓ Exportar PDF
-                                                                        </Link>
-                                                                        <button
-                                                                            onClick={() => setSelectedPedido(null)}
-                                                                            className="ml-2 p-2 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-full transition-colors"
-                                                                        >
-                                                                            <Package className="rotate-45" size={16} />
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="p-0 bg-white">
-                                                                    <iframe
-                                                                        src={`/imprimir/${p.id}?preview=1`}
-                                                                        className="w-full h-[500px] bg-white"
-                                                                        title="Vista previa"
-                                                                    />
-                                                                </div>
+                                                                ) : (
+                                                                    <button onClick={() => setConfirmDelete(p.id)} className="p-2 border border-red-100 text-red-400 hover:bg-red-50 rounded-xl transition-all active:scale-95"><Trash2 size={16} /></button>
+                                                                )}
+
+                                                                {/* Status Actions */}
+                                                                {p.estado === 'enviado' && (
+                                                                    <button onClick={() => cambiarEstado(p.id, 'aprobado')} className="px-4 py-2 bg-emerald-600 text-white text-[11px] font-black uppercase rounded-xl hover:bg-emerald-700 shadow-sm transition-all active:scale-95">Aprobar</button>
+                                                                )}
+                                                                {p.estado === 'aprobado' && (
+                                                                    <button onClick={() => cambiarEstado(p.id, 'impreso')} className="px-4 py-2 bg-blue-600 text-white text-[11px] font-black uppercase rounded-xl hover:bg-blue-700 shadow-sm transition-all active:scale-95 flex items-center gap-2 font-black"><Printer size={14} /> Imprimir</button>
+                                                                )}
+                                                                {p.estado === 'impreso' && (
+                                                                    <button onClick={() => cambiarEstado(p.id, 'colocado_piso')} className="px-4 py-2 bg-[#1E3A6E] text-white text-[11px] font-black uppercase rounded-xl hover:bg-[#2B5EA7] shadow-sm transition-all active:scale-95">A Piso</button>
+                                                                )}
+                                                                {p.estado === 'colocado_piso' && (
+                                                                    <button onClick={() => cambiarEstado(p.id, 'expedido')} className="px-4 py-2 bg-purple-600 text-white text-[11px] font-black uppercase rounded-xl hover:bg-purple-700 shadow-sm transition-all active:scale-95">Expedir</button>
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                )}
-                                            </Fragment>
-                                        ))}
-                                        {filtered.length === 0 && (
-                                            <tr>
-                                                <td colSpan={8} className="py-12 text-center text-gray-400 text-sm">
-                                                    No hay pedidos con los filtros seleccionados
-                                                </td>
-                                            </tr>
+                                                    {selectedPedido?.id === p.id && (
+                                                        <tr className="bg-blue-50/20 dark:bg-blue-900/5">
+                                                            <td colSpan={7} className="px-6 py-6 border-y border-blue-100 dark:border-blue-900/30">
+                                                                <div className="bg-white dark:bg-slate-900 border border-blue-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden max-w-5xl mx-auto">
+                                                                    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/50">
+                                                                        <div className="flex items-center gap-3">
+                                                                            <Printer className="text-blue-600" size={18} />
+                                                                            <h3 className="text-sm font-bold text-gray-800 dark:text-blue-300">Vista previa: {p.codigo_pedido}</h3>
+                                                                        </div>
+                                                                        <div className="flex gap-2">
+                                                                            <Link to={`/imprimir/${p.id}`} target="_blank" className="px-4 py-2 bg-[#1E3A6E] text-white text-xs font-black rounded-xl active:scale-95 flex items-center gap-2 h-9">
+                                                                                <Printer size={14} /> PDF / Imprimir
+                                                                            </Link>
+                                                                            <button onClick={() => setSelectedPedido(null)} className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-slate-200">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" /></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="p-0 border-none">
+                                                                        <iframe src={`/imprimir/${p.id}?preview=1`} className="w-full h-[600px] border-none bg-white" title="Order Preview" />
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </Fragment>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                )}
+                            </div>
+
+                            {/* Mobile Card Layout (Visible on Small Screens) */}
+                            <div className="lg:hidden space-y-4">
+                                {loading ? (
+                                    <div className="flex justify-center py-12">
+                                        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                                    </div>
+                                ) : filtered.length === 0 ? (
+                                    <div className="text-center py-16 bg-gray-50 dark:bg-slate-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-slate-800 text-gray-400 font-medium">No se encontraron pedidos matching</div>
+                                ) : filtered.map(p => (
+                                    <div key={p.id} className={`bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm transition-all ${selectedPedido?.id === p.id ? 'border-[#2B5EA7] ring-2 ring-[#2B5EA7]/20 shadow-blue-100' : 'border-gray-200 dark:border-slate-800'}`}>
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div>
+                                                <p className="font-mono font-black text-[#2B5EA7] dark:text-blue-400 text-lg uppercase">{p.codigo_pedido}</p>
+                                                <p className="font-black text-gray-800 dark:text-slate-200 text-base leading-tight mt-0.5">{p.sucursal?.nombre || '—'}</p>
+                                            </div>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border tracking-tight ${ESTADO_COLORS[p.estado]}`}>
+                                                {ESTADO_LABELS[p.estado]}
+                                            </span>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-100 dark:border-slate-800">
+                                            <div>
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Entrega</p>
+                                                <p className="text-xs font-bold text-gray-700 dark:text-slate-300 capitalize">{format(parseISO(p.fecha_entrega), "EEEE d 'de' MMM", { locale: es })}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Kilos</p>
+                                                <p className="text-sm font-mono font-black text-[#1E3A6E] dark:text-slate-100">{p.total_kilos.toLocaleString('es-MX', { minimumFractionDigits: 1 })} kg</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-2">
+                                            {/* Status Actions */}
+                                            {p.estado === 'enviado' && (
+                                                <button onClick={() => cambiarEstado(p.id, 'aprobado')} className="w-full py-3.5 bg-emerald-600 text-white text-xs font-black uppercase rounded-2xl shadow-lg active:scale-95 transition-all">Aprobar Pedido</button>
+                                            )}
+                                            {p.estado === 'aprobado' && (
+                                                <button onClick={() => cambiarEstado(p.id, 'impreso')} className="w-full py-3.5 bg-blue-600 text-white text-xs font-black uppercase rounded-2xl shadow-lg active:scale-95 flex items-center justify-center gap-2 transition-all font-black"><Printer size={18} /> Imprimir Formato</button>
+                                            )}
+                                            {p.estado === 'impreso' && (
+                                                <button onClick={() => cambiarEstado(p.id, 'colocado_piso')} className="w-full py-3.5 bg-[#1E3A6E] text-white text-xs font-black uppercase rounded-2xl shadow-lg active:scale-95 transition-all">Colocar en Piso</button>
+                                            )}
+                                            {p.estado === 'colocado_piso' && (
+                                                <button onClick={() => cambiarEstado(p.id, 'expedido')} className="w-full py-3.5 bg-purple-600 text-white text-xs font-black uppercase rounded-2xl shadow-lg active:scale-95 transition-all">Expedir Salida</button>
+                                            )}
+
+                                            {/* Secondary Actions */}
+                                            <div className="flex gap-2 w-full mt-1">
+                                                <button onClick={() => setSelectedPedido(p)} className="flex-1 py-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 font-bold text-xs rounded-2xl border border-blue-100 dark:border-blue-900/30 active:scale-95 transition-all">Detalle</button>
+                                                <Link to={`/nuevo-pedido/${p.id}`} className="flex-1 py-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 font-bold text-xs rounded-2xl border border-amber-100 dark:border-amber-900/30 text-center active:scale-95 transition-all flex items-center justify-center gap-2"><Pencil size={14} /> Editar</Link>
+                                                <button onClick={() => setConfirmDelete(p.id === confirmDelete ? null : p.id)} className={`px-4 py-3 rounded-2xl border transition-all active:scale-95 ${confirmDelete === p.id ? 'bg-red-600 text-white border-red-600' : 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-100 dark:border-red-900/30'}`}>
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+
+                                            {/* Mobile Delete Confirm */}
+                                            {confirmDelete === p.id && (
+                                                <div className="p-3 bg-red-600 rounded-2xl flex items-center justify-between text-white animate-in zoom-in-95 duration-200">
+                                                    <p className="text-[10px] font-black uppercase tracking-tight">¿Confirmar borrado?</p>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={() => handleDelete(p.id)} className="px-5 py-2 bg-white text-red-600 rounded-xl text-[10px] font-black uppercase">Sí</button>
+                                                        <button onClick={() => setConfirmDelete(null)} className="px-5 py-2 bg-red-700 text-white/80 rounded-xl text-[10px] font-black uppercase">No</button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Mobile Details Sheet Overlay */}
+                                        {selectedPedido?.id === p.id && (
+                                            <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                                                <div className="bg-white dark:bg-slate-950 w-full max-w-xl rounded-t-[2rem] shadow-2xl flex flex-col max-h-[92vh] animate-in slide-in-from-bottom duration-300">
+                                                    <div className="w-12 h-1 bg-gray-200 dark:bg-slate-800 rounded-full mx-auto my-3" />
+                                                    <div className="px-6 pb-4 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-950 z-10">
+                                                        <div>
+                                                            <h3 className="text-xl font-black text-[#1E3A6E] dark:text-slate-100">{p.codigo_pedido}</h3>
+                                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{p.sucursal?.nombre}</p>
+                                                        </div>
+                                                        <button onClick={() => setSelectedPedido(null)} className="p-2 text-gray-400 hover:text-gray-600"><XCircle size={28} /></button>
+                                                    </div>
+                                                    <div className="flex-1 overflow-y-auto px-4 pb-6">
+                                                        <div className="bg-gray-50 dark:bg-slate-900 rounded-2xl overflow-hidden shadow-inner">
+                                                            <iframe
+                                                                src={`/imprimir/${p.id}?preview=1`}
+                                                                className="w-full h-[550px] border-none bg-white"
+                                                                title="Mobile Preview"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="p-6 border-t border-gray-100 dark:border-slate-900 bg-white dark:bg-slate-950 flex flex-col gap-3">
+                                                        <Link to={`/imprimir/${p.id}`} target="_blank" className="w-full py-4 bg-[#1E3A6E] text-white text-sm font-black uppercase rounded-2xl flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition-all">
+                                                            <Printer size={18} /> Imprimir / PDF
+                                                        </Link>
+                                                        <button onClick={() => setSelectedPedido(null)} className="w-full py-3 text-gray-400 font-bold text-xs uppercase tracking-widest">Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         )}
-                                    </tbody>
-                                </table>
-                            )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
             )}
         </div>
+    )
+}
+
+function XCircle({ size, className }: { size?: number, className?: string }) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" />
+        </svg>
     )
 }
 
