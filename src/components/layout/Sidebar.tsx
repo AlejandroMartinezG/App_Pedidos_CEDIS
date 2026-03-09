@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import {
     ListOrdered, LayoutDashboard,
     Settings, LogOut, Sun, Moon, ChevronRight, CalendarDays
@@ -14,6 +14,7 @@ interface Props {
 export function Sidebar({ isCollapsed = false, onToggle }: Props) {
     const { user, signOut } = useAuth()
     const { theme, toggleTheme } = useTheme()
+    const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const isAdmin = user?.rol === 'admin'
 
@@ -63,16 +64,35 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         <p className={clsx("text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2 transition-all", isCollapsed ? "text-transparent h-0 overflow-hidden" : "px-3")}>
                             {!isCollapsed && "General"}
                         </p>
-                        <NavLink to="/dashboard" className={linkClass} title={isCollapsed ? "Administrar Pedidos" : undefined}>
+                        <NavLink
+                            to="/dashboard"
+                            end
+                            className={() => {
+                                const isHome = !searchParams.get('tab');
+                                return linkClass({ isActive: isHome });
+                            }}
+                            title={isCollapsed ? "Administrar Pedidos" : undefined}
+                        >
                             <LayoutDashboard size={16} className="shrink-0" />
                             {!isCollapsed && <span>Administrar Pedidos</span>}
+                        </NavLink>
+                        <NavLink
+                            to="/dashboard?tab=fechas"
+                            className={() => {
+                                const isFechas = searchParams.get('tab') === 'fechas';
+                                return linkClass({ isActive: isFechas });
+                            }}
+                            title={isCollapsed ? "Fechas Pendientes" : undefined}
+                        >
+                            <CalendarDays size={16} className="shrink-0" />
+                            {!isCollapsed && <span>Fechas Pendientes</span>}
                         </NavLink>
                         <p className={clsx("text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2 mt-4 transition-all", isCollapsed ? "text-transparent h-0 overflow-hidden" : "px-3")}>
                             {!isCollapsed && "Administración"}
                         </p>
                         <button
                             onClick={() => navigate('/dashboard?tab=solicitudes')}
-                            className={linkClass({ isActive: false }) + ' w-full text-left'}
+                            className={clsx(linkClass({ isActive: searchParams.get('tab') === 'solicitudes' }), 'w-full text-left')}
                             title={isCollapsed ? "Solicitudes & Usuarios" : undefined}
                         >
                             <Settings size={16} className="shrink-0" />

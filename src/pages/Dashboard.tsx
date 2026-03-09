@@ -29,7 +29,7 @@ const ESTADOS: { value: EstadoPedido | 'all'; label: string }[] = [
 
 export function Dashboard() {
     useAuth()
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
     const [pedidos, setPedidos] = useState<PedidoRow[]>([])
     const [sucursales, setSucursales] = useState<Sucursal[]>([])
     const [loading, setLoading] = useState(true)
@@ -144,7 +144,7 @@ export function Dashboard() {
             <div className="px-6 pt-4 pb-0">
                 <div className="flex gap-1 border-b border-gray-200 dark:border-slate-800 mb-6 transition-colors">
                     <button
-                        onClick={() => setActiveView('pedidos')}
+                        onClick={() => setSearchParams({})}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'pedidos'
                             ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
@@ -154,7 +154,7 @@ export function Dashboard() {
                         Pedidos
                     </button>
                     <button
-                        onClick={() => setActiveView('fechas')}
+                        onClick={() => setSearchParams({ tab: 'fechas' })}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'fechas'
                             ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
@@ -169,7 +169,7 @@ export function Dashboard() {
                         )}
                     </button>
                     <button
-                        onClick={() => setActiveView('solicitudes')}
+                        onClick={() => setSearchParams({ tab: 'solicitudes' })}
                         className={`px-4 py-2.5 text-sm font-semibold transition-colors flex items-center gap-2 ${activeView === 'solicitudes'
                             ? 'text-[#1E3A6E] dark:text-blue-400 border-b-2 border-[#1E3A6E] dark:border-blue-400'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300'
