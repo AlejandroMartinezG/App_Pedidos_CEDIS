@@ -1,7 +1,7 @@
-import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
+import { NavLink, useNavigate, useSearchParams, useLocation } from 'react-router-dom'
 import {
     ListOrdered, LayoutDashboard,
-    Settings, LogOut, Sun, Moon, ChevronRight, CalendarDays
+    Settings, LogOut, Sun, Moon, ChevronRight, CalendarDays, FileText
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeProvider'
@@ -16,6 +16,7 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
     const { theme, toggleTheme } = useTheme()
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
+    const location = useLocation()
     const isAdmin = user?.rol === 'admin'
 
     const handleSignOut = async () => {
@@ -68,7 +69,7 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                             to="/dashboard"
                             end
                             className={() => {
-                                const isHome = !searchParams.get('tab');
+                                const isHome = location.pathname === '/dashboard' && !searchParams.get('tab');
                                 return linkClass({ isActive: isHome });
                             }}
                             title={isCollapsed ? "Administrar Pedidos" : undefined}
@@ -79,7 +80,7 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         <NavLink
                             to="/dashboard?tab=fechas"
                             className={() => {
-                                const isFechas = searchParams.get('tab') === 'fechas';
+                                const isFechas = location.pathname === '/dashboard' && searchParams.get('tab') === 'fechas';
                                 return linkClass({ isActive: isFechas });
                             }}
                             title={isCollapsed ? "Fechas Pendientes" : undefined}
@@ -92,7 +93,7 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         </p>
                         <button
                             onClick={() => navigate('/dashboard?tab=solicitudes')}
-                            className={clsx(linkClass({ isActive: searchParams.get('tab') === 'solicitudes' }), 'w-full text-left')}
+                            className={clsx(linkClass({ isActive: location.pathname === '/dashboard' && searchParams.get('tab') === 'solicitudes' }), 'w-full text-left')}
                             title={isCollapsed ? "Solicitudes & Usuarios" : undefined}
                         >
                             <Settings size={16} className="shrink-0" />
@@ -101,6 +102,10 @@ export function Sidebar({ isCollapsed = false, onToggle }: Props) {
                         <NavLink to="/catalogo" className={linkClass} title={isCollapsed ? "Catálogo" : undefined}>
                             <ListOrdered size={16} className="shrink-0" />
                             {!isCollapsed && <span>Catálogo</span>}
+                        </NavLink>
+                        <NavLink to="/nomina-hino" className={linkClass} title={isCollapsed ? "Nómina Hino" : undefined}>
+                            <FileText size={16} className="shrink-0" />
+                            {!isCollapsed && <span>Nómina Hino</span>}
                         </NavLink>
                     </>
                 ) : (

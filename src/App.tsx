@@ -11,6 +11,8 @@ import { FormatoImprimible } from '@/pages/FormatoImprimible'
 import { CatalogoMateriales } from '@/pages/CatalogoMateriales'
 import { SeleccionarFecha } from '@/pages/SeleccionarFecha'
 import { CalendarioDisponibilidad } from '@/pages/CalendarioDisponibilidad'
+import { NominaHino } from '@/pages/NominaHino'
+import { FormatoNominaHino } from '@/pages/FormatoNominaHino'
 import { useAuth } from '@/context/AuthContext'
 
 function RootRedirect() {
@@ -34,6 +36,7 @@ export function App() {
                         {/* Print route (no sidebar) */}
                         <Route element={<ProtectedRoute />}>
                             <Route path="/imprimir/:id" element={<FormatoImprimible />} />
+                            <Route path="/imprimir-nomina/:id" element={<FormatoNominaHino />} />
                         </Route>
 
                         {/* Protected with layout */}
@@ -45,6 +48,7 @@ export function App() {
                                 <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
                                     <Route path="/dashboard" element={<Dashboard />} />
                                     <Route path="/catalogo" element={<CatalogoMateriales />} />
+                                    <Route path="/nomina-hino" element={<NominaHino />} />
                                 </Route>
 
                                 {/* Sucursal routes */}

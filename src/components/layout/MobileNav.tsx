@@ -1,5 +1,5 @@
-import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
-import { PlusCircle, ListOrdered, LayoutDashboard, Settings, Sun, Moon, LogOut, CalendarDays } from 'lucide-react'
+import { NavLink, useNavigate, useSearchParams, useLocation } from 'react-router-dom'
+import { PlusCircle, ListOrdered, LayoutDashboard, Settings, Sun, Moon, LogOut, CalendarDays, FileText } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeProvider'
 import { clsx } from 'clsx'
@@ -9,6 +9,7 @@ export function MobileNav() {
     const { theme, toggleTheme } = useTheme()
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
+    const location = useLocation()
     const isAdmin = user?.rol === 'admin'
 
     const baseClass = 'flex flex-col items-center justify-center w-full h-full gap-1 transition-colors'
@@ -35,21 +36,21 @@ export function MobileNav() {
                     <NavLink
                         to="/dashboard"
                         end
-                        className={() => clsx(baseClass, (!searchParams.get('tab')) ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
+                        className={() => clsx(baseClass, (location.pathname === '/dashboard' && !searchParams.get('tab')) ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
                     >
                         <LayoutDashboard size={20} />
                         <span className="text-[10px] font-medium">Pedidos</span>
                     </NavLink>
                     <NavLink
                         to="/dashboard?tab=fechas"
-                        className={() => clsx(baseClass, searchParams.get('tab') === 'fechas' ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
+                        className={() => clsx(baseClass, (location.pathname === '/dashboard' && searchParams.get('tab') === 'fechas') ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
                     >
                         <CalendarDays size={20} />
                         <span className="text-[10px] font-medium">Fechas</span>
                     </NavLink>
                     <NavLink
                         to="/dashboard?tab=solicitudes"
-                        className={() => clsx(baseClass, searchParams.get('tab') === 'solicitudes' ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
+                        className={() => clsx(baseClass, (location.pathname === '/dashboard' && searchParams.get('tab') === 'solicitudes') ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
                     >
                         <Settings size={20} />
                         <span className="text-[10px] font-medium">Usuarios</span>
@@ -65,9 +66,12 @@ export function MobileNav() {
                         <ListOrdered size={20} />
                         <span className="text-[10px] font-medium">Pedidos</span>
                     </NavLink>
-                    <NavLink to="/disponibilidad" className={navLinkClass}>
-                        <CalendarDays size={20} />
-                        <span className="text-[10px] font-medium">Calendario</span>
+                    <NavLink
+                        to="/nomina-hino"
+                        className={() => clsx(baseClass, searchParams.get('tab') === 'nomina' ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
+                    >
+                        <FileText size={20} />
+                        <span className="text-[10px] font-medium">Nómina</span>
                     </NavLink>
                 </>
             )}
