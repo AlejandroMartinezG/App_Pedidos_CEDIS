@@ -74,10 +74,10 @@ export function NominaHino() {
 
         setLoading(true)
         try {
-            // Calculate week range (Monday to Saturday)
+            // Calculate week range (Saturday to Friday)
             const date = parseISO(selectedDate)
-            const weekStart = startOfWeek(date, { weekStartsOn: 1 }) // Monday
-            const weekEnd = addDays(weekStart, 5) // Saturday
+            const weekStart = startOfWeek(date, { weekStartsOn: 6 }) // Saturday
+            const weekEnd = addDays(weekStart, 6) // Friday
 
             const startStr = format(weekStart, 'yyyy-MM-dd')
             const endStr = format(weekEnd, 'yyyy-MM-dd')
@@ -289,7 +289,7 @@ export function NominaHino() {
                                             className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
                                         />
                                     </div>
-                                    <p className="mt-2 text-[10px] text-gray-400 italic">Se calculará el periodo de lunes a sábado automáticamente.</p>
+                                    <p className="mt-2 text-[10px] text-gray-400 italic">Se calculará el periodo de sábado a viernes automáticamente.</p>
                                 </div>
 
                                 <button
