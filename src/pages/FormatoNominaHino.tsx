@@ -101,7 +101,6 @@ export function FormatoNominaHino() {
                 <div className="flex justify-between items-start mb-8">
                     <div className="w-1/3">
                         <img src="/LogoCH.png" alt="Cloro de Hidalgo" className="h-20 object-contain mb-2" />
-                        <p className="text-[10px] text-gray-500 font-medium italic">Haciendo química contigo</p>
                     </div>
 
                     <div className="w-1/3 text-center pt-4">
@@ -114,7 +113,7 @@ export function FormatoNominaHino() {
                         <img
                             src="/UnaMarcadeGrupoGinez.png"
                             alt="Una Marca de Grupo Ginez"
-                            className="h-12 ml-auto"
+                            className="h-20 ml-auto"
                         />
                     </div>
                 </div>
