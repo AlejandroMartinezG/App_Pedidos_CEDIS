@@ -55,6 +55,13 @@ export function MobileNav() {
                         <Settings size={20} />
                         <span className="text-[10px] font-medium">Usuarios</span>
                     </NavLink>
+                    <NavLink
+                        to="/nomina-hino"
+                        className={() => clsx(baseClass, location.pathname === '/nomina-hino' ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
+                    >
+                        <FileText size={20} />
+                        <span className="text-[10px] font-medium">Nómina</span>
+                    </NavLink>
                 </>
             ) : (
                 <>
@@ -66,13 +73,7 @@ export function MobileNav() {
                         <ListOrdered size={20} />
                         <span className="text-[10px] font-medium">Pedidos</span>
                     </NavLink>
-                    <NavLink
-                        to="/nomina-hino"
-                        className={() => clsx(baseClass, searchParams.get('tab') === 'nomina' ? 'text-[#2B5EA7] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300')}
-                    >
-                        <FileText size={20} />
-                        <span className="text-[10px] font-medium">Nómina</span>
-                    </NavLink>
+                    {/* Remove Nomina from non-admin view as it's an admin tool */}
                 </>
             )}
 

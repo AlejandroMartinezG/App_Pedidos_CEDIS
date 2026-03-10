@@ -179,8 +179,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(null)
     }
 
-    const isSuperAdmin = user?.es_superadmin === true ||
-        SUPERADMIN_EMAILS.includes(user?.email?.toLowerCase() ?? '')
+    const isSuperAdmin = !!(user?.es_superadmin === true ||
+        (user?.email && SUPERADMIN_EMAILS.includes(user.email.toLowerCase())))
 
     return (
         <AuthContext.Provider value={{
