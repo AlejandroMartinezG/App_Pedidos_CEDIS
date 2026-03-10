@@ -95,7 +95,7 @@ export function FormatoNominaHino() {
             </div>
 
             {/* Document Container */}
-            <div className="max-w-[1000px] mx-auto bg-white shadow-2xl p-10 print:shadow-none print:p-8 min-h-[1200px] flex flex-col font-sans">
+            <div className="max-w-[1000px] mx-auto bg-white shadow-2xl p-10 print:shadow-none print:p-4 print:m-0 min-h-[1056px] print:min-h-0 flex flex-col font-sans overflow-hidden">
 
                 {/* Header section matches image */}
                 <div className="flex justify-between items-start mb-8">
@@ -111,10 +111,11 @@ export function FormatoNominaHino() {
                     </div>
 
                     <div className="w-1/3 text-right">
-                        <div className="flex justify-end mb-4">
-                            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">UNA MARCA DE </span>
-                            <img src="/logo_ginez.png" alt="Grupo Ginez" className="h-10 ml-2" />
-                        </div>
+                        <img
+                            src="/UnaMarcadeGrupoGinez.png"
+                            alt="Una Marca de Grupo Ginez"
+                            className="h-12 ml-auto"
+                        />
                     </div>
                 </div>
 
@@ -153,7 +154,7 @@ export function FormatoNominaHino() {
                         </thead>
                         <tbody>
                             {reporte.viajes.map((viaje, index) => (
-                                <tr key={index} className="border-b border-[#1E3A6E] h-10">
+                                <tr key={index} className="border-b border-[#1E3A6E] h-8 print:h-7">
                                     <td className="border-r border-[#1E3A6E] text-sm font-bold">{viaje.trayecto}</td>
                                     <td className="border-r border-[#1E3A6E] text-xs font-bold text-center">
                                         <div className="flex justify-center gap-4">
@@ -197,9 +198,21 @@ export function FormatoNominaHino() {
             <style dangerouslySetInnerHTML={{
                 __html: `
                 @media print {
-                    @page { margin: 0; }
-                    body { margin: 0; background: white; }
+                    @page { 
+                        size: letter; 
+                        margin: 0.5cm; 
+                    }
+                    body { 
+                        margin: 0; 
+                        background: white; 
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
                     .print-hidden { display: none; }
+                    /* Ensure content fits by scaling if necessary */
+                    body > div {
+                        zoom: 0.95;
+                    }
                 }
             `}} />
         </div>
