@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { Printer, ChevronLeft, Loader2 } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
+import { clsx } from 'clsx'
 
 interface Viaje {
     trayecto: number
@@ -153,7 +154,10 @@ export function FormatoNominaHino() {
                         </thead>
                         <tbody>
                             {reporte.viajes.map((viaje, index) => (
-                                <tr key={index} className="border-b border-[#1E3A6E] h-8 print:h-7">
+                                <tr key={index} className={clsx(
+                                    "border-b border-[#1E3A6E] h-8 print:h-7 transition-colors",
+                                    viaje.motivo === 'SIN VIAJE' ? 'bg-gray-50/50 print:bg-gray-50/50' : ''
+                                )}>
                                     <td className="border-r border-[#1E3A6E] text-sm font-bold">{viaje.trayecto}</td>
                                     <td className="border-r border-[#1E3A6E] text-xs font-bold text-center">
                                         <div className="flex justify-center gap-4">
@@ -161,9 +165,31 @@ export function FormatoNominaHino() {
                                             <span className="text-gray-600">{viaje.fecha}</span>
                                         </div>
                                     </td>
-                                    <td className="border-r border-[#1E3A6E] text-xs font-bold px-2 uppercase">{viaje.origen}</td>
-                                    <td className="border-r border-[#1E3A6E] text-xs font-bold px-2 uppercase">{viaje.destino}</td>
-                                    <td className="text-xs font-black uppercase">{viaje.motivo}</td>
+                                    <td className="border-r border-[#1E3A6E] text-xs font-bold px-2 uppercase">
+                                        <span className={clsx(
+                                            viaje.origen === 'CEDIS PACHUCA' ? 'text-blue-700 bg-blue-50 px-2 py-0.5 rounded' :
+                                                viaje.origen === 'SIN VIAJE' ? 'text-gray-400' : 'text-amber-700 bg-amber-50 px-2 py-0.5 rounded'
+                                        )}>
+                                            {viaje.origen}
+                                        </span>
+                                    </td>
+                                    <td className="border-r border-[#1E3A6E] text-xs font-bold px-2 uppercase">
+                                        <span className={clsx(
+                                            viaje.destino === 'CEDIS PACHUCA' ? 'text-blue-700 bg-blue-50 px-2 py-0.5 rounded' :
+                                                viaje.destino === 'SIN VIAJE' ? 'text-gray-400' : 'text-amber-700 bg-amber-50 px-2 py-0.5 rounded'
+                                        )}>
+                                            {viaje.destino}
+                                        </span>
+                                    </td>
+                                    <td className="text-xs font-black uppercase px-2">
+                                        <span className={clsx(
+                                            "px-2 py-0.5 rounded-full text-[10px]",
+                                            viaje.motivo === 'MATERIA' ? 'text-green-700 bg-green-50' :
+                                                viaje.motivo === 'VACIO' ? 'text-purple-700 bg-purple-50' : 'text-gray-400'
+                                        )}>
+                                            {viaje.motivo}
+                                        </span>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
