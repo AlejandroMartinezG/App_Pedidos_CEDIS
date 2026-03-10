@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { Eye, EyeOff, LogIn, UserPlus, Clock, CheckCircle, ShieldCheck, Factory } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { clsx } from 'clsx'
 
 type Tab = 'login' | 'register'
 
@@ -335,8 +336,17 @@ export function Login() {
                                         <div className="grid grid-cols-2 gap-3">
                                             <div className="space-y-1">
                                                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Contraseña</label>
-                                                <input type={rShowPwd ? 'text' : 'password'} required value={rPwd} onChange={e => setRPwd(e.target.value)}
-                                                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:border-blue-500" />
+                                                <div className="relative">
+                                                    <input type={rShowPwd ? 'text' : 'password'} required value={rPwd} onChange={e => setRPwd(e.target.value)}
+                                                        className="w-full pr-10 px-4 py-3 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:border-blue-500" />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setRShowPwd(!rShowPwd)}
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                                    >
+                                                        {rShowPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div className="space-y-1">
                                                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Confirmar</label>
@@ -386,8 +396,4 @@ export function Login() {
             `}</style>
         </div>
     )
-}
-
-function clsx(...classes: (string | boolean | undefined)[]) {
-    return classes.filter(Boolean).join(' ')
 }
