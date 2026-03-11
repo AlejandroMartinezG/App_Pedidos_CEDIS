@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
-import { Eye, EyeOff, LogIn, UserPlus, Clock, CheckCircle, ShieldCheck, Factory } from 'lucide-react'
+import { Eye, EyeOff, LogIn, UserPlus, Clock, CheckCircle, ShieldCheck, Factory, Package } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { clsx } from 'clsx'
 
@@ -125,90 +125,120 @@ export function Login() {
     }
 
     return (
-        <div className="min-h-screen flex bg-white dark:bg-slate-950 font-sans selection:bg-blue-200">
+        <div className="min-h-screen flex relative overflow-hidden bg-[#244b8f] font-sans selection:bg-blue-200">
+            {/* Global Background Image */}
+            <img
+                src="/panel.jpg"
+                alt="Industrial Panel"
+                className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-overlay"
+            />
+
+            {/* Decorative Blobs (Inspired by reference) */}
+            <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[60%] bg-blue-500 rounded-full blur-[120px] opacity-50 animate-pulse" />
+            <div className="absolute bottom-[-10%] left-[20%] w-[35%] h-[50%] bg-blue-700 rounded-full blur-[100px] opacity-40" />
+            <div className="absolute top-[20%] right-[-5%] w-[30%] h-[50%] bg-blue-400 rounded-full blur-[130px] opacity-30" />
+
+            {/* Decorative Overlay Gradient - Lighter shades */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#1E3A6E]/80 via-[#244b8f]/50 to-transparent" />
+
             {/* Left Column: Visual Side (Desktop only) */}
-            <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-[#1E3A6E]">
-                <img
-                    src="/panel.jpg"
-                    alt="Industrial Panel"
-                    className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"
-                />
+            <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden z-10">
 
-                {/* Decorative Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#1E3A6E] via-[#1E3A6E]/80 to-transparent" />
-
-                {/* Visual Content */}
+                {/* Visual Content - Refined Glassmorphism Card */}
                 <div className="relative z-10 w-full flex flex-col justify-between p-16">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20">
-                            <Factory className="text-white" size={24} />
+                        <div className="w-10 h-10 bg-white/5 backdrop-blur-md rounded-lg flex items-center justify-center border border-white/10">
+                            <Factory className="text-white/80" size={20} />
                         </div>
-                        <span className="text-white font-bold tracking-widest text-sm uppercase">Cedis Operativo</span>
+                        <span className="text-white/60 font-bold tracking-[0.3em] text-[10px] uppercase">Cedis Operativo</span>
                     </div>
 
-                    <div className="max-w-xl">
-                        <h2 className="text-5xl font-black text-white leading-tight mb-6">
-                            Gestión Inteligente de <span className="text-blue-400">Pedidos Industriales</span>.
-                        </h2>
-                        <p className="text-blue-100 text-lg leading-relaxed opacity-90">
-                            Accede a la plataforma de administración logística de Cloro de Hidalgo.
-                            Optimiza tus procesos de carga y distribución en tiempo real.
-                        </p>
+                    <div className="relative group">
+                        {/* The Large Frosted Card */}
+                        <div className="p-12 rounded-[2.5rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl relative overflow-hidden">
+                            {/* Blur highlight */}
+                            <div className="absolute -top-24 -left-24 w-48 h-48 bg-blue-400/20 rounded-full blur-3xl" />
+                            
+                            <div className="flex items-center gap-8">
+                                <div className="flex-1 relative z-10">
+                                    <Package className="text-yellow-400 mb-6 drop-shadow-[0_0_15px_rgba(234,179,8,0.4)]" size={64} strokeWidth={1.5} />
+                                    
+                                    <h2 className="text-5xl font-black text-white italic leading-tight mb-2 tracking-tight">
+                                        GESTIÓN DE <br />
+                                        <span className="text-blue-100/90 NOT-italic">PEDIDOS</span>
+                                    </h2>
+                                    
+                                    <h3 className="text-2xl font-bold text-yellow-400 tracking-[0.1em] mb-4 drop-shadow-sm">
+                                        CLORO DE HIDALGO
+                                    </h3>
+                                    
+                                    <div className="w-20 h-1.5 bg-yellow-400 rounded-full mb-8" />
+                                    
+                                    <p className="text-blue-100/80 text-base leading-relaxed max-w-sm font-medium">
+                                        Precisión operacional y control total en cada suministro industrial.
+                                    </p>
+                                </div>
+
+                                {/* Larger Logo on the Right - No transparency, filled space */}
+                                <div className="relative w-[40%] flex items-center justify-center p-2">
+                                    <div className="absolute inset-0 bg-blue-400/20 blur-[100px] rounded-full" />
+                                    <img 
+                                        src="/logoCloroH_small.png" 
+                                        alt="Logo Large" 
+                                        className="w-full relative z-10 opacity-100 drop-shadow-[0_0_40px_rgba(255,255,255,0.15)] transform hover:scale-105 transition-transform duration-700" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-6">
-                        <div className="flex -space-x-4">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="w-12 h-12 rounded-full border-4 border-[#1E3A6E] bg-slate-200" />
-                            ))}
-                        </div>
-                        <p className="text-white/60 text-sm italic">
-                            Conectando con más de <span className="text-white font-medium text-base">24</span> sucursales activas.
+                    <div className="flex items-center gap-6 self-end">
+                        <p className="text-white/40 text-[11px] font-bold uppercase tracking-widest italic">
+                            Conectando con más de <span className="text-white font-black text-sm">24</span> sucursales activas.
                         </p>
                     </div>
                 </div>
 
-                {/* Floating Decorative Image (pipa2.png) */}
+                {/* Floating Decorative Image (pipa2.png) - Repositioned outside left */}
                 <img
                     src="/pipa2.png"
                     alt="Decorative Pipa"
-                    className="absolute -right-20 bottom-10 w-2/3 object-contain drop-shadow-2xl opacity-60 pointer-events-none transform translate-y-12 rotate-[-5deg]"
+                    className="absolute -left-32 bottom-[-20px] w-3/4 object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] opacity-40 pointer-events-none transform translate-y-12"
                 />
             </div>
 
-            {/* Right Column: Form Side */}
-            <div className="w-full lg:w-2/5 flex items-center justify-center p-8 bg-slate-50 dark:bg-slate-950">
-                <div className="w-full max-w-md">
-                    {/* Header for Mobile/Card */}
-                    <div className="flex flex-col items-center mb-10">
-                        <img src="/LogoCH.png" alt="Cloro de Hidalgo" className="h-14 object-contain mb-4" />
-                        <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-2">Bienvenido de nuevo</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm">Ingresa tus credenciales para continuar</p>
+            {/* Right Column: Form Side - Now transparent z-10 */}
+            <div className="w-full lg:w-2/5 flex items-center justify-center p-8 z-10">
+                <div className="w-full max-w-sm">
+                    {/* Floating Header Text Only */}
+                    <div className="flex flex-col items-center mb-8">
+                        <h3 className="text-lg font-black text-white/60 uppercase tracking-[0.5em] mb-1">Sistema de Gestión</h3>
+                        <p className="text-slate-400 font-bold text-xs uppercase tracking-[0.2em]">Personal Autorizado Únicamente</p>
                     </div>
 
-                    {/* Card container */}
-                    <div className="bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 rounded-3xl p-8 transition-all">
+                    {/* Form container - More glassmorphism like reference */}
+                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-2xl border border-white/20 dark:border-white/5 rounded-[2rem] p-8 transition-all">
 
-                        {/* Tabs Navigation */}
-                        <div className="flex p-1 bg-slate-100 dark:bg-slate-800/50 rounded-2xl mb-8">
+                        {/* Tabs Navigation - Clean like reference */}
+                        <div className="flex p-1.5 bg-slate-200/50 dark:bg-slate-800/50 rounded-2xl mb-8">
                             <button
                                 onClick={() => handleTabChange('login')}
                                 className={clsx(
-                                    "flex-1 py-2.5 text-sm font-bold rounded-xl transition-all duration-300",
+                                    "flex-1 py-3 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all duration-300",
                                     tab === 'login'
-                                        ? "bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-white shadow-sm"
-                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-700"
+                                        ? "bg-white text-slate-900 shadow-lg"
+                                        : "text-slate-500 hover:text-slate-700"
                                 )}
                             >
-                                Iniciar Sesión
+                                Ingresar
                             </button>
                             <button
                                 onClick={() => handleTabChange('register')}
                                 className={clsx(
-                                    "flex-1 py-2.5 text-sm font-bold rounded-xl transition-all duration-300",
+                                    "flex-1 py-3 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all duration-300",
                                     tab === 'register'
-                                        ? "bg-white dark:bg-slate-700 text-[#1E3A6E] dark:text-white shadow-sm"
-                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-700"
+                                        ? "bg-white text-slate-900 shadow-lg"
+                                        : "text-slate-500 hover:text-slate-700"
                                 )}
                             >
                                 Registro
@@ -236,39 +266,45 @@ export function Login() {
                                         </button>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleLogin} className="space-y-5">
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider ml-1">Correo Corporativo</label>
-                                            <input
-                                                type="email"
-                                                required
-                                                value={email}
-                                                onChange={e => setEmail(e.target.value)}
-                                                placeholder="tu.correo@clorodehidalgo.com"
-                                                className="w-full px-5 py-3.5 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-slate-400"
-                                            />
-                                        </div>
-
-                                        <div className="space-y-1.5">
-                                            <div className="flex justify-between items-center ml-1">
-                                                <label className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Contraseña</label>
-                                                <button type="button" className="text-[10px] font-bold text-[#1E3A6E] dark:text-blue-400 hover:underline">¿Olvidaste tu contraseña?</button>
+                                    <form onSubmit={handleLogin} className="space-y-6">
+                                        <div className="space-y-4">
+                                            <div className="space-y-1.5 px-1">
+                                                <label className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Correo electrónico</label>
+                                                <div className="relative">
+                                                     <LogIn className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                                                     <input
+                                                         type="email"
+                                                         required
+                                                         value={email}
+                                                         onChange={e => setEmail(e.target.value)}
+                                                         placeholder="usuario@empresa.com"
+                                                         className="w-full pl-12 pr-5 py-4 bg-white dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-slate-300"
+                                                     />
+                                                </div>
                                             </div>
-                                            <div className="relative">
-                                                <input
-                                                    type={showPwd ? 'text' : 'password'}
-                                                    required
-                                                    value={password}
-                                                    onChange={e => setPassword(e.target.value)}
-                                                    className="w-full pr-12 px-5 py-3.5 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPwd(!showPwd)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-                                                >
-                                                    {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
-                                                </button>
+
+                                            <div className="space-y-1.5 px-1">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <label className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Contraseña</label>
+                                                </div>
+                                                <div className="relative">
+                                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                                                    <input
+                                                        type={showPwd ? 'text' : 'password'}
+                                                        required
+                                                        value={password}
+                                                        onChange={e => setPassword(e.target.value)}
+                                                        placeholder="••••••••"
+                                                        className="w-full pl-12 pr-12 py-4 bg-white dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-slate-300"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowPwd(!showPwd)}
+                                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                                                    >
+                                                        {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -282,12 +318,12 @@ export function Login() {
                                         <button
                                             type="submit"
                                             disabled={loading}
-                                            className="w-full bg-[#1E3A6E] hover:bg-[#152a50] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 text-base shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all disabled:opacity-70"
+                                            className="w-full bg-[#1E3A6E] hover:bg-[#152a50] text-white font-black uppercase tracking-[0.2em] py-5 rounded-2xl flex items-center justify-center gap-3 text-xs shadow-xl shadow-blue-900/40 active:scale-[0.98] transition-all disabled:opacity-70 mt-4"
                                         >
                                             {loading
                                                 ? <span className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
-                                                : <LogIn size={20} />}
-                                            {loading ? 'Validando...' : 'Acceder al Sistema'}
+                                                : <LogIn size={18} />}
+                                            {loading ? 'Ingresando...' : 'Acceder al Tablero'}
                                         </button>
                                     </form>
                                 )}
@@ -380,10 +416,10 @@ export function Login() {
                         </div>
                     </div>
 
-                    {/* Disclaimer */}
-                    <p className="mt-8 text-center text-[11px] font-medium text-slate-400 dark:text-slate-500 leading-relaxed px-10">
-                        © 2026 Cloro de Hidalgo S.A. de C.V. <br />
-                        Plataforma Logística Protegida · Pachuca, Hgo.
+                    {/* Disclaimer - Small Footer like reference */}
+                    <p className="mt-8 text-center text-[9px] font-black text-white/30 uppercase tracking-[0.3em] leading-relaxed">
+                        PROPIEDAD PRIVADA - CLORO DE HIDALGO S.A. DE C.V. <br />
+                        PERSONAL AUTORIZADO ÚNICAMENTE
                     </p>
                 </div>
             </div>
